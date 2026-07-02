@@ -3,15 +3,117 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
-import { ArrowRight, Phone, MessageSquare, ShieldCheck, MapPin, Award } from 'lucide-react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { ArrowRight, Phone, MessageSquare, ShieldCheck, MapPin, Award, Building, Search } from 'lucide-react';
 import { BUSINESS_DETAILS } from '../data';
 
 interface HeroProps {
   onOpenEnquiry: (propertyName?: string) => void;
+  onSearch: (filters: {
+    location: string;
+    category: string;
+    budgetIndex: number;
+    trigger: number;
+  }) => void;
 }
 
-export default function Hero({ onOpenEnquiry }: HeroProps) {
+export default function Hero({ onOpenEnquiry, onSearch }: HeroProps) {
+  const [location, setLocation] = useState('');
+  const [category, setCategory] = useState('all');
+  const [budgetIndex, setBudgetIndex] = useState(5); // Default to ₹1 Crore+ (unlimited)
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const allLocations = [
+    'Naigaon East',
+    'Global Arena',
+    'Nakshatra Primus',
+    'Vasai West',
+    'Vasai East',
+    'Virar East',
+    'Virar',
+    'Palghar',
+    'Sunteck WestWorld',
+    'Sunteck Maxx World',
+    'Nakshatra Nirvaana'
+  ];
+
+  const suggestions = useMemo(() => {
+    if (!location) return [];
+    return allLocations.filter(loc =>
+      loc.toLowerCase().includes(location.toLowerCase()) &&
+      loc.toLowerCase() !== location.toLowerCase()
+    );
+  }, [location]);
+
+  const budgetLabels = [
+    "₹20 Lakhs",
+    "₹30 Lakhs",
+    "₹40 Lakhs",
+    "₹50 Lakhs",
+    "₹75 Lakhs",
+    "₹1 Crore+"
+  ];
+
+  const suggestionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (suggestionsRef.current && !suggestionsRef.current.contains(e.target as Node)) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleFindProperties = () => {
+    onSearch({
+      location,
+      category,
+      budgetIndex,
+      trigger: Date.now()
+    });
+
+    // Smooth scroll
+    setTimeout(() => {
+      const element = document.getElementById('properties');
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
+
+  const handlePopularAreaClick = (area: string) => {
+    setLocation(area);
+    setShowSuggestions(false);
+    onSearch({
+      location: area,
+      category,
+      budgetIndex,
+      trigger: Date.now()
+    });
+
+    // Smooth scroll
+    setTimeout(() => {
+      const element = document.getElementById('properties');
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    }, 100);
+  };
+
   const handleScrollToProperties = () => {
     const element = document.getElementById('properties');
     if (element) {
@@ -90,7 +192,7 @@ export default function Hero({ onOpenEnquiry }: HeroProps) {
         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4">
           <button
             onClick={handleScrollToProperties}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300 shadow-md transform hover:-translate-y-0.5 w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300 shadow-md transform hover:-translate-y-0.5 w-full sm:w-auto cursor-pointer"
           >
             <span>View Listings</span>
             <ArrowRight className="h-4 w-4" />
@@ -98,11 +200,151 @@ export default function Hero({ onOpenEnquiry }: HeroProps) {
           
           <button
             onClick={handleScrollToContact}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-white/5 text-white font-bold text-xs uppercase tracking-widest border border-white/15 hover:bg-white hover:text-[#050B18] transition-colors duration-300 w-full sm:w-auto"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-white/5 text-white font-bold text-xs uppercase tracking-widest border border-white/15 hover:bg-white hover:text-[#050B18] transition-colors duration-300 w-full sm:w-auto cursor-pointer"
           >
             <Phone className="h-4 w-4 text-[#D4AF37]" />
             <span>Schedule Consultation</span>
           </button>
+        </div>
+
+        {/* Floating Property Search Panel */}
+        <div className="w-full max-w-[1200px] mt-12 mb-4 px-4 sm:px-0 animate-fade-in-up">
+          <div className="bg-[#0B1320]/90 backdrop-blur-xl border border-[#D4AF37]/35 rounded-[18px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-5 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 items-center lg:h-[85px] py-2 lg:py-0">
+              
+              {/* Column 1 — Search Location */}
+              <div ref={suggestionsRef} className="lg:col-span-4 space-y-1 text-left relative">
+                <label className="text-[10px] font-bold uppercase text-[#D4AF37] tracking-[0.15em] flex items-center gap-1.5 select-none">
+                  <MapPin className="h-3.5 w-3.5 text-[#D4AF37]" /> Search Location
+                </label>
+                <div className="relative">
+                  <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-white/45 h-3.5 w-3.5" />
+                  <input
+                    type="text"
+                    placeholder="Search Naigaon, Vasai, Virar, Palghar..."
+                    value={location}
+                    onChange={(e) => {
+                      setLocation(e.target.value);
+                      setShowSuggestions(true);
+                    }}
+                    onFocus={() => setShowSuggestions(true)}
+                    className="w-full pl-9 pr-4 py-2 bg-white/5 text-xs text-white font-medium border border-white/10 rounded-lg focus:border-[#D4AF37] focus:outline-none transition-all placeholder-white/30 h-[40px]"
+                  />
+                  
+                  {/* Autocomplete Suggestions */}
+                  {showSuggestions && suggestions.length > 0 && (
+                    <div className="absolute z-50 left-0 right-0 mt-1.5 bg-[#0a1122]/95 backdrop-blur-md border border-white/15 rounded-lg shadow-2xl max-h-48 overflow-y-auto">
+                      {suggestions.map((suggestion, index) => (
+                        <button
+                          key={index}
+                          onClick={() => {
+                            setLocation(suggestion);
+                            setShowSuggestions(false);
+                          }}
+                          className="w-full text-left px-4 py-2 hover:bg-[#D4AF37]/15 hover:text-[#D4AF37] text-xs text-white border-b border-white/5 last:border-b-0 transition-colors cursor-pointer"
+                        >
+                          {suggestion}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <span className="text-[9px] text-white/40 block leading-tight">Search by locality, project or landmark</span>
+              </div>
+
+              {/* Column 2 — Property Category */}
+              <div className="lg:col-span-3 space-y-1 text-left">
+                <label className="text-[10px] font-bold uppercase text-[#D4AF37] tracking-[0.15em] flex items-center gap-1.5 select-none">
+                  <Building className="h-3.5 w-3.5 text-[#D4AF37]" /> Property Category
+                </label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className="w-full px-3 py-2 bg-[#050B18] border border-white/10 rounded-lg text-xs text-white/90 font-semibold focus:border-[#D4AF37] focus:outline-none cursor-pointer h-[40px]"
+                >
+                  <option value="all" className="bg-[#0a1122]">All Categories</option>
+                  <option value="1 BHK" className="bg-[#0a1122]">1 BHK</option>
+                  <option value="2 BHK" className="bg-[#0a1122]">2 BHK</option>
+                  <option value="3 BHK" className="bg-[#0a1122]">3 BHK</option>
+                  <option value="apartment" className="bg-[#0a1122]">Residential Apartments</option>
+                  <option value="commercial" className="bg-[#0a1122]">Commercial</option>
+                  <option value="shop" className="bg-[#0a1122]">Retail Shops</option>
+                  <option value="office" className="bg-[#0a1122]">Office Spaces</option>
+                  <option value="land" className="bg-[#0a1122]">Land</option>
+                  <option value="plots" className="bg-[#0a1122]">Plots</option>
+                  <option value="villas" className="bg-[#0a1122]">Villas</option>
+                  <option value="luxury" className="bg-[#0a1122]">Luxury Homes</option>
+                </select>
+                <span className="text-[9px] text-white/40 block leading-tight">Filter by property type or layout</span>
+              </div>
+
+              {/* Column 3 — Budget */}
+              <div className="lg:col-span-3 space-y-1 text-left">
+                <div className="flex justify-between items-center select-none">
+                  <label className="text-[10px] font-bold uppercase text-[#D4AF37] tracking-[0.15em]">
+                    Budget
+                  </label>
+                  <span className="text-[11px] font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded">
+                    {budgetLabels[budgetIndex]}
+                  </span>
+                </div>
+                <div className="pt-2">
+                  <input
+                    type="range"
+                    min="0"
+                    max="5"
+                    step="1"
+                    value={budgetIndex}
+                    onChange={(e) => setBudgetIndex(parseInt(e.target.value))}
+                    className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
+                  />
+                </div>
+                <div className="flex justify-between text-[8px] text-white/40 pt-0.5 select-none font-mono">
+                  <span>₹20 Lakhs</span>
+                  <span>₹50 Lakhs</span>
+                  <span>₹1 Cr+</span>
+                </div>
+              </div>
+
+              {/* Column 4 — Search Button */}
+              <div className="lg:col-span-2 pt-2 lg:pt-3">
+                <button
+                  onClick={handleFindProperties}
+                  className="w-full h-[44px] bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:scale-[1.03] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer outline-none"
+                >
+                  <Search className="h-4 w-4" />
+                  <span>FIND PROPERTIES</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        {/* Popular Areas Pills */}
+        <div className="mt-4 mb-4 flex flex-wrap items-center justify-center gap-2 max-w-4xl px-4 animate-fade-in-up">
+          <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider mr-2 select-none">
+            Popular Areas
+          </span>
+          {[
+            'Naigaon East',
+            'Global Arena',
+            'Nakshatra Primus',
+            'Vasai West',
+            'Virar',
+            'Palghar',
+            'Sunteck WestWorld',
+            'Sunteck Maxx World',
+            'Nakshatra Nirvaana'
+          ].map((area, idx) => (
+            <button
+              key={idx}
+              onClick={() => handlePopularAreaClick(area)}
+              className="px-3 py-1.5 bg-white/5 border border-white/10 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#050B18] text-[11px] font-medium text-white/80 rounded-full transition-all duration-300 cursor-pointer shadow-sm select-none"
+            >
+              {area}
+            </button>
+          ))}
         </div>
 
         {/* Core Stats / USP Grid with sharp layout blocks (Editorial structure) */}

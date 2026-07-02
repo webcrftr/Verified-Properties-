@@ -28,6 +28,10 @@ export interface Property {
   gallery?: string[];
   configuration?: string;
   tower?: string;
+  builder?: string;
+  highlights?: string[];
+  amenities?: { name: string; icon: string }[];
+  advantages?: { name: string; icon: string }[];
 }
 
 export interface Inquiry {

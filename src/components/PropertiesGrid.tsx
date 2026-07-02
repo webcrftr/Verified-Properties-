@@ -3,18 +3,58 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
-import { Search, MapPin, Grid, Layers, ShieldCheck, CheckCircle2, ChevronRight, ChevronLeft, X, Phone, Calendar, Maximize2 } from 'lucide-react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import { 
+  Search, MapPin, Grid, Layers, ShieldCheck, CheckCircle2, ChevronRight, ChevronLeft, X, Phone, Calendar, Maximize2,
+  Building, Dumbbell, Gamepad2, Compass, Activity, Sparkles, Smile, Flower2, Users, Shield, Eye, Video, ArrowUpDown, Flame, Car, Train, GraduationCap, HeartPulse, Landmark, Milestone, Zap, Download 
+} from 'lucide-react';
 import { PROPERTIES } from '../data';
 import { Property, PropertyType, TransactionType } from '../types';
+
+const IconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  'building': Building,
+  'dumbbell': Dumbbell,
+  'gamepad': Gamepad2,
+  'map': Compass,
+  'activity': Activity,
+  'sparkles': Sparkles,
+  'smile': Smile,
+  'flower': Flower2,
+  'users': Users,
+  'shield': Shield,
+  'eye': Eye,
+  'video': Video,
+  'arrow-up-down': ArrowUpDown,
+  'flame': Flame,
+  'car': Car,
+  'train': Train,
+  'graduation-cap': GraduationCap,
+  'heart-pulse': HeartPulse,
+  'sun': Sparkles, // fallback
+  'landmark': Landmark,
+  'milestone': Milestone,
+  'zap': Zap,
+  'download': Download
+};
 
 interface PropertiesGridProps {
   onOpenEnquiry: (propertyName?: string) => void;
   isFeaturedOnly?: boolean;
   onNavigate?: (path: string) => void;
+  heroSearchFilters?: {
+    location: string;
+    category: string;
+    budgetIndex: number;
+    trigger: number;
+  } | null;
 }
 
-export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, onNavigate }: PropertiesGridProps) {
+export default function PropertiesGrid({ 
+  onOpenEnquiry, 
+  isFeaturedOnly = false, 
+  onNavigate,
+  heroSearchFilters
+}: PropertiesGridProps) {
   // Filters state
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedType, setSelectedType] = useState<PropertyType | 'all'>('all');
@@ -23,23 +63,162 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
   const [activeImageIndex, setActiveImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
+  const [brochureRequested, setBrochureRequested] = useState(false);
+
+  // Sync Hero Search Filters
+  useEffect(() => {
+    if (heroSearchFilters && heroSearchFilters.trigger > 0) {
+      setSearchTerm(heroSearchFilters.location);
+      
+      const cat = heroSearchFilters.category;
+      if (cat === 'all') {
+        setSelectedType('all');
+      } else if (cat === 'apartment') {
+        setSelectedType('apartment');
+      } else if (cat === 'commercial') {
+        setSelectedType('commercial');
+      } else if (cat === 'shop') {
+        setSelectedType('shop');
+      } else if (cat === 'office') {
+        setSelectedType('office');
+      } else if (cat === 'land' || cat === 'plots') {
+        setSelectedType('land');
+      } else {
+        setSelectedType('all');
+      }
+    }
+  }, [heroSearchFilters]);
+
+  // Swipe support refs
+  const touchStartX = useRef<number | null>(null);
+  const lightboxTouchStartX = useRef<number | null>(null);
+
+  // Auto-play carousel for details modal slider
+  useEffect(() => {
+    if (!activePropertyDetail) return;
+    const propertyImages = activePropertyDetail.gallery || [activePropertyDetail.image];
+    if (propertyImages.length <= 1) return;
+
+    const interval = setInterval(() => {
+      setActiveImageIndex((prev) => (prev + 1) % propertyImages.length);
+    }, 4000); // Auto-advance every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [activePropertyDetail]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent, imagesLength: number) => {
+    if (touchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffX = touchStartX.current - touchEndX;
+
+    if (Math.abs(diffX) > 50) { // Threshold
+      if (diffX > 0) {
+        setActiveImageIndex((prev) => (prev === imagesLength - 1 ? 0 : prev + 1));
+      } else {
+        setActiveImageIndex((prev) => (prev === 0 ? imagesLength - 1 : prev - 1));
+      }
+    }
+    touchStartX.current = null;
+  };
+
+  const handleLightboxTouchStart = (e: React.TouchEvent) => {
+    lightboxTouchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleLightboxTouchEnd = (e: React.TouchEvent, imagesLength: number) => {
+    if (lightboxTouchStartX.current === null) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffX = lightboxTouchStartX.current - touchEndX;
+
+    if (Math.abs(diffX) > 50) { // Threshold
+      if (diffX > 0) {
+        setLightboxImageIndex((prev) => (prev === imagesLength - 1 ? 0 : prev + 1));
+      } else {
+        setLightboxImageIndex((prev) => (prev === 0 ? imagesLength - 1 : prev - 1));
+      }
+    }
+    lightboxTouchStartX.current = null;
+  };
 
   // Filter listings based on input states
   const filteredProperties = useMemo(() => {
     return PROPERTIES.filter((prop) => {
-      const matchesSearch =
+      // 1. Basic search term check
+      const matchesSearch = !searchTerm ? true : (
         prop.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         prop.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        prop.description.toLowerCase().includes(searchTerm.toLowerCase());
+        prop.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
 
+      // 2. Local select filters
       const matchesType = selectedType === 'all' || prop.type === selectedType;
-      
       const matchesTransaction =
         selectedTransaction === 'all' || prop.transaction === selectedTransaction;
 
-      return matchesSearch && matchesType && matchesTransaction;
+      // 3. Hero search specific checks (Budget & Category constraints)
+      let matchesHeroBudget = true;
+      let matchesHeroCategory = true;
+
+      if (heroSearchFilters && heroSearchFilters.trigger > 0) {
+        // Budget mapping indexes:
+        // 0: ₹20 Lakhs (2,000,000)
+        // 1: ₹30 Lakhs (3,000,000)
+        // 2: ₹40 Lakhs (4,000,000)
+        // 3: ₹50 Lakhs (5,000,000)
+        // 4: ₹75 Lakhs (7,500,000)
+        // 5: ₹1 Crore+ (unlimited: 999999999)
+        const budgets = [2000000, 3000000, 4000000, 5000000, 7500000, 999999999];
+        const maxBudget = budgets[heroSearchFilters.budgetIndex] || 999999999;
+        
+        matchesHeroBudget = prop.numericPriceVal <= maxBudget;
+
+        const cat = heroSearchFilters.category;
+        if (cat !== 'all') {
+          if (cat === '1 BHK') {
+            matchesHeroCategory = prop.configuration === '1 BHK' || prop.title.toLowerCase().includes('1bhk') || prop.title.toLowerCase().includes('1 bhk');
+          } else if (cat === '2 BHK') {
+            matchesHeroCategory = prop.configuration === '2 BHK' || prop.title.toLowerCase().includes('2bhk') || prop.title.toLowerCase().includes('2 bhk');
+          } else if (cat === '3 BHK') {
+            matchesHeroCategory = prop.configuration === '3 BHK' || prop.title.toLowerCase().includes('3bhk') || prop.title.toLowerCase().includes('3 bhk');
+          } else if (cat === 'apartment') {
+            matchesHeroCategory = prop.type === 'apartment';
+          } else if (cat === 'commercial') {
+            matchesHeroCategory = prop.type === 'commercial' || prop.type === 'office' || prop.type === 'shop';
+          } else if (cat === 'shop') {
+            matchesHeroCategory = prop.type === 'shop';
+          } else if (cat === 'office') {
+            matchesHeroCategory = prop.type === 'office';
+          } else if (cat === 'land' || cat === 'plots') {
+            matchesHeroCategory = prop.type === 'land';
+          } else if (cat === 'villas') {
+            matchesHeroCategory = prop.description.toLowerCase().includes('villa') || prop.type === 'land';
+          } else if (cat === 'luxury') {
+            matchesHeroCategory = prop.numericPriceVal >= 5000000 || prop.title.toLowerCase().includes('elite') || prop.title.toLowerCase().includes('luxury') || prop.id === 'prop-002' || prop.id === 'prop-006' || prop.id === 'prop-007';
+          }
+        }
+      }
+
+      return matchesSearch && matchesType && matchesTransaction && matchesHeroBudget && matchesHeroCategory;
     });
-  }, [searchTerm, selectedType, selectedTransaction]);
+  }, [searchTerm, selectedType, selectedTransaction, heroSearchFilters]);
+
+  // Check if any active search criteria has been specified
+  const hasActiveSearchFilter = useMemo(() => {
+    return !!searchTerm || selectedType !== 'all' || selectedTransaction !== 'all' || (!!heroSearchFilters && heroSearchFilters.trigger > 0);
+  }, [searchTerm, selectedType, selectedTransaction, heroSearchFilters]);
+
+  // If no exact match is found, display all available properties (PROPERTIES)
+  const isNoExactMatch = filteredProperties.length === 0 && hasActiveSearchFilter;
+  const displayedProperties = useMemo(() => {
+    if (isNoExactMatch) {
+      return PROPERTIES;
+    }
+    return filteredProperties;
+  }, [filteredProperties, isNoExactMatch]);
 
   const handleOpenDetailModal = (property: Property) => {
     setActivePropertyDetail(property);
@@ -49,11 +228,13 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
   const handleCloseDetailModal = () => {
     setActivePropertyDetail(null);
     setIsLightboxOpen(false);
+    setBrochureRequested(false);
   };
 
   const handleEnquireFromDetail = (propertyName: string) => {
     setActivePropertyDetail(null);
     setIsLightboxOpen(false);
+    setBrochureRequested(false);
     onOpenEnquiry(propertyName);
   };
 
@@ -146,7 +327,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
             <div className="mt-6 flex flex-wrap items-center gap-2 pt-4 border-t border-white/10 text-xs text-white/40">
               <span className="font-bold uppercase tracking-wider text-[#D4AF37] mr-2">Showing:</span>
               <span className="px-3 py-1 bg-white/5 text-white/80 font-mono text-[11px]">
-                {filteredProperties.length} Properties
+                {displayedProperties.length} Properties
               </span>
               {selectedType !== 'all' && (
                 <span className="px-3 py-1 bg-[#D4AF37]/10 text-[#D4AF37] font-bold text-[11px] uppercase tracking-wider">
@@ -162,8 +343,15 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
           </div>
         )}
 
+        {/* Fallback alert banner for no exact matches */}
+        {isNoExactMatch && (
+          <div className="mb-8 p-4 bg-[#D4AF37]/10 border border-[#D4AF37]/35 text-center text-xs sm:text-sm font-semibold uppercase tracking-widest text-[#D4AF37] rounded-lg">
+            ⚠️ No exact matches found for your criteria. Showing all available premium properties.
+          </div>
+        )}
+
         {/* Empty state container */}
-        {filteredProperties.length === 0 && (
+        {displayedProperties.length === 0 && (
           <div className="text-center py-20 bg-[#0a1122] border border-white/10 p-8">
             <Layers className="h-10 w-10 text-white/30 mx-auto mb-4" />
             <h3 className="text-lg font-bold font-serif text-white">No Properties Found</h3>
@@ -188,7 +376,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
           <div className="mt-8 mb-8 flex items-center justify-between border-b border-white/5 pb-5">
             <p className="text-white/60 text-[11px] sm:text-xs font-sans tracking-[0.16em] uppercase flex items-center gap-2 select-none">
               <span>SHOWING</span>
-              <strong className="text-white text-sm font-extrabold pr-0.5">{filteredProperties.length}</strong>
+              <strong className="text-white text-sm font-extrabold pr-0.5">{displayedProperties.length}</strong>
               <span>MATCHING PREMIUM REAL ESTATE ASSETS</span>
             </p>
             <div className="hidden sm:block text-[10px] font-mono text-[#D4AF37]/80">
@@ -199,11 +387,11 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
 
         {/* Properties Grid layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {(isFeaturedOnly ? filteredProperties.slice(0, 3) : filteredProperties).map((prop) => {
+          {(isFeaturedOnly ? displayedProperties.slice(0, 3) : displayedProperties).map((prop) => {
             // High fidelity editorial sub-tags map 
             const getSecondaryBadge = (item: typeof prop) => {
               if (item.id === 'prop-001') return 'RERA APPROVED';
-              if (item.id === 'prop-002') return 'PREMIUM LUXURY';
+              if (item.id === 'prop-002') return 'LUXURY RESIDENCE';
               if (item.id === 'prop-003') return 'HIGH ROI BUSINESS';
               if (item.id === 'prop-004') return 'READY TO OCCUPY';
               if (item.id === 'prop-005') return 'EXECUTIVE SUITE';
@@ -241,17 +429,19 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                   </div>
 
                   {/* MahaRERA Badge with Gold Shield Overlay Bottom Right */}
-                  <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5">
-                    {prop.reraApproved && prop.reraNo && (
-                      <div className="flex items-center gap-1.5 px-3 py-1 bg-[#050B18]/90 border border-emerald-500/30 rounded-full text-[9px] font-mono font-semibold tracking-wider text-emerald-400">
-                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
-                        RERA: {prop.reraNo}
+                  {prop.id !== 'prop-002' && (
+                    <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5">
+                      {prop.reraApproved && prop.reraNo && (
+                        <div className="flex items-center gap-1.5 px-3 py-1 bg-[#050B18]/90 border border-emerald-500/30 rounded-full text-[9px] font-mono font-semibold tracking-wider text-emerald-400">
+                          <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse"></span>
+                          RERA: {prop.reraNo}
+                        </div>
+                      )}
+                      <div className="p-1 px-1.5 bg-[#050B18]/90 border border-[#D4AF37]/45 text-[#D4AF37] shadow-md">
+                        <ShieldCheck className="h-3.5 w-3.5 fill-[#D4AF37]/10" />
                       </div>
-                    )}
-                    <div className="p-1 px-1.5 bg-[#050B18]/90 border border-[#D4AF37]/45 text-[#D4AF37] shadow-md">
-                      <ShieldCheck className="h-3.5 w-3.5 fill-[#D4AF37]/10" />
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Property Details summary section */}
@@ -281,7 +471,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                     <div className="flex items-center gap-1.5 text-white/50 text-[11px] mt-2.5 font-sans">
                       <MapPin className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                       <span className="truncate">
-                        {prop.id === 'prop-001' ? 'Naigaon East, Palghar' : prop.location}
+                        {prop.id === 'prop-001' || prop.id === 'prop-002' ? 'Naigaon East, Palghar' : prop.location}
                       </span>
                     </div>
 
@@ -289,19 +479,27 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                     <div className="grid grid-cols-2 gap-2 mt-4 text-[10px] font-mono uppercase tracking-wider text-white/70">
                       <div className="py-2 px-3 bg-white/5 border border-white/5 flex flex-col justify-between items-start">
                         <span className="text-white/40 text-[9px] mb-1">Configuration</span>
-                        <span className="font-bold text-white">{prop.id === 'prop-001' ? '1 BHK' : (prop.bedrooms ? `${prop.bedrooms} BHK` : 'Commercial')}</span>
+                        <span className="font-bold text-white">
+                          {prop.configuration || (prop.bedrooms ? `${prop.bedrooms} BHK` : 'Commercial')}
+                        </span>
                       </div>
                       <div className="py-2 px-3 bg-white/5 border border-white/5 flex flex-col justify-between items-start">
                         <span className="text-white/40 text-[9px] mb-1">Carpet Area</span>
-                        <span className="font-bold text-white truncate w-full">{prop.id === 'prop-001' ? '392 Sq.Ft. Usable' : prop.area}</span>
+                        <span className="font-bold text-white truncate w-full">
+                          {prop.area}
+                        </span>
                       </div>
                       <div className="py-2 px-3 bg-white/5 border border-white/5 flex flex-col justify-between items-start">
                         <span className="text-white/40 text-[9px] mb-1">Tower</span>
-                        <span className="font-bold text-[#D4AF37]">{prop.tower || 'Premium Tower'}</span>
+                        <span className="font-bold text-[#D4AF37]">
+                          {prop.tower || 'Premium Tower'}
+                        </span>
                       </div>
                       <div className="py-2 px-3 bg-white/5 border border-white/5 flex flex-col justify-between items-start">
                         <span className="text-white/40 text-[9px] mb-1">Status</span>
-                        <span className="font-bold text-emerald-400">{statusText}</span>
+                        <span className="font-bold text-emerald-400">
+                          {statusText}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -310,9 +508,14 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                   <div className="border-t border-white/10 pt-4 mt-5 space-y-3">
                     <div className="flex items-center justify-between">
                       <div>
+                        {prop.builder && (
+                          <span className="text-[9px] font-bold text-[#D4AF37]/85 block tracking-wider uppercase mb-1">
+                            Builder: {prop.builder}
+                          </span>
+                        )}
                         <span className="text-[8px] uppercase font-bold text-white/40 block tracking-widest leading-none mb-1">ESTIMATED PRICE</span>
                         <span className="text-base font-bold text-[#D4AF37] tracking-tight">
-                          {prop.id === 'prop-001' ? '₹31 Lakhs Onwards' : prop.price}
+                          {prop.price}
                         </span>
                       </div>
                     </div>
@@ -320,14 +523,14 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={() => handleOpenDetailModal(prop)}
-                        className="py-2.5 border border-white/20 hover:border-[#D4AF37] text-white hover:text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer bg-transparent outline-none"
+                        className="py-2.5 border border-white/20 hover:border-[#D4AF37] text-white hover:text-[#D4AF37] text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer bg-transparent outline-none flex items-center justify-center"
                       >
                         View Details
                       </button>
                       
                       <button
                         onClick={() => onOpenEnquiry(prop.title)}
-                        className="py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer outline-none"
+                        className="py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer outline-none flex items-center justify-center"
                       >
                         Enquire Now
                       </button>
@@ -335,10 +538,19 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
 
                     <button
                       onClick={() => onOpenEnquiry(`Site Visit: ${prop.title}`)}
-                      className="w-full py-2.5 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black text-[10px] font-extrabold uppercase tracking-widest transition-colors cursor-pointer shadow-md flex items-center justify-center gap-1.5"
+                      className="w-full py-2.5 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black text-[10px] font-extrabold uppercase tracking-widest transition-colors cursor-pointer shadow-md flex items-center justify-center gap-1.5 outline-none"
                     >
                       <Calendar className="h-3.5 w-3.5" /> Book Site Visit
                     </button>
+
+                    <a
+                      href={`https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%20am%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(prop.title)}.%20Please%20let%20me%20know%20your%20availability.`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-1.5 transition-colors outline-none"
+                    >
+                      WhatsApp
+                    </a>
                   </div>
                 </div>
 
@@ -377,7 +589,11 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
               </button>
 
               {/* Header Image Slider */}
-              <div className="relative h-[250px] sm:h-[380px] bg-black/60 group/slider overflow-hidden">
+              <div 
+                className="relative h-[250px] sm:h-[380px] bg-black/60 group/slider overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchEnd={(e) => handleTouchEnd(e, propertyImages.length)}
+              >
                 <img
                   src={propertyImages[activeImageIndex]}
                   alt={`${activePropertyDetail.title} - View ${activeImageIndex + 1}`}
@@ -438,7 +654,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                   
                   <div className="flex items-center gap-1.5 text-white/80 text-xs sm:text-sm mt-2 pointer-events-auto">
                     <MapPin className="h-4 w-4 text-[#D4AF37]" />
-                    <span>{activePropertyDetail.location}</span>
+                    <span>{activePropertyDetail.id === 'prop-001' || activePropertyDetail.id === 'prop-002' ? 'Naigaon East, Palghar' : activePropertyDetail.location}</span>
                   </div>
                 </div>
               </div>
@@ -451,19 +667,19 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                   <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
                     <span className="text-[9px] text-white/40 uppercase font-bold tracking-widest">Property Type</span>
                     <span className="text-xs font-semibold text-white uppercase tracking-wider mt-1">
-                      {activePropertyDetail.id === 'prop-001' ? '1 BHK Apartment' : typeLabels[activePropertyDetail.type]}
+                      {activePropertyDetail.id === 'prop-002' ? 'Luxury Residential Apartments' : typeLabels[activePropertyDetail.type]}
                     </span>
                   </div>
                   <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
-                    <span className="text-[9px] text-white/40 uppercase font-bold tracking-widest">Carpet Area</span>
+                    <span className="text-[9px] text-white/40 uppercase font-bold tracking-widest">Configurations</span>
                     <span className="text-xs font-semibold text-white uppercase tracking-wider mt-1">
-                      {activePropertyDetail.id === 'prop-001' ? '392 Sq.Ft. Usable' : activePropertyDetail.area}
+                      {activePropertyDetail.configuration || activePropertyDetail.area}
                     </span>
                   </div>
-                  <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
-                    <span className="text-[9px] text-white/40 uppercase font-bold tracking-widest">Price Quote</span>
+                  <div className="p-4 bg-white/5 border border-[#D4AF37]/25 bg-[#D4AF37]/5 flex flex-col justify-between">
+                    <span className="text-[9px] text-[#D4AF37] uppercase font-bold tracking-widest">Price Quote</span>
                     <span className="text-xs font-bold text-[#D4AF37] mt-1">
-                      {activePropertyDetail.id === 'prop-001' ? '₹31 Lakhs Onwards' : activePropertyDetail.price}
+                      {activePropertyDetail.price}
                     </span>
                   </div>
                   <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
@@ -501,6 +717,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                             alt={`${activePropertyDetail.title} Thumbnail ${idx + 1}`}
                             className="w-full h-full object-cover"
                             referrerPolicy="no-referrer"
+                            loading="lazy"
                           />
                         </button>
                       ))}
@@ -509,7 +726,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                 )}
 
                 {/* RERA approval detail bar when present */}
-                {activePropertyDetail.reraApproved && (
+                {activePropertyDetail.id !== 'prop-002' && activePropertyDetail.reraApproved && (
                   <div className="p-5 bg-emerald-500/5 border border-emerald-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <ShieldCheck className="h-6 w-6 text-emerald-400 shrink-0" />
@@ -534,9 +751,9 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                   </p>
                 </div>
 
-                {/* Specific features grid layout */}
+                {/* Project Details */}
                 <div className="space-y-4">
-                  <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em]">Amenities & Key Highlights</h4>
+                  <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em]">Project Specifications & Details</h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {activePropertyDetail.features.map((feature, i) => (
                       <div key={i} className="flex items-center gap-3">
@@ -546,6 +763,67 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                     ))}
                   </div>
                 </div>
+
+                {/* Main Highlights List */}
+                {activePropertyDetail.highlights && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Main Highlights</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {activePropertyDetail.highlights.map((highlight, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5">
+                          <CheckCircle2 className="h-4 w-4 text-[#D4AF37] shrink-0 mt-0.5" />
+                          <span className="text-xs sm:text-sm text-white/95">{highlight}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Amenities with Premium Icon Cards */}
+                {activePropertyDetail.amenities && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Premium Amenities</h4>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {activePropertyDetail.amenities.map((amenity, idx) => {
+                        const IconComponent = IconMap[amenity.icon] || Building;
+                        return (
+                          <div 
+                            key={idx} 
+                            className="p-4 bg-white/5 border border-white/5 hover:border-[#D4AF37]/30 hover:bg-[#D4AF37]/5 transition-all duration-300 flex flex-col items-center text-center gap-2.5 group"
+                          >
+                            <div className="p-2.5 bg-[#050B18] border border-white/10 group-hover:border-[#D4AF37]/50 text-[#D4AF37] transition-all">
+                              <IconComponent className="h-5 w-5" />
+                            </div>
+                            <span className="text-[11px] font-semibold text-white/90 uppercase tracking-wider">{amenity.name}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Location Advantages */}
+                {activePropertyDetail.advantages && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Location Advantages</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {activePropertyDetail.advantages.map((adv, idx) => {
+                        const IconComponent = IconMap[adv.icon] || MapPin;
+                        return (
+                          <div 
+                            key={idx} 
+                            className="p-4 bg-white/5 border border-white/5 flex items-center gap-3.5 hover:bg-white/[0.07] transition-colors"
+                          >
+                            <div className="p-2 bg-[#D4AF37]/15 text-[#D4AF37]">
+                              <IconComponent className="h-4 w-4" />
+                            </div>
+                            <span className="text-xs sm:text-sm text-white/90 font-medium">{adv.name}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
                 <div className="h-px bg-white/10"></div>
 
@@ -587,7 +865,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                       href={`https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%27m%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(activePropertyDetail.title)}.%20Please%20let%20me%20know%20your%20availability.`}
                       target="_blank"
                       rel="noreferrer"
-                      className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-2 transition-colors"
+                      className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-2 transition-colors outline-none"
                     >
                       <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-[10px]">WA</span>
                       <span>WhatsApp Chat</span>
@@ -625,7 +903,11 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
             </div>
 
             {/* Lightbox Body with Main Image & Slide Controls */}
-            <div className="relative flex-grow flex items-center justify-center my-4">
+            <div 
+              className="relative flex-grow flex items-center justify-center my-4"
+              onTouchStart={handleLightboxTouchStart}
+              onTouchEnd={(e) => handleLightboxTouchEnd(e, propertyImages.length)}
+            >
               <img
                 src={propertyImages[lightboxImageIndex]}
                 alt={`${activePropertyDetail.title} Full view ${lightboxImageIndex + 1}`}
@@ -677,6 +959,7 @@ export default function PropertiesGrid({ onOpenEnquiry, isFeaturedOnly = false, 
                         alt="Mini Thumbnail"
                         className="w-full h-full object-cover"
                         referrerPolicy="no-referrer"
+                        loading="lazy"
                       />
                     </button>
                   ))}

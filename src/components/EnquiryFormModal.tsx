@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { X, Calendar, Clock, Send, ShieldCheck, HeartHandshake, PhoneCall } from 'lucide-react';
 import { PROPERTIES } from '../data';
 import { Inquiry, SiteVisit } from '../types';
+import { motion } from 'motion/react';
 
 interface EnquiryFormModalProps {
   isOpen: boolean;
@@ -32,13 +33,40 @@ export default function EnquiryFormModal({ isOpen, onClose, prefilledProperty }:
   const [validationError, setValidationError] = useState('');
 
   // Sync prefilled property dynamically
-  React.useEffect(() => {
+  useEffect(() => {
     if (prefilledProperty) {
       setSelectedProperty(prefilledProperty);
     }
   }, [prefilledProperty]);
 
-  if (!isOpen) return null;
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Disable body scroll when open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
+
+  // Handle ESC key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onClose]);
+
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      onClose();
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -131,24 +159,39 @@ export default function EnquiryFormModal({ isOpen, onClose, prefilledProperty }:
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md flex items-center justify-center p-4 text-white">
-      <div className="bg-[#0a1122] max-w-lg w-full overflow-hidden shadow-2xl relative border border-white/10 rounded-none">
+    <div 
+      onClick={handleOverlayClick}
+      className="fixed inset-0 z-50 overflow-y-auto bg-black/60 backdrop-blur-md flex items-center justify-center p-4 text-white"
+    >
+      <motion.div
+        ref={modalRef}
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+        className="bg-[#0B1320] w-[95%] sm:w-[90%] md:w-full md:max-w-3xl overflow-hidden shadow-[0_20px_50px_rgba(212,175,55,0.15)] relative border border-[#D4AF37]/35 rounded-[20px] select-text"
+      >
         
         {/* Header background accents */}
-        <div className="bg-[#050B18] p-6 text-center relative border-b border-white/10">
+        <div className="bg-[#050B18] p-6 sm:p-8 text-center relative border-b border-white/10">
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 p-1.5 bg-white/5 border border-white/10 text-white hover:bg-[#D4AF37] hover:text-[#050B18] transition-all cursor-pointer"
+            className="absolute top-4 right-4 p-2 bg-white/5 border border-white/10 text-white hover:bg-[#D4AF37] hover:text-[#050B18] transition-all cursor-pointer rounded-full flex items-center justify-center hover:scale-105"
             aria-label="Close form"
           >
             <X className="h-4 w-4" />
           </button>
 
-          <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-[#D4AF37]">Verified Properties</span>
-          <h3 className="text-xl sm:text-2xl font-light font-serif text-white mt-1.5">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#D4AF37]/10 border border-[#D4AF37]/30 rounded-full text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#D4AF37] mb-3 select-none">
+            ⭐ Exclusive Property Assistance
+          </div>
+          <h3 className="text-2xl sm:text-3xl font-light font-serif text-white mt-1">
             Lead <span className="font-serif italic font-semibold text-[#D4AF37]">Submission Desk</span>
           </h3>
-          <p className="text-[11px] text-white/50 uppercase tracking-wider mt-1">Directly received by Consultant Mansi Gaikwad</p>
+          <p className="text-xs sm:text-sm text-white/70 mt-2.5 max-w-xl mx-auto leading-relaxed">
+            Get expert assistance for your dream property. Submit your enquiry and our consultant will contact you shortly.
+          </p>
+          <p className="text-[10px] text-white/40 uppercase tracking-widest mt-2 select-none">Directly received by Consultant Mansi Gaikwad</p>
         </div>
 
         {/* Dynamic Success view state */}
@@ -353,6 +396,11 @@ export default function EnquiryFormModal({ isOpen, onClose, prefilledProperty }:
 
             </div>
 
+            {/* CTA text highlight */}
+            <div className="bg-[#D4AF37]/10 border border-[#D4AF37]/30 px-4 py-3 text-center text-[11px] sm:text-xs font-bold text-[#D4AF37] uppercase tracking-widest rounded-lg select-none">
+              🔥 Get the Best Deal Before Prices Increase!
+            </div>
+
             {/* Gavel secure disclosures */}
             <div className="flex gap-2.5 text-[9px] text-white/40 font-mono leading-relaxed bg-white/5 p-3 border border-white/5">
               <ShieldCheck className="h-4 w-4 text-emerald-400 flex-shrink-0" />
@@ -371,7 +419,7 @@ export default function EnquiryFormModal({ isOpen, onClose, prefilledProperty }:
           </form>
         )}
 
-      </div>
+      </motion.div>
     </div>
   );
 }

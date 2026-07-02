@@ -18,10 +18,23 @@ import { BUSINESS_DETAILS } from './data';
 import { ShieldCheck, Mail, Phone, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
+// Clear popup session storage on fresh page load/revisit/refresh
+if (typeof window !== 'undefined') {
+  sessionStorage.removeItem('verified_properties_lead_popup_shown');
+}
+
 export default function App() {
   // Overlays & drawer togglers
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
   const [prefilledProperty, setPrefilledProperty] = useState<string | undefined>(undefined);
+
+  // Search filter state for bridging Hero search and Properties grid
+  const [heroSearchFilters, setHeroSearchFilters] = useState<{
+    location: string;
+    category: string;
+    budgetIndex: number;
+    trigger: number;
+  } | null>(null);
 
   // Custom client-side router matching pathnames
   const [currentPath, setCurrentPath] = useState(() => {
@@ -166,6 +179,23 @@ export default function App() {
     };
   }, [currentPath]);
 
+  // Premium auto-popup trigger for Lead Submission Desk
+  useEffect(() => {
+    // Only automatically open if visitor is on the Home page ('/')
+    if (currentPath !== '/') return;
+
+    // Show only once per user session / until reload
+    const popupShown = sessionStorage.getItem('verified_properties_lead_popup_shown');
+    if (!popupShown) {
+      const timer = setTimeout(() => {
+        setIsEnquiryOpen(true);
+        sessionStorage.setItem('verified_properties_lead_popup_shown', 'true');
+      }, 2000); // 2 seconds of page load
+
+      return () => clearTimeout(timer);
+    }
+  }, [currentPath]);
+
   const handleOpenEnquiry = (propertyName?: string) => {
     setPrefilledProperty(propertyName);
     setIsEnquiryOpen(true);
@@ -189,8 +219,13 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <Hero onOpenEnquiry={handleOpenEnquiry} />
-            <PropertiesGrid onOpenEnquiry={handleOpenEnquiry} isFeaturedOnly={true} onNavigate={navigate} />
+            <Hero onOpenEnquiry={handleOpenEnquiry} onSearch={setHeroSearchFilters} />
+            <PropertiesGrid 
+              onOpenEnquiry={handleOpenEnquiry} 
+              isFeaturedOnly={true} 
+              onNavigate={navigate} 
+              heroSearchFilters={heroSearchFilters}
+            />
             <Testimonials />
           </motion.div>
         );
@@ -209,7 +244,10 @@ export default function App() {
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Active Verified Listings</h1>
               </div>
             </div>
-            <PropertiesGrid onOpenEnquiry={handleOpenEnquiry} />
+            <PropertiesGrid 
+              onOpenEnquiry={handleOpenEnquiry} 
+              heroSearchFilters={heroSearchFilters}
+            />
           </motion.div>
         );
       case '/services':
@@ -402,11 +440,15 @@ export default function App() {
       </footer>
 
       {/* 4. Contact Enquiry form overlay modal */}
-      <EnquiryFormModal
-        isOpen={isEnquiryOpen}
-        onClose={handleCloseEnquiry}
-        prefilledProperty={prefilledProperty}
-      />
+      <AnimatePresence>
+        {isEnquiryOpen && (
+          <EnquiryFormModal
+            isOpen={isEnquiryOpen}
+            onClose={handleCloseEnquiry}
+            prefilledProperty={prefilledProperty}
+          />
+        )}
+      </AnimatePresence>
 
       {/* 5. WhatsApp widget floats + Mobile Persist actions */}
       <FloatingActions onOpenEnquiry={handleOpenEnquiry} />
