@@ -17,13 +17,32 @@ interface EnquiryFormModalProps {
 
 export default function EnquiryFormModal({ isOpen, onClose, prefilledProperty }: EnquiryFormModalProps) {
   // Toggle between 'enquiry' and 'site_visit'
-  const [formType, setFormType] = useState<'enquiry' | 'visit'>('enquiry');
+  const [formType, setFormType] = useState<'enquiry' | 'visit'>(() => {
+    if (prefilledProperty && prefilledProperty.startsWith('Site Visit:')) {
+      return 'visit';
+    }
+    return 'enquiry';
+  });
   
   // Form fields
   const [clientName, setClientName] = useState('');
   const [clientPhone, setClientPhone] = useState('');
   const [clientEmail, setClientEmail] = useState('');
-  const [selectedProperty, setSelectedProperty] = useState(prefilledProperty || PROPERTIES[0].title);
+  const [selectedProperty, setSelectedProperty] = useState(() => {
+    if (prefilledProperty) {
+      if (prefilledProperty.startsWith('Site Visit:')) {
+        const title = prefilledProperty.replace('Site Visit: ', '');
+        const matched = PROPERTIES.find((p) => p.title.toLowerCase() === title.toLowerCase());
+        return matched ? matched.title : title;
+      }
+      const matched = PROPERTIES.find((p) => 
+        prefilledProperty.toLowerCase() === p.title.toLowerCase() || 
+        prefilledProperty.toLowerCase().includes(p.title.toLowerCase())
+      );
+      return matched ? matched.title : prefilledProperty;
+    }
+    return PROPERTIES[0]?.title || '';
+  });
   const [clientMessage, setClientMessage] = useState('');
   const [visitDate, setVisitDate] = useState('');
   const [visitTime, setVisitTime] = useState('');
@@ -35,7 +54,26 @@ export default function EnquiryFormModal({ isOpen, onClose, prefilledProperty }:
   // Sync prefilled property dynamically
   useEffect(() => {
     if (prefilledProperty) {
-      setSelectedProperty(prefilledProperty);
+      if (prefilledProperty.startsWith('Site Visit:')) {
+        setFormType('visit');
+        const title = prefilledProperty.replace('Site Visit: ', '');
+        const matched = PROPERTIES.find((p) => p.title.toLowerCase() === title.toLowerCase());
+        if (matched) {
+          setSelectedProperty(matched.title);
+        } else {
+          setSelectedProperty(title);
+        }
+      } else {
+        const matched = PROPERTIES.find((p) => 
+          prefilledProperty.toLowerCase() === p.title.toLowerCase() || 
+          prefilledProperty.toLowerCase().includes(p.title.toLowerCase())
+        );
+        if (matched) {
+          setSelectedProperty(matched.title);
+        } else {
+          setSelectedProperty(prefilledProperty);
+        }
+      }
     }
   }, [prefilledProperty]);
 

@@ -32,6 +32,16 @@ export interface Property {
   highlights?: string[];
   amenities?: { name: string; icon: string }[];
   advantages?: { name: string; icon: string }[];
+  configurations?: { name: string; area: string; price: string }[];
+  paymentPlans?: { title: string; detail: string; extra: string }[];
+  grandClubhouse?: { level: string; items: string[] }[];
+  launchBenefits?: string[];
+  specialOffer?: {
+    title: string;
+    mainText: string;
+    subHeading: string;
+    highlights: string[];
+  };
 }
 
 export interface Inquiry {

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { PROPERTIES } from '../data';
 import { Property, PropertyType, TransactionType } from '../types';
+import { motion } from 'motion/react';
 
 const IconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   'building': Building,
@@ -34,8 +35,70 @@ const IconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   'landmark': Landmark,
   'milestone': Milestone,
   'zap': Zap,
-  'download': Download
+  'download': Download,
+  'phone': Phone
 };
+
+interface LazyVideoProps {
+  src: string;
+  fallbackImage: string;
+  title: string;
+}
+
+function LazyVideo({ src, fallbackImage, title }: LazyVideoProps) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [hasError, setHasError] = useState(false);
+
+  useEffect(() => {
+    const videoElement = videoRef.current;
+    if (!videoElement || hasError) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            videoElement.play().catch((err) => {
+              console.log('Video autoplay blocked or failed:', err);
+            });
+          } else {
+            videoElement.pause();
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(videoElement);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasError]);
+
+  if (hasError) {
+    return (
+      <img
+        src={fallbackImage}
+        alt={title}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
+        referrerPolicy="no-referrer"
+      />
+    );
+  }
+
+  return (
+    <video
+      ref={videoRef}
+      src={src}
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
+      onError={() => setHasError(true)}
+    />
+  );
+}
 
 interface PropertiesGridProps {
   onOpenEnquiry: (propertyName?: string) => void;
@@ -392,10 +455,10 @@ export default function PropertiesGrid({
             const getSecondaryBadge = (item: typeof prop) => {
               if (item.id === 'prop-001') return 'RERA APPROVED';
               if (item.id === 'prop-002') return 'LUXURY RESIDENCE';
-              if (item.id === 'prop-003') return 'HIGH ROI BUSINESS';
-              if (item.id === 'prop-004') return 'READY TO OCCUPY';
-              if (item.id === 'prop-005') return 'EXECUTIVE SUITE';
-              if (item.id === 'prop-006') return 'HIGH YIELD INVESTMENT';
+              if (item.id === 'prop-003') return 'READY POSSESSION 2026';
+              if (item.id === 'prop-004') return 'LUXURY HIGH-RISE';
+              if (item.id === 'prop-005') return '33 STOREY TOWERS';
+              if (item.id === 'prop-006') return '₹501 BOOKING OFFER';
               if (item.id === 'prop-007') return 'PREMIUM LOCATION';
               if (item.id === 'prop-008') return 'UNDER CONSTRUCTION';
               return 'RERA REGISTERED';
@@ -411,17 +474,25 @@ export default function PropertiesGrid({
               >
                 {/* Card Image Banner */}
                 <div className="relative overflow-hidden aspect-[4/3] bg-black/40">
-                  <img
-                    src={prop.image}
-                    alt={prop.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
-                    referrerPolicy="no-referrer"
-                  />
+                  {prop.id === 'prop-008' ? (
+                    <LazyVideo
+                      src="/videos/property1.mp4"
+                      fallbackImage={prop.image}
+                      title={prop.title}
+                    />
+                  ) : (
+                    <img
+                      src={prop.image}
+                      alt={prop.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
+                      referrerPolicy="no-referrer"
+                    />
+                  )}
                   
                   {/* High Quality Styled Badges Left */}
                   <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 items-start">
                     <span className="px-3.5 py-1.5 text-[9px] font-black uppercase tracking-widest text-[#050B18] bg-[#D4AF37] shadow-lg leading-none">
-                      FOR {prop.transaction.toUpperCase()}
+                      {prop.id === 'prop-006' ? 'LIMITED TIME OFFER' : (prop.id === 'prop-005' ? 'GRAND LAUNCH' : (prop.id === 'prop-003' || prop.id === 'prop-004' ? 'NEW LAUNCH' : `FOR ${prop.transaction.toUpperCase()}`))}
                     </span>
                     <span className="px-2.5 py-1 text-[8px] font-mono font-bold uppercase tracking-wider bg-black/85 text-[#D4AF37] border border-[#D4AF37]/30 shadow-md">
                       {getSecondaryBadge(prop)}
@@ -429,7 +500,7 @@ export default function PropertiesGrid({
                   </div>
 
                   {/* MahaRERA Badge with Gold Shield Overlay Bottom Right */}
-                  {prop.id !== 'prop-002' && (
+                  {prop.id !== 'prop-002' && prop.id !== 'prop-003' && prop.id !== 'prop-004' && prop.id !== 'prop-005' && prop.id !== 'prop-006' && (
                     <div className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5">
                       {prop.reraApproved && prop.reraNo && (
                         <div className="flex items-center gap-1.5 px-3 py-1 bg-[#050B18]/90 border border-emerald-500/30 rounded-full text-[9px] font-mono font-semibold tracking-wider text-emerald-400">
@@ -451,7 +522,7 @@ export default function PropertiesGrid({
                     {/* Category Type & Construction Status */}
                     <div className="flex items-center justify-between pb-1">
                       <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D4AF37] font-mono">
-                        {typeLabels[prop.type]}
+                        {prop.id === 'prop-006' ? 'Affordable Premium Apartments' : (prop.id === 'prop-003' || prop.id === 'prop-004' || prop.id === 'prop-005' ? 'Luxury Residential Apartments' : typeLabels[prop.type])}
                       </span>
                       <span className={`text-[9px] font-bold tracking-widest uppercase font-mono px-2 py-0.5 border ${
                         isUnderConstruction 
@@ -471,7 +542,7 @@ export default function PropertiesGrid({
                     <div className="flex items-center gap-1.5 text-white/50 text-[11px] mt-2.5 font-sans">
                       <MapPin className="h-3.5 w-3.5 text-[#D4AF37] flex-shrink-0" />
                       <span className="truncate">
-                        {prop.id === 'prop-001' || prop.id === 'prop-002' ? 'Naigaon East, Palghar' : prop.location}
+                        {prop.id === 'prop-001' || prop.id === 'prop-002' || prop.id === 'prop-003' ? 'Naigaon East, Palghar' : (prop.id === 'prop-004' ? 'Vasai East, Palghar' : (prop.id === 'prop-005' ? 'Yashwant Smart City, Vasai East' : (prop.id === 'prop-006' ? 'Near Global City, Virar West' : prop.location)))}
                       </span>
                     </div>
 
@@ -645,7 +716,7 @@ export default function PropertiesGrid({
 
                 <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
                   <span className="px-3 py-1 bg-[#D4AF37] text-[#050B18] text-[9px] font-black uppercase tracking-widest leading-none pointer-events-auto">
-                    FOR {activePropertyDetail.transaction.toUpperCase()}
+                    {activePropertyDetail.id === 'prop-006' ? 'LIMITED TIME OFFER' : (activePropertyDetail.id === 'prop-005' ? 'GRAND LAUNCH' : (activePropertyDetail.id === 'prop-003' || activePropertyDetail.id === 'prop-004' ? 'NEW LAUNCH' : `FOR ${activePropertyDetail.transaction.toUpperCase()}`))}
                   </span>
                   
                   <h3 className="text-2xl sm:text-3xl font-bold font-sans uppercase text-white mt-3 leading-tight drop-shadow-md pointer-events-auto">
@@ -654,7 +725,7 @@ export default function PropertiesGrid({
                   
                   <div className="flex items-center gap-1.5 text-white/80 text-xs sm:text-sm mt-2 pointer-events-auto">
                     <MapPin className="h-4 w-4 text-[#D4AF37]" />
-                    <span>{activePropertyDetail.id === 'prop-001' || activePropertyDetail.id === 'prop-002' ? 'Naigaon East, Palghar' : activePropertyDetail.location}</span>
+                    <span>{activePropertyDetail.id === 'prop-001' || activePropertyDetail.id === 'prop-002' || activePropertyDetail.id === 'prop-003' ? 'Naigaon East, Palghar' : (activePropertyDetail.id === 'prop-004' ? 'Vasai East, Palghar' : (activePropertyDetail.id === 'prop-005' ? 'Madhuban Gate, Yashwant Smart City, Vasai East' : (activePropertyDetail.id === 'prop-006' ? 'Near Global City, Virar West, Palghar, Maharashtra' : activePropertyDetail.location)))}</span>
                   </div>
                 </div>
               </div>
@@ -667,7 +738,7 @@ export default function PropertiesGrid({
                   <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
                     <span className="text-[9px] text-white/40 uppercase font-bold tracking-widest">Property Type</span>
                     <span className="text-xs font-semibold text-white uppercase tracking-wider mt-1">
-                      {activePropertyDetail.id === 'prop-002' ? 'Luxury Residential Apartments' : typeLabels[activePropertyDetail.type]}
+                      {activePropertyDetail.id === 'prop-006' ? 'Affordable Premium Apartments' : (activePropertyDetail.id === 'prop-002' || activePropertyDetail.id === 'prop-003' || activePropertyDetail.id === 'prop-004' || activePropertyDetail.id === 'prop-005' ? 'Luxury Residential Apartments' : typeLabels[activePropertyDetail.type])}
                     </span>
                   </div>
                   <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
@@ -725,8 +796,8 @@ export default function PropertiesGrid({
                   </div>
                 )}
 
-                {/* RERA approval detail bar when present */}
-                {activePropertyDetail.id !== 'prop-002' && activePropertyDetail.reraApproved && (
+                 {/* RERA approval detail bar when present */}
+                {activePropertyDetail.id !== 'prop-002' && activePropertyDetail.id !== 'prop-003' && activePropertyDetail.id !== 'prop-004' && activePropertyDetail.reraApproved && (
                   <div className="p-5 bg-emerald-500/5 border border-emerald-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
                       <ShieldCheck className="h-6 w-6 text-emerald-400 shrink-0" />
@@ -750,6 +821,183 @@ export default function PropertiesGrid({
                     {activePropertyDetail.description}
                   </p>
                 </div>
+
+                {/* Custom Configuration Section for Akhand Elite */}
+                {activePropertyDetail.id === 'prop-004' && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Available Configurations</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      <div className="p-5 bg-white/5 border border-white/5 hover:border-[#D4AF37]/30 transition-all flex flex-col justify-between">
+                        <div>
+                          <span className="px-2 py-0.5 bg-[#D4AF37] text-[#050B18] text-[8px] font-black uppercase tracking-wider">LAVISH</span>
+                          <h5 className="text-lg font-bold text-white mt-2">1 BHK</h5>
+                          <p className="text-xs text-white/50 mt-1 font-mono">Carpet Area: 440 Sq.Ft.</p>
+                        </div>
+                        <div className="mt-4 border-t border-white/10 pt-3">
+                          <span className="text-[9px] text-white/40 block">STARTING FROM</span>
+                          <span className="text-base font-bold text-[#D4AF37]">₹39.99 Lakhs</span>
+                        </div>
+                      </div>
+
+                      <div className="p-5 bg-white/5 border border-white/5 hover:border-[#D4AF37]/30 transition-all flex flex-col justify-between">
+                        <div>
+                          <span className="px-2 py-0.5 bg-[#D4AF37] text-[#050B18] text-[8px] font-black uppercase tracking-wider">LUXURIOUS</span>
+                          <h5 className="text-lg font-bold text-white mt-2">2 BHK</h5>
+                          <p className="text-xs text-white/50 mt-1 font-mono">Carpet Area: 710 Sq.Ft.</p>
+                        </div>
+                        <div className="mt-4 border-t border-white/10 pt-3">
+                          <span className="text-[9px] text-white/40 block">STARTING FROM</span>
+                          <span className="text-base font-bold text-[#D4AF37]">₹62.99 Lakhs</span>
+                        </div>
+                      </div>
+
+                      <div className="p-5 bg-white/5 border border-dashed border-white/15 flex flex-col items-center justify-center text-center">
+                        <Sparkles className="h-6 w-6 text-[#D4AF37]/60 mb-2 animate-pulse" />
+                        <h5 className="text-sm font-semibold text-white uppercase tracking-wider">More Layouts</h5>
+                        <p className="text-[11px] text-white/50 mt-1">Custom configurations & higher floor preferences available on request.</p>
+                        <button
+                          onClick={() => {
+                            setActivePropertyDetail(null);
+                            onOpenEnquiry(`Custom Config Request: ${activePropertyDetail.title}`);
+                          }}
+                          className="mt-3.5 px-3 py-1.5 bg-[#D4AF37]/10 hover:bg-[#D4AF37] text-[#D4AF37] hover:text-[#050B18] text-[9px] font-bold uppercase tracking-wider transition-all border border-[#D4AF37]/30 cursor-pointer"
+                        >
+                          Enquire Custom Layout
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Special Offer Banner for SUPER HOMEZ */}
+                {activePropertyDetail.specialOffer && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <div className="bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] p-0.5 rounded-[12px] shadow-lg overflow-hidden">
+                      <div className="bg-[#050B18]/95 p-6 rounded-[11px] flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden group">
+                        {/* Shimmer/light beam effect */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite] pointer-events-none"></div>
+                        <div className="space-y-2 relative z-10">
+                          <span className="inline-block px-3 py-1 bg-gradient-to-r from-[#bf953f] to-[#b38728] text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-inner animate-pulse">
+                            {activePropertyDetail.specialOffer.title}
+                          </span>
+                          <h4 className="text-xl sm:text-2xl font-black font-sans bg-gradient-to-r from-[#bf953f] via-[#fcf6ba] to-[#b38728] bg-clip-text text-transparent uppercase tracking-tight">
+                            {activePropertyDetail.specialOffer.mainText}
+                          </h4>
+                          <p className="text-base sm:text-lg font-bold text-white uppercase tracking-wider">
+                            ✨ {activePropertyDetail.specialOffer.subHeading}
+                          </p>
+                        </div>
+                        <div className="relative z-10 shrink-0">
+                          <button
+                            onClick={() => {
+                              setActivePropertyDetail(null);
+                              onOpenEnquiry(`Book for ₹501 Offer: ${activePropertyDetail.title}`);
+                            }}
+                            className="px-6 py-3 bg-[#D4AF37] hover:bg-white transition-all text-[#050B18] font-black text-xs uppercase tracking-widest rounded-none border border-white/20 active:scale-95"
+                          >
+                            Claim Offer Now
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Highlight cards */}
+                    <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 mt-4">
+                      {activePropertyDetail.specialOffer.highlights.map((hl, idx) => (
+                        <div key={idx} className="p-3.5 bg-gradient-to-b from-[#D4AF37]/5 to-transparent border border-[#D4AF37]/15 hover:border-[#D4AF37]/45 transition-all flex flex-col justify-center items-center text-center relative overflow-hidden group">
+                          <div className="absolute top-0 left-0 w-1.5 h-1.5 bg-[#D4AF37]"></div>
+                          <CheckCircle2 className="h-4 w-4 text-[#D4AF37] mb-2" />
+                          <span className="text-[10px] font-bold text-white uppercase tracking-wider leading-snug">{hl}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Custom Configuration Section for Nakshatra Aazstha and Super Homez */}
+                {(activePropertyDetail.id === 'prop-005' || activePropertyDetail.id === 'prop-006') && activePropertyDetail.configurations && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Available Configurations</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {activePropertyDetail.configurations.map((config, index) => (
+                        <div key={index} className="p-5 bg-white/5 border border-white/5 hover:border-[#D4AF37]/35 hover:bg-[#D4AF37]/5 transition-all duration-300 flex flex-col justify-between">
+                          <div>
+                            <span className="px-2 py-0.5 bg-[#D4AF37] text-[#050B18] text-[8px] font-black uppercase tracking-wider">
+                              {config.name.includes('Grand') ? 'GRAND' : (config.name.includes('Spacious') ? 'SPACIOUS' : (config.name.includes('Royal') ? 'ROYAL' : (config.name.includes('Luxury') ? 'LUXURY' : 'PREMIUM')))}
+                            </span>
+                            <h5 className="text-base font-bold text-white mt-2 font-sans tracking-tight uppercase">{config.name}</h5>
+                            <p className="text-xs text-white/50 mt-1 font-mono">Carpet Area: {config.area}</p>
+                          </div>
+                          <div className="mt-4 border-t border-white/10 pt-3">
+                            <span className="text-[9px] text-white/40 block">STARTING FROM</span>
+                            <span className="text-base font-bold text-[#D4AF37]">{config.price}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Custom 5-Level Grand Clubhouse Section for Nakshatra Aazstha */}
+                {activePropertyDetail.id === 'prop-005' && activePropertyDetail.grandClubhouse && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">5-Level Grand Clubhouse</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {activePropertyDetail.grandClubhouse.map((lvl, index) => (
+                        <div key={index} className="p-5 bg-[#050B18]/60 border border-[#D4AF37]/15 hover:border-[#D4AF37]/35 transition-all flex flex-col justify-between">
+                          <div className="flex items-center gap-2.5 pb-2.5 border-b border-white/10">
+                            <span className="p-1 px-2 bg-[#D4AF37]/15 text-[#D4AF37] text-[9px] font-black uppercase tracking-wider">{lvl.level}</span>
+                          </div>
+                          <div className="flex flex-wrap gap-2 mt-4">
+                            {lvl.items.map((item, itemIdx) => (
+                              <span key={itemIdx} className="px-3 py-1 bg-white/5 text-white/90 text-xs font-semibold tracking-wider border border-white/5">
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Custom Payment Plans Section for Nakshatra Aazstha */}
+                {activePropertyDetail.id === 'prop-005' && activePropertyDetail.paymentPlans && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Exclusive Payment Plans</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      {activePropertyDetail.paymentPlans.map((plan, index) => (
+                        <div key={index} className="p-5 bg-[#050B18]/40 border border-[#D4AF37]/20 hover:border-[#D4AF37]/45 transition-all flex flex-col justify-between relative overflow-hidden group">
+                          <div className="absolute top-0 right-0 p-2 bg-[#D4AF37]/10 text-[#D4AF37] border-l border-b border-white/5">
+                            <CheckCircle2 className="h-4 w-4" />
+                          </div>
+                          <div>
+                            <h5 className="text-xs font-black text-white uppercase tracking-widest">{plan.title}</h5>
+                            <p className="text-sm text-[#D4AF37] font-bold mt-2.5 uppercase tracking-wide">{plan.detail}</p>
+                            <p className="text-[11px] text-white/60 mt-1 font-sans">{plan.extra}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Custom Launch Benefits Section for Nakshatra Aazstha */}
+                {activePropertyDetail.id === 'prop-005' && activePropertyDetail.launchBenefits && (
+                  <div className="space-y-4 pt-4 border-t border-white/5">
+                    <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Launch Benefits</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {activePropertyDetail.launchBenefits.map((benefit, index) => (
+                        <div key={index} className="p-4 bg-white/5 border border-white/5 hover:border-[#D4AF37]/20 transition-all flex items-center gap-3">
+                          <div className="p-1.5 bg-[#D4AF37]/15 text-[#D4AF37]">
+                            <Sparkles className="h-4 w-4" />
+                          </div>
+                          <span className="text-xs font-semibold text-white/95 uppercase tracking-wider">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Project Details */}
                 <div className="space-y-4">
@@ -827,51 +1075,139 @@ export default function PropertiesGrid({
 
                 <div className="h-px bg-white/10"></div>
 
-                {/* Bottom Conversion Row with all 3 CTA Buttons requested */}
-                <div className="border-t border-white/10 pt-6 space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <p className="text-[9px] text-white/40 uppercase tracking-widest">Consulting Agent</p>
-                      <p className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider mt-0.5">Mansi Gaikwad</p>
-                      <p className="text-xs text-white/50">MahaRERA Reg No: A99000026853</p>
+                {/* Bottom Conversion Row / Custom CTA Section */}
+                {activePropertyDetail.id === 'prop-003' || activePropertyDetail.id === 'prop-004' || activePropertyDetail.id === 'prop-005' || activePropertyDetail.id === 'prop-006' ? (
+                  <div className="border border-[#D4AF37]/30 bg-[#0B1320]/80 p-6 sm:p-8 rounded-[18px] backdrop-blur-md space-y-6 mt-6 select-none relative overflow-hidden">
+                    {/* Decorative gold spotlight */}
+                    <div className="absolute right-0 top-0 w-32 h-32 bg-[#D4AF37]/10 rounded-full filter blur-2xl pointer-events-none"></div>
+                    
+                    <div className="text-center sm:text-left space-y-1">
+                      <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-[#D4AF37] font-semibold block">EXQUISITE OPPORTUNITY</span>
+                      <h4 className="text-xl sm:text-2xl font-light font-serif text-white">
+                        {activePropertyDetail.id === 'prop-003' ? (
+                          <>Book Your <span className="font-serif italic font-bold text-[#D4AF37]">Dream Home</span> Today</>
+                        ) : activePropertyDetail.id === 'prop-005' ? (
+                          <>Live Above the <span className="font-serif italic font-bold text-[#D4AF37]">Ordinary</span></>
+                        ) : activePropertyDetail.id === 'prop-006' ? (
+                          <>Your Dream Home is <span className="font-serif italic font-bold text-[#D4AF37]">Just ₹501 Away!</span></>
+                        ) : (
+                          <>Upgrade Your <span className="font-serif italic font-bold text-[#D4AF37]">Lifestyle Today</span></>
+                        )}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-white/70 font-sans mt-1">
+                        {activePropertyDetail.id === 'prop-003' 
+                          ? 'Pay Only 10% & Reserve Your Dream Home' 
+                          : activePropertyDetail.id === 'prop-005'
+                          ? 'Book Your Dream Home at Nakshatra Aazstha Today'
+                          : activePropertyDetail.id === 'prop-006'
+                          ? 'Book Today and Enjoy No EMI Till Possession'
+                          : 'Experience Luxury Living at Akhand Elite, Vasai East'}
+                      </p>
                     </div>
-                    <div className="text-left sm:text-right">
-                      <p className="text-[9px] text-white/40 uppercase tracking-widest">Direct Phone Contact</p>
-                      <a href="tel:+917020913759" className="text-sm font-extrabold text-white hover:underline block mt-0.5">
-                        +91 7020913759
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 pt-2">
+                      <button
+                        onClick={() => {
+                          setActivePropertyDetail(null);
+                          onOpenEnquiry(`Site Visit: ${activePropertyDetail.title}`);
+                        }}
+                        className="py-3.5 px-4 bg-[#D4AF37] hover:bg-white text-[#050B18] text-[11px] font-black uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 outline-none cursor-pointer"
+                      >
+                        <Calendar className="h-4 w-4" />
+                        <span>Schedule Site Visit</span>
+                      </button>
+
+                      <a
+                        href="tel:+917020913759"
+                        className="py-3.5 px-4 bg-[#0a1122] border border-white/20 hover:bg-white/10 text-white text-[11px] font-black uppercase tracking-widest text-center transition-all flex items-center justify-center gap-2 outline-none cursor-pointer"
+                      >
+                        <Phone className="h-4 w-4 text-[#D4AF37]" />
+                        <span>Call Now</span>
+                      </a>
+
+                      <a
+                        href={activePropertyDetail.id === 'prop-003' 
+                          ? `https://wa.me/917020913759?text=Hello%2C%20I%27m%20interested%20in%20JSB%20Nakshatra%20Nirvaana%20residential%20project.%20Please%20share%20pricing%20details.`
+                          : activePropertyDetail.id === 'prop-005'
+                          ? `https://wa.me/917020913759?text=Hello%2C%20I%27m%20interested%20in%20Nakshatra%20Aazstha%20Vasai%20East%20residential%20project.%20Please%20share%20pricing%20details.`
+                          : activePropertyDetail.id === 'prop-006'
+                          ? `https://wa.me/917020913759?text=Hello%2C%20I%27m%20interested%20in%20Super%20Homez%20Virar%20West%20residential%20project.%20Please%20share%20pricing%20details.`
+                          : `https://wa.me/917020913759?text=Hello%2C%20I%27m%20interested%20in%20Akhand%20Elite%20Vasai%20East%20residential%20project.%20Please%20share%20pricing%20details.`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-black uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-2 transition-all outline-none"
+                      >
+                        <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-[9px] tracking-normal">WA</span>
+                        <span>WhatsApp</span>
+                      </a>
+
+                      <button
+                        onClick={() => {
+                          setBrochureRequested(true);
+                        }}
+                        className="py-3.5 px-4 bg-white/5 border border-white/15 hover:border-[#D4AF37] hover:bg-white/10 text-white text-[11px] font-black uppercase tracking-widest transition-all flex items-center justify-center gap-2 outline-none cursor-pointer"
+                      >
+                        <Download className="h-4 w-4 text-[#D4AF37]" />
+                        <span>Download Brochure</span>
+                      </button>
+                    </div>
+
+                    {brochureRequested && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-3 bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 text-xs text-center font-semibold uppercase tracking-wider rounded-lg"
+                      >
+                        ✨ Brochure Download Link Sent to your registered number!
+                      </motion.div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="border-t border-white/10 pt-6 space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                      <div>
+                        <p className="text-[9px] text-white/40 uppercase tracking-widest">Consulting Agent</p>
+                        <p className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider mt-0.5">Mansi Gaikwad</p>
+                        <p className="text-xs text-white/50">MahaRERA Reg No: A99000026853</p>
+                      </div>
+                      <div className="text-left sm:text-right">
+                        <p className="text-[9px] text-white/40 uppercase tracking-widest">Direct Phone Contact</p>
+                        <a href="tel:+917020913759" className="text-sm font-extrabold text-white hover:underline block mt-0.5">
+                          +91 7020913759
+                        </a>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                      <button
+                        onClick={() => handleEnquireFromDetail(activePropertyDetail.title)}
+                        className="w-full py-3.5 bg-white/5 border border-white/20 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest cursor-pointer text-center transition-colors outline-none"
+                      >
+                        Enquire Now
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setActivePropertyDetail(null);
+                          onOpenEnquiry(`Site Visit Request: ${activePropertyDetail.title}`);
+                        }}
+                        className="w-full py-3.5 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black text-xs font-black uppercase tracking-widest cursor-pointer text-center transition-colors shadow-md outline-none flex items-center justify-center gap-1.5"
+                      >
+                        <Calendar className="h-4 w-4" /> Book Site Visit
+                      </button>
+                      
+                      <a
+                        href={`https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%27m%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(activePropertyDetail.title)}.%20Please%20let%20me%20know%20your%20availability.`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-2 transition-colors outline-none"
+                      >
+                        <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-[10px]">WA</span>
+                        <span>WhatsApp Chat</span>
                       </a>
                     </div>
                   </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <button
-                      onClick={() => handleEnquireFromDetail(activePropertyDetail.title)}
-                      className="w-full py-3.5 bg-white/5 border border-white/20 hover:bg-white/10 text-white text-xs font-bold uppercase tracking-widest cursor-pointer text-center transition-colors outline-none"
-                    >
-                      Enquire Now
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setActivePropertyDetail(null);
-                        onOpenEnquiry(`Site Visit Request: ${activePropertyDetail.title}`);
-                      }}
-                      className="w-full py-3.5 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black text-xs font-black uppercase tracking-widest cursor-pointer text-center transition-colors shadow-md outline-none flex items-center justify-center gap-1.5"
-                    >
-                      <Calendar className="h-4 w-4" /> Book Site Visit
-                    </button>
-                    
-                    <a
-                      href={`https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%27m%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(activePropertyDetail.title)}.%20Please%20let%20me%20know%20your%20availability.`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-2 transition-colors outline-none"
-                    >
-                      <span className="font-mono bg-white/20 px-1.5 py-0.5 rounded text-[10px]">WA</span>
-                      <span>WhatsApp Chat</span>
-                    </a>
-                  </div>
-                </div>
+                )}
 
               </div>
 
