@@ -58,7 +58,7 @@ function LazyVideo({ src, fallbackImage, title }: LazyVideoProps) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             videoElement.play().catch((err) => {
-              console.log('Video autoplay blocked or failed:', err);
+              // Ignore standard autoplay block logs
             });
           } else {
             videoElement.pause();
@@ -75,6 +75,19 @@ function LazyVideo({ src, fallbackImage, title }: LazyVideoProps) {
     };
   }, [hasError]);
 
+  const handleVideoError = () => {
+    const videoElement = videoRef.current;
+    if (videoElement && videoElement.error) {
+      const code = videoElement.error.code;
+      // Aborted errors (1) occur naturally when React mounts/unmounts or scrolls away.
+      // Network errors (2) can also be transient or partial content related.
+      // Only set error for decode failures (3) or completely unsupported source (4).
+      if (code === 3 || code === 4) {
+        setHasError(true);
+      }
+    }
+  };
+
   if (hasError) {
     return (
       <img
@@ -90,12 +103,13 @@ function LazyVideo({ src, fallbackImage, title }: LazyVideoProps) {
     <video
       ref={videoRef}
       src={src}
+      autoPlay
       muted
       loop
       playsInline
       preload="metadata"
       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-80"
-      onError={() => setHasError(true)}
+      onError={handleVideoError}
     />
   );
 }
