@@ -8,11 +8,10 @@ import { Shield, Clock, Handshake, ShieldAlert, BadgePercent, MapPin, CheckCircl
 import { BUSINESS_DETAILS } from '../data';
 
 interface WhyChooseUsProps {
-  onOpenEnquiry: (propertyName?: string) => void;
   onNavigate: (path: string) => void;
 }
 
-export default function WhyChooseUs({ onOpenEnquiry, onNavigate }: WhyChooseUsProps) {
+export default function WhyChooseUs({ onNavigate }: WhyChooseUsProps) {
   const securitySteps = [
     {
       icon: <Shield className="h-6 w-6 text-[#D4AF37]" />,
@@ -128,7 +127,7 @@ export default function WhyChooseUs({ onOpenEnquiry, onNavigate }: WhyChooseUsPr
 
           <div className="pt-4 flex flex-col sm:flex-row justify-center items-center gap-4">
             <button
-              onClick={() => onOpenEnquiry()}
+              onClick={() => onNavigate('/enquiry')}
               className="w-full sm:w-auto px-6 py-3 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors shadow-lg cursor-pointer"
             >
               Request Free Consultation

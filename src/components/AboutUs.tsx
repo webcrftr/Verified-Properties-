@@ -8,10 +8,10 @@ import { Shield, CheckCircle2, TrendingUp, Target, Eye, HelpingHand } from 'luci
 import { BUSINESS_DETAILS } from '../data';
 
 interface AboutUsProps {
-  onOpenEnquiry: () => void;
+  onNavigate: (path: string) => void;
 }
 
-export default function AboutUs({ onOpenEnquiry }: AboutUsProps) {
+export default function AboutUs({ onNavigate }: AboutUsProps) {
   return (
     <div className="py-16 sm:py-24 bg-[#050B18]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -142,7 +142,7 @@ export default function AboutUs({ onOpenEnquiry }: AboutUsProps) {
           </p>
           <div className="pt-2">
             <button
-              onClick={onOpenEnquiry}
+              onClick={() => onNavigate('/enquiry')}
               className="px-6 py-3 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black font-extrabold text-xs uppercase tracking-widest transition-colors cursor-pointer"
             >
               Consult with Mansi Gaikwad

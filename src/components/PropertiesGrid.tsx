@@ -5,7 +5,7 @@
 
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
-  Search, MapPin, Grid, Layers, ShieldCheck, CheckCircle2, ChevronRight, ChevronLeft, X, Phone, Calendar, Maximize2,
+  Search, MapPin, Grid, Layers, ShieldCheck, CheckCircle2, ChevronRight, ChevronLeft, X, Phone, Calendar, Maximize2, Play,
   Building, Dumbbell, Gamepad2, Compass, Activity, Sparkles, Smile, Flower2, Users, Shield, Eye, Video, ArrowUpDown, Flame, Car, Train, GraduationCap, HeartPulse, Landmark, Milestone, Zap, Download 
 } from 'lucide-react';
 import { PROPERTIES } from '../data';
@@ -115,7 +115,6 @@ function LazyVideo({ src, fallbackImage, title }: LazyVideoProps) {
 }
 
 interface PropertiesGridProps {
-  onOpenEnquiry: (propertyName?: string) => void;
   isFeaturedOnly?: boolean;
   onNavigate?: (path: string) => void;
   heroSearchFilters?: {
@@ -127,7 +126,6 @@ interface PropertiesGridProps {
 }
 
 export default function PropertiesGrid({ 
-  onOpenEnquiry, 
   isFeaturedOnly = false, 
   onNavigate,
   heroSearchFilters
@@ -141,6 +139,18 @@ export default function PropertiesGrid({
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
   const [brochureRequested, setBrochureRequested] = useState(false);
+  const [failedVideos, setFailedVideos] = useState<Set<string>>(new Set());
+
+  const isVideoUrl = (url: string) => {
+    if (!url) return false;
+    if (failedVideos.has(url)) return false;
+    return url.endsWith('.mp4') || url.includes('/video/') || url.includes('video/upload');
+  };
+
+  const isPotentialVideoUrl = (url: string) => {
+    if (!url) return false;
+    return url.endsWith('.mp4') || url.includes('/video/') || url.includes('video/upload');
+  };
 
   // Sync Hero Search Filters
   useEffect(() => {
@@ -176,12 +186,15 @@ export default function PropertiesGrid({
     const propertyImages = activePropertyDetail.gallery || [activePropertyDetail.image];
     if (propertyImages.length <= 1) return;
 
+    // Pause autoplay if the current slide is a video
+    if (isVideoUrl(propertyImages[activeImageIndex])) return;
+
     const interval = setInterval(() => {
       setActiveImageIndex((prev) => (prev + 1) % propertyImages.length);
     }, 4000); // Auto-advance every 4 seconds
 
     return () => clearInterval(interval);
-  }, [activePropertyDetail]);
+  }, [activePropertyDetail, activeImageIndex]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
@@ -274,7 +287,7 @@ export default function PropertiesGrid({
           } else if (cat === 'villas') {
             matchesHeroCategory = prop.description.toLowerCase().includes('villa') || prop.type === 'land';
           } else if (cat === 'luxury') {
-            matchesHeroCategory = prop.numericPriceVal >= 5000000 || prop.title.toLowerCase().includes('elite') || prop.title.toLowerCase().includes('luxury') || prop.id === 'prop-002' || prop.id === 'prop-006' || prop.id === 'prop-007';
+            matchesHeroCategory = prop.numericPriceVal >= 5000000 || prop.title.toLowerCase().includes('elite') || prop.title.toLowerCase().includes('luxury') || prop.id === 'prop-002' || prop.id === 'prop-006' || prop.id === 'prop-007' || prop.id === 'prop-008' || prop.id === 'prop-009';
           }
         }
       }
@@ -312,7 +325,9 @@ export default function PropertiesGrid({
     setActivePropertyDetail(null);
     setIsLightboxOpen(false);
     setBrochureRequested(false);
-    onOpenEnquiry(propertyName);
+    if (onNavigate) {
+      onNavigate(`/enquiry?property=${encodeURIComponent(propertyName)}`);
+    }
   };
 
   const typeLabels: Record<PropertyType, string> = {
@@ -466,35 +481,38 @@ export default function PropertiesGrid({
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {(isFeaturedOnly ? displayedProperties.slice(0, 3) : displayedProperties).map((prop) => {
             // High fidelity editorial sub-tags map 
-            const getSecondaryBadge = (item: typeof prop) => {
-              if (item.id === 'prop-001') return 'RERA APPROVED';
-              if (item.id === 'prop-002') return 'LUXURY RESIDENCE';
-              if (item.id === 'prop-003') return 'READY POSSESSION 2026';
-              if (item.id === 'prop-004') return 'LUXURY HIGH-RISE';
-              if (item.id === 'prop-005') return '33 STOREY TOWERS';
-              if (item.id === 'prop-006') return '₹501 BOOKING OFFER';
-              if (item.id === 'prop-007') return 'PREMIUM LOCATION';
-              if (item.id === 'prop-008') return 'UNDER CONSTRUCTION';
-              return 'RERA REGISTERED';
-            };
+              const getSecondaryBadge = (item: typeof prop) => {
+                if (item.id === 'prop-001') return 'RERA APPROVED';
+                if (item.id === 'prop-002') return 'LUXURY RESIDENCE';
+                if (item.id === 'prop-003') return 'READY POSSESSION 2026';
+                if (item.id === 'prop-004') return 'LUXURY HIGH-RISE';
+                if (item.id === 'prop-005') return '33 STOREY TOWERS';
+                if (item.id === 'prop-006') return '₹501 BOOKING OFFER';
+                if (item.id === 'prop-007') return 'LUXURY RESIDENTIAL';
+                if (item.id === 'prop-008') return 'LIMITED PERIOD OFFER';
+                if (item.id === 'prop-009') return 'READY POSSESSION 2026';
+                return 'RERA REGISTERED';
+              };
 
-            const statusText = prop.constructionStatus || 'AVAILABLE';
-            const isUnderConstruction = statusText === 'UNDER CONSTRUCTION';
+              const statusText = prop.constructionStatus || 'AVAILABLE';
+              const isUnderConstruction = statusText === 'UNDER CONSTRUCTION';
 
-            return (
-              <article
-                key={prop.id}
-                className="bg-[#050B18] border border-white/10 overflow-hidden hover:border-[#D4AF37]/35 transition-all duration-300 flex flex-col justify-between group shadow-xl"
-              >
-                {/* Card Image Banner */}
-                <div className="relative overflow-hidden aspect-[4/3] bg-black/40">
-                  {prop.id === 'prop-008' ? (
-                    <LazyVideo
-                      src="/videos/property1.mp4"
-                      fallbackImage={prop.image}
-                      title={prop.title}
-                    />
-                  ) : (
+              return (
+                <article
+                  key={prop.id}
+                  className="bg-[#050B18] border border-white/10 overflow-hidden hover:border-[#D4AF37]/35 transition-all duration-300 flex flex-col justify-between group shadow-xl"
+                >
+                  {/* Card Image Banner */}
+                  <div className="relative overflow-hidden aspect-[4/3] bg-black/40">
+                    {prop.id === 'prop-008' || prop.id === 'prop-009' ? (
+                      <LazyVideo
+                        src={prop.id === 'prop-008'
+                          ? "https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-26_at_13.50.43_wm4x0a.mp4"
+                          : "https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-27_at_13.15.16_oh31cl.mp4"}
+                        fallbackImage={prop.image}
+                        title={prop.title}
+                      />
+                    ) : (
                     <img
                       src={prop.image}
                       alt={prop.title}
@@ -506,7 +524,7 @@ export default function PropertiesGrid({
                   {/* High Quality Styled Badges Left */}
                   <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 items-start">
                     <span className="px-3.5 py-1.5 text-[9px] font-black uppercase tracking-widest text-[#050B18] bg-[#D4AF37] shadow-lg leading-none">
-                      {prop.id === 'prop-006' ? 'LIMITED TIME OFFER' : (prop.id === 'prop-005' ? 'GRAND LAUNCH' : (prop.id === 'prop-003' || prop.id === 'prop-004' ? 'NEW LAUNCH' : `FOR ${prop.transaction.toUpperCase()}`))}
+                      {prop.id === 'prop-009' ? 'LAST CHANCE' : (prop.id === 'prop-006' ? 'LIMITED TIME OFFER' : (prop.id === 'prop-005' ? 'GRAND LAUNCH' : (prop.id === 'prop-003' || prop.id === 'prop-004' || prop.id === 'prop-007' ? 'NEW LAUNCH' : `FOR ${prop.transaction.toUpperCase()}` )))}
                     </span>
                     <span className="px-2.5 py-1 text-[8px] font-mono font-bold uppercase tracking-wider bg-black/85 text-[#D4AF37] border border-[#D4AF37]/30 shadow-md">
                       {getSecondaryBadge(prop)}
@@ -536,7 +554,7 @@ export default function PropertiesGrid({
                     {/* Category Type & Construction Status */}
                     <div className="flex items-center justify-between pb-1">
                       <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#D4AF37] font-mono">
-                        {prop.id === 'prop-006' ? 'Affordable Premium Apartments' : (prop.id === 'prop-003' || prop.id === 'prop-004' || prop.id === 'prop-005' ? 'Luxury Residential Apartments' : typeLabels[prop.type])}
+                        {prop.id === 'prop-006' ? 'Affordable Premium Apartments' : (prop.id === 'prop-007' || prop.id === 'prop-009' ? 'Premium Residential Apartments' : (prop.id === 'prop-003' || prop.id === 'prop-004' || prop.id === 'prop-005' || prop.id === 'prop-008' ? 'Luxury Residential Apartments' : typeLabels[prop.type]))}
                       </span>
                       <span className={`text-[9px] font-bold tracking-widest uppercase font-mono px-2 py-0.5 border ${
                         isUnderConstruction 
@@ -614,7 +632,11 @@ export default function PropertiesGrid({
                       </button>
                       
                       <button
-                        onClick={() => onOpenEnquiry(prop.title)}
+                        onClick={() => {
+                          if (onNavigate) {
+                            onNavigate(`/enquiry?property=${encodeURIComponent(prop.title)}`);
+                          }
+                        }}
                         className="py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer outline-none flex items-center justify-center"
                       >
                         Enquire Now
@@ -622,14 +644,22 @@ export default function PropertiesGrid({
                     </div>
 
                     <button
-                      onClick={() => onOpenEnquiry(`Site Visit: ${prop.title}`)}
+                      onClick={() => {
+                        if (onNavigate) {
+                          onNavigate(`/book-site-visit?property=${encodeURIComponent(prop.title)}`);
+                        }
+                      }}
                       className="w-full py-2.5 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black text-[10px] font-extrabold uppercase tracking-widest transition-colors cursor-pointer shadow-md flex items-center justify-center gap-1.5 outline-none"
                     >
                       <Calendar className="h-3.5 w-3.5" /> Book Site Visit
                     </button>
 
                     <a
-                      href={`https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%20am%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(prop.title)}.%20Please%20let%20me%20know%20your%20availability.`}
+                      href={prop.id === 'prop-007'
+                        ? `https://wa.me/918689965569?text=Hi%20Kushal%20Nayak,%20I%20am%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(prop.title)}.%20Please%20let%20me%20know%20your%20availability.`
+                        : (prop.id === 'prop-008'
+                          ? `https://wa.me/919619597712?text=Hi%20Vikas%20Sharma,%20I%20am%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(prop.title)}.%20Please%20let%20me%20know%20your%20availability.`
+                          : `https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%20am%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(prop.title)}.%20Please%20let%20me%20know%20your%20availability.`)}
                       target="_blank"
                       rel="noreferrer"
                       className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-1.5 transition-colors outline-none"
@@ -679,16 +709,39 @@ export default function PropertiesGrid({
                 onTouchStart={handleTouchStart}
                 onTouchEnd={(e) => handleTouchEnd(e, propertyImages.length)}
               >
-                <img
-                  src={propertyImages[activeImageIndex]}
-                  alt={`${activePropertyDetail.title} - View ${activeImageIndex + 1}`}
-                  className="w-full h-full object-cover opacity-90 transition-all duration-500 cursor-zoom-in"
-                  onClick={() => {
-                    setLightboxImageIndex(activeImageIndex);
-                    setIsLightboxOpen(true);
-                  }}
-                  referrerPolicy="no-referrer"
-                />
+                {isVideoUrl(propertyImages[activeImageIndex]) ? (
+                  <video
+                    src={propertyImages[activeImageIndex]}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                    className="w-full h-full object-cover opacity-90 transition-all duration-500 cursor-zoom-in"
+                    onClick={() => {
+                      setLightboxImageIndex(activeImageIndex);
+                      setIsLightboxOpen(true);
+                    }}
+                    onError={() => {
+                      setFailedVideos((prev) => {
+                        const next = new Set(prev);
+                        next.add(propertyImages[activeImageIndex]);
+                        return next;
+                      });
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={isPotentialVideoUrl(propertyImages[activeImageIndex]) ? activePropertyDetail.image : propertyImages[activeImageIndex]}
+                    alt={`${activePropertyDetail.title} - View ${activeImageIndex + 1}`}
+                    className="w-full h-full object-cover opacity-90 transition-all duration-500 cursor-zoom-in"
+                    onClick={() => {
+                      setLightboxImageIndex(activeImageIndex);
+                      setIsLightboxOpen(true);
+                    }}
+                    referrerPolicy="no-referrer"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a1122] via-[#0a1122]/30 to-transparent pointer-events-none"></div>
                 
                 {/* Slider Controls */}
@@ -730,7 +783,7 @@ export default function PropertiesGrid({
 
                 <div className="absolute bottom-6 left-6 right-6 pointer-events-none">
                   <span className="px-3 py-1 bg-[#D4AF37] text-[#050B18] text-[9px] font-black uppercase tracking-widest leading-none pointer-events-auto">
-                    {activePropertyDetail.id === 'prop-006' ? 'LIMITED TIME OFFER' : (activePropertyDetail.id === 'prop-005' ? 'GRAND LAUNCH' : (activePropertyDetail.id === 'prop-003' || activePropertyDetail.id === 'prop-004' ? 'NEW LAUNCH' : `FOR ${activePropertyDetail.transaction.toUpperCase()}`))}
+                    {activePropertyDetail.id === 'prop-009' ? 'LAST CHANCE' : (activePropertyDetail.id === 'prop-008' ? 'LIMITED PERIOD OFFER' : (activePropertyDetail.id === 'prop-006' ? 'LIMITED TIME OFFER' : (activePropertyDetail.id === 'prop-005' ? 'GRAND LAUNCH' : (activePropertyDetail.id === 'prop-003' || activePropertyDetail.id === 'prop-004' || activePropertyDetail.id === 'prop-007' ? 'NEW LAUNCH' : `FOR ${activePropertyDetail.transaction.toUpperCase()}` ))))}
                   </span>
                   
                   <h3 className="text-2xl sm:text-3xl font-bold font-sans uppercase text-white mt-3 leading-tight drop-shadow-md pointer-events-auto">
@@ -752,7 +805,7 @@ export default function PropertiesGrid({
                   <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
                     <span className="text-[9px] text-white/40 uppercase font-bold tracking-widest">Property Type</span>
                     <span className="text-xs font-semibold text-white uppercase tracking-wider mt-1">
-                      {activePropertyDetail.id === 'prop-006' ? 'Affordable Premium Apartments' : (activePropertyDetail.id === 'prop-002' || activePropertyDetail.id === 'prop-003' || activePropertyDetail.id === 'prop-004' || activePropertyDetail.id === 'prop-005' ? 'Luxury Residential Apartments' : typeLabels[activePropertyDetail.type])}
+                      {activePropertyDetail.id === 'prop-006' ? 'Affordable Premium Apartments' : (activePropertyDetail.id === 'prop-007' || activePropertyDetail.id === 'prop-009' ? 'Premium Residential Apartments' : (activePropertyDetail.id === 'prop-002' || activePropertyDetail.id === 'prop-003' || activePropertyDetail.id === 'prop-004' || activePropertyDetail.id === 'prop-005' || activePropertyDetail.id === 'prop-008' ? 'Luxury Residential Apartments' : typeLabels[activePropertyDetail.type]))}
                     </span>
                   </div>
                   <div className="p-4 bg-white/5 border border-white/5 flex flex-col justify-between">
@@ -783,29 +836,53 @@ export default function PropertiesGrid({
                       <span className="text-[9px] text-white/40 font-mono hidden sm:inline">Click any thumbnail to inspect</span>
                     </div>
                     <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
-                      {propertyImages.map((img, idx) => (
-                        <button
-                          key={idx}
-                          onClick={() => {
-                            setActiveImageIndex(idx);
-                            setLightboxImageIndex(idx);
-                            setIsLightboxOpen(true);
-                          }}
-                          className={`aspect-square overflow-hidden border transition-all ${
-                            activeImageIndex === idx 
-                              ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/35 scale-95' 
-                              : 'border-white/10 hover:border-white/40'
-                          }`}
-                        >
-                          <img
-                            src={img}
-                            alt={`${activePropertyDetail.title} Thumbnail ${idx + 1}`}
-                            className="w-full h-full object-cover"
-                            referrerPolicy="no-referrer"
-                            loading="lazy"
-                          />
-                        </button>
-                      ))}
+                      {propertyImages.map((img, idx) => {
+                        const isVideo = isVideoUrl(img);
+                        return (
+                          <button
+                            key={idx}
+                            onClick={() => {
+                              setActiveImageIndex(idx);
+                              setLightboxImageIndex(idx);
+                              setIsLightboxOpen(true);
+                            }}
+                            className={`aspect-square overflow-hidden border transition-all relative ${
+                              activeImageIndex === idx 
+                                ? 'border-[#D4AF37] ring-2 ring-[#D4AF37]/35 scale-95' 
+                                : 'border-white/10 hover:border-white/40'
+                            }`}
+                          >
+                            {isVideo ? (
+                              <>
+                                <video
+                                  src={img}
+                                  preload="metadata"
+                                  className="w-full h-full object-cover"
+                                  muted
+                                  onError={() => {
+                                    setFailedVideos((prev) => {
+                                      const next = new Set(prev);
+                                      next.add(img);
+                                      return next;
+                                    });
+                                  }}
+                                />
+                                <div className="absolute inset-0 bg-black/45 flex items-center justify-center">
+                                  <Play className="h-4 w-4 text-[#D4AF37] fill-[#D4AF37]" />
+                                </div>
+                              </>
+                            ) : (
+                              <img
+                                src={isPotentialVideoUrl(img) ? activePropertyDetail.image : img}
+                                alt={`${activePropertyDetail.title} Thumbnail ${idx + 1}`}
+                                className="w-full h-full object-cover"
+                                referrerPolicy="no-referrer"
+                                loading="lazy"
+                              />
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 )}
@@ -872,7 +949,9 @@ export default function PropertiesGrid({
                         <button
                           onClick={() => {
                             setActivePropertyDetail(null);
-                            onOpenEnquiry(`Custom Config Request: ${activePropertyDetail.title}`);
+                            if (onNavigate) {
+                              onNavigate(`/enquiry?property=${encodeURIComponent(activePropertyDetail.title)}`);
+                            }
                           }}
                           className="mt-3.5 px-3 py-1.5 bg-[#D4AF37]/10 hover:bg-[#D4AF37] text-[#D4AF37] hover:text-[#050B18] text-[9px] font-bold uppercase tracking-wider transition-all border border-[#D4AF37]/30 cursor-pointer"
                         >
@@ -905,7 +984,9 @@ export default function PropertiesGrid({
                           <button
                             onClick={() => {
                               setActivePropertyDetail(null);
-                              onOpenEnquiry(`Book for ₹501 Offer: ${activePropertyDetail.title}`);
+                              if (onNavigate) {
+                                onNavigate(`/enquiry?property=${encodeURIComponent(activePropertyDetail.title)}`);
+                              }
                             }}
                             className="px-6 py-3 bg-[#D4AF37] hover:bg-white transition-all text-[#050B18] font-black text-xs uppercase tracking-widest rounded-none border border-white/20 active:scale-95"
                           >
@@ -929,7 +1010,7 @@ export default function PropertiesGrid({
                 )}
 
                 {/* Custom Configuration Section for Nakshatra Aazstha and Super Homez */}
-                {(activePropertyDetail.id === 'prop-005' || activePropertyDetail.id === 'prop-006') && activePropertyDetail.configurations && (
+                {(activePropertyDetail.id === 'prop-005' || activePropertyDetail.id === 'prop-006' || activePropertyDetail.id === 'prop-007' || activePropertyDetail.id === 'prop-008' || activePropertyDetail.id === 'prop-009') && activePropertyDetail.configurations && (
                   <div className="space-y-4 pt-4 border-t border-white/5">
                     <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Available Configurations</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -976,7 +1057,7 @@ export default function PropertiesGrid({
                 )}
 
                 {/* Custom Payment Plans Section for Nakshatra Aazstha */}
-                {activePropertyDetail.id === 'prop-005' && activePropertyDetail.paymentPlans && (
+                {(activePropertyDetail.id === 'prop-005' || activePropertyDetail.id === 'prop-007' || activePropertyDetail.id === 'prop-008' || activePropertyDetail.id === 'prop-009') && activePropertyDetail.paymentPlans && (
                   <div className="space-y-4 pt-4 border-t border-white/5">
                     <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Exclusive Payment Plans</h4>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -1009,6 +1090,43 @@ export default function PropertiesGrid({
                           <span className="text-xs font-semibold text-white/95 uppercase tracking-wider">{benefit}</span>
                         </div>
                       ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Custom Additional Specifications Section for Devika Avenue (prop-007) */}
+                {activePropertyDetail.id === 'prop-007' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                    {/* Schools & Hospitals */}
+                    <div className="p-5 bg-white/5 border border-white/5 space-y-3.5">
+                      <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Educational Institutions & Healthcare</h4>
+                      <div className="space-y-2.5">
+                        <div className="space-y-1">
+                          <span className="text-[9px] text-white/40 uppercase block font-semibold">Nearby Schools</span>
+                          <p className="text-xs text-white/90">Don Bosco High School • Orchid International School • Seven Square Academy</p>
+                        </div>
+                        <div className="h-px bg-white/5"></div>
+                        <div className="space-y-1">
+                          <span className="text-[9px] text-white/40 uppercase block font-semibold">Hospitals</span>
+                          <p className="text-xs text-white/90">Omkar Hospital • Siddharth Hospital • Navya Hospital</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Commercial Shops & Parking */}
+                    <div className="p-5 bg-[#D4AF37]/5 border border-[#D4AF37]/20 space-y-3.5">
+                      <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-[0.2em] font-mono">Commercial & Parking</h4>
+                      <div className="space-y-2.5">
+                        <div className="space-y-1">
+                          <span className="text-[9px] text-[#D4AF37] uppercase block font-semibold">Commercial Shops</span>
+                          <p className="text-xs text-white/90 font-bold">Starting from ₹16,500 per Sq.Ft.</p>
+                        </div>
+                        <div className="h-px bg-white/5"></div>
+                        <div className="space-y-1">
+                          <span className="text-[9px] text-[#D4AF37] uppercase block font-semibold">Parking Spaces Available</span>
+                          <p className="text-xs text-white/90">Open Parking • Stilt Parking</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -1123,7 +1241,9 @@ export default function PropertiesGrid({
                       <button
                         onClick={() => {
                           setActivePropertyDetail(null);
-                          onOpenEnquiry(`Site Visit: ${activePropertyDetail.title}`);
+                          if (onNavigate) {
+                            onNavigate(`/book-site-visit?property=${encodeURIComponent(activePropertyDetail.title)}`);
+                          }
                         }}
                         className="py-3.5 px-4 bg-[#D4AF37] hover:bg-white text-[#050B18] text-[11px] font-black uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 outline-none cursor-pointer"
                       >
@@ -1181,13 +1301,20 @@ export default function PropertiesGrid({
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
                         <p className="text-[9px] text-white/40 uppercase tracking-widest">Consulting Agent</p>
-                        <p className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider mt-0.5">Mansi Gaikwad</p>
-                        <p className="text-xs text-white/50">MahaRERA Reg No: A99000026853</p>
+                        <p className="text-sm font-bold text-[#D4AF37] uppercase tracking-wider mt-0.5">
+                          {activePropertyDetail.id === 'prop-007' ? 'Kushal Nayak' : (activePropertyDetail.id === 'prop-008' ? 'Vikas Sharma' : 'Mansi Gaikwad')}
+                        </p>
+                        {activePropertyDetail.id !== 'prop-007' && activePropertyDetail.id !== 'prop-008' && (
+                          <p className="text-xs text-white/50">MahaRERA Reg No: A99000026853</p>
+                        )}
                       </div>
                       <div className="text-left sm:text-right">
                         <p className="text-[9px] text-white/40 uppercase tracking-widest">Direct Phone Contact</p>
-                        <a href="tel:+917020913759" className="text-sm font-extrabold text-white hover:underline block mt-0.5">
-                          +91 7020913759
+                        <a
+                          href={activePropertyDetail.id === 'prop-007' ? 'tel:+918689965569' : (activePropertyDetail.id === 'prop-008' ? 'tel:+919619597712' : 'tel:+917020913759')}
+                          className="text-sm font-extrabold text-white hover:underline block mt-0.5"
+                        >
+                          {activePropertyDetail.id === 'prop-007' ? '+91 86899 65569' : (activePropertyDetail.id === 'prop-008' ? '+91 96195 97712' : '+91 7020913759')}
                         </a>
                       </div>
                     </div>
@@ -1203,7 +1330,9 @@ export default function PropertiesGrid({
                       <button
                         onClick={() => {
                           setActivePropertyDetail(null);
-                          onOpenEnquiry(`Site Visit Request: ${activePropertyDetail.title}`);
+                          if (onNavigate) {
+                            onNavigate(`/book-site-visit?property=${encodeURIComponent(activePropertyDetail.title)}`);
+                          }
                         }}
                         className="w-full py-3.5 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black text-xs font-black uppercase tracking-widest cursor-pointer text-center transition-colors shadow-md outline-none flex items-center justify-center gap-1.5"
                       >
@@ -1211,7 +1340,11 @@ export default function PropertiesGrid({
                       </button>
                       
                       <a
-                        href={`https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%27m%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(activePropertyDetail.title)}.%20Please%20let%20me%20know%20your%20availability.`}
+                        href={activePropertyDetail.id === 'prop-007'
+                          ? `https://wa.me/918689965569?text=Hi%20Kushal%20Nayak,%20I%27m%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(activePropertyDetail.title)}.%20Please%20let%20me%20know%20your%20availability.`
+                          : (activePropertyDetail.id === 'prop-008'
+                            ? `https://wa.me/919619597712?text=Hi%20Vikas%20Sharma,%20I%27m%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(activePropertyDetail.title)}.%20Please%20let%20me%20know%20your%20availability.`
+                            : `https://wa.me/917020913759?text=Hi%20Verified%20Properties,%20I%27m%20interested%20in%20arranging%20a%20site%20visit%20for%20${encodeURIComponent(activePropertyDetail.title)}.%20Please%20let%20me%20know%20your%20availability.`)}
                         target="_blank"
                         rel="noreferrer"
                         className="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold uppercase tracking-widest text-center shadow-md flex items-center justify-center gap-2 transition-colors outline-none"
@@ -1258,12 +1391,32 @@ export default function PropertiesGrid({
               onTouchStart={handleLightboxTouchStart}
               onTouchEnd={(e) => handleLightboxTouchEnd(e, propertyImages.length)}
             >
-              <img
-                src={propertyImages[lightboxImageIndex]}
-                alt={`${activePropertyDetail.title} Full view ${lightboxImageIndex + 1}`}
-                className="max-w-full max-h-[70vh] object-contain shadow-2xl border border-white/5"
-                referrerPolicy="no-referrer"
-              />
+              {isVideoUrl(propertyImages[lightboxImageIndex]) ? (
+                <video
+                  src={propertyImages[lightboxImageIndex]}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  controls
+                  className="max-w-full max-h-[70vh] object-contain shadow-2xl border border-white/5 animate-fade-in"
+                  onError={() => {
+                    setFailedVideos((prev) => {
+                      const next = new Set(prev);
+                      next.add(propertyImages[lightboxImageIndex]);
+                      return next;
+                    });
+                  }}
+                />
+              ) : (
+                <img
+                  src={isPotentialVideoUrl(propertyImages[lightboxImageIndex]) ? activePropertyDetail.image : propertyImages[lightboxImageIndex]}
+                  alt={`${activePropertyDetail.title} Full view ${lightboxImageIndex + 1}`}
+                  className="max-w-full max-h-[70vh] object-contain shadow-2xl border border-white/5"
+                  referrerPolicy="no-referrer"
+                />
+              )}
               
               {/* Left/Right Controls */}
               {propertyImages.length > 1 && (
@@ -1294,25 +1447,49 @@ export default function PropertiesGrid({
               {/* Thumbnail Strip */}
               {propertyImages.length > 1 && (
                 <div className="flex items-center justify-center gap-2 overflow-x-auto pb-2 scrollbar-thin max-w-4xl mx-auto">
-                  {propertyImages.map((img, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setLightboxImageIndex(idx)}
-                      className={`h-12 w-16 flex-shrink-0 overflow-hidden border transition-all ${
-                        lightboxImageIndex === idx 
-                          ? 'border-[#D4AF37] scale-105 opacity-100 ring-2 ring-[#D4AF37]/30' 
-                          : 'border-white/10 opacity-50 hover:opacity-80'
-                      }`}
-                    >
-                      <img
-                        src={img}
-                        alt="Mini Thumbnail"
-                        className="w-full h-full object-cover"
-                        referrerPolicy="no-referrer"
-                        loading="lazy"
-                      />
-                    </button>
-                  ))}
+                  {propertyImages.map((img, idx) => {
+                    const isVideo = isVideoUrl(img);
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => setLightboxImageIndex(idx)}
+                        className={`h-12 w-16 flex-shrink-0 overflow-hidden border transition-all relative ${
+                          lightboxImageIndex === idx 
+                            ? 'border-[#D4AF37] scale-105 opacity-100 ring-2 ring-[#D4AF37]/30' 
+                            : 'border-white/10 opacity-50 hover:opacity-80'
+                        }`}
+                      >
+                        {isVideo ? (
+                          <>
+                            <video
+                              src={img}
+                              preload="metadata"
+                              className="w-full h-full object-cover"
+                              muted
+                              onError={() => {
+                                setFailedVideos((prev) => {
+                                  const next = new Set(prev);
+                                  next.add(img);
+                                  return next;
+                                });
+                              }}
+                            />
+                            <div className="absolute inset-0 bg-black/45 flex items-center justify-center">
+                              <Play className="h-3 w-3 text-[#D4AF37] fill-[#D4AF37]" />
+                            </div>
+                          </>
+                        ) : (
+                          <img
+                            src={isPotentialVideoUrl(img) ? activePropertyDetail.image : img}
+                            alt="Mini Thumbnail"
+                            className="w-full h-full object-cover"
+                            referrerPolicy="no-referrer"
+                            loading="lazy"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>

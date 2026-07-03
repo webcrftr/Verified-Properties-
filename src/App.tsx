@@ -11,23 +11,15 @@ import PropertiesGrid from './components/PropertiesGrid';
 import ServicesSection from './components/ServicesSection';
 import Testimonials from './components/Testimonials';
 import ContactSection from './components/ContactSection';
-import EnquiryFormModal from './components/EnquiryFormModal';
+import EnquiryPage from './components/EnquiryPage';
+import BookSiteVisitPage from './components/BookSiteVisitPage';
 import WhyChooseUs from './components/WhyChooseUs';
 import FloatingActions from './components/FloatingActions';
 import { BUSINESS_DETAILS } from './data';
 import { ShieldCheck, Mail, Phone, MapPin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
-// Clear popup session storage on fresh page load/revisit/refresh
-if (typeof window !== 'undefined') {
-  sessionStorage.removeItem('verified_properties_lead_popup_shown');
-}
-
 export default function App() {
-  // Overlays & drawer togglers
-  const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
-  const [prefilledProperty, setPrefilledProperty] = useState<string | undefined>(undefined);
-
   // Search filter state for bridging Hero search and Properties grid
   const [heroSearchFilters, setHeroSearchFilters] = useState<{
     location: string;
@@ -39,6 +31,9 @@ export default function App() {
   // Custom client-side router matching pathnames
   const [currentPath, setCurrentPath] = useState(() => {
     let path = window.location.pathname;
+    if (path.includes('?')) {
+      path = path.split('?')[0];
+    }
     if (path.endsWith('.html')) {
       path = path.slice(0, -5);
     }
@@ -51,6 +46,9 @@ export default function App() {
   useEffect(() => {
     const handlePopState = () => {
       let path = window.location.pathname;
+      if (path.includes('?')) {
+        path = path.split('?')[0];
+      }
       if (path.endsWith('.html')) {
         path = path.slice(0, -5);
       }
@@ -67,6 +65,9 @@ export default function App() {
 
   const navigate = (path: string) => {
     let normalizedPath = path;
+    if (normalizedPath.includes('?')) {
+      normalizedPath = normalizedPath.split('?')[0];
+    }
     if (normalizedPath.endsWith('.html')) {
       normalizedPath = normalizedPath.slice(0, -5);
     }
@@ -155,6 +156,14 @@ export default function App() {
         title = `Contact Verified Properties | Book Free On-Site Consultation`;
         description = `Arrange a free site tour or secure legal consults in Naigaon. Call us directly, send real-time emails, message on WhatsApp, or get office coordinates on Google Maps.`;
         break;
+      case '/enquiry':
+        title = `Property Enquiry Desk | Verified Properties`;
+        description = `Inquire about luxury flats, shop layouts, or land assets. Secure verified builder pricing and professional advisory checking.`;
+        break;
+      case '/book-site-visit':
+        title = `Book Private Site Visit | Verified Properties`;
+        description = `Schedule a private site visit to Naigaon, Vasai, or Virar properties. Complimentary travel and full legal disclosures included.`;
+        break;
       default:
         title = `Verified Properties | Integrity First Real Estate`;
         description = `Pre-vetted premium real-estate properties and advisory checks by MahaRERA registered agent Mansi Gaikwad in Palghar districts.`;
@@ -179,33 +188,6 @@ export default function App() {
     };
   }, [currentPath]);
 
-  // Premium auto-popup trigger for Lead Submission Desk
-  useEffect(() => {
-    // Only automatically open if visitor is on the Home page ('/')
-    if (currentPath !== '/') return;
-
-    // Show only once per user session / until reload
-    const popupShown = sessionStorage.getItem('verified_properties_lead_popup_shown');
-    if (!popupShown) {
-      const timer = setTimeout(() => {
-        setIsEnquiryOpen(true);
-        sessionStorage.setItem('verified_properties_lead_popup_shown', 'true');
-      }, 2000); // 2 seconds of page load
-
-      return () => clearTimeout(timer);
-    }
-  }, [currentPath]);
-
-  const handleOpenEnquiry = (propertyName?: string) => {
-    setPrefilledProperty(propertyName);
-    setIsEnquiryOpen(true);
-  };
-
-  const handleCloseEnquiry = () => {
-    setPrefilledProperty(undefined);
-    setIsEnquiryOpen(false);
-  };
-
   // Render correct sub-page with beautiful motion animations
   const renderActivePage = () => {
     switch (currentPath) {
@@ -219,9 +201,8 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <Hero onOpenEnquiry={handleOpenEnquiry} onSearch={setHeroSearchFilters} />
+            <Hero onSearch={setHeroSearchFilters} />
             <PropertiesGrid 
-              onOpenEnquiry={handleOpenEnquiry} 
               isFeaturedOnly={true} 
               onNavigate={navigate} 
               heroSearchFilters={heroSearchFilters}
@@ -245,7 +226,7 @@ export default function App() {
               </div>
             </div>
             <PropertiesGrid 
-              onOpenEnquiry={handleOpenEnquiry} 
+              onNavigate={navigate} 
               heroSearchFilters={heroSearchFilters}
             />
           </motion.div>
@@ -283,7 +264,7 @@ export default function App() {
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Why Buyers Trust Us</h1>
               </div>
             </div>
-            <WhyChooseUs onOpenEnquiry={handleOpenEnquiry} onNavigate={navigate} />
+            <WhyChooseUs onNavigate={navigate} />
           </motion.div>
         );
       case '/about':
@@ -301,7 +282,7 @@ export default function App() {
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">About the Consultant</h1>
               </div>
             </div>
-            <AboutUs onOpenEnquiry={() => handleOpenEnquiry()} />
+            <AboutUs onNavigate={navigate} />
           </motion.div>
         );
       case '/contact':
@@ -319,7 +300,31 @@ export default function App() {
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Contact Agency Details</h1>
               </div>
             </div>
-            <ContactSection onOpenEnquiry={handleOpenEnquiry} />
+            <ContactSection />
+          </motion.div>
+        );
+      case '/enquiry':
+        return (
+          <motion.div
+            key="enquiry"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <EnquiryPage onNavigate={navigate} />
+          </motion.div>
+        );
+      case '/book-site-visit':
+        return (
+          <motion.div
+            key="book-site-visit"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+          >
+            <BookSiteVisitPage onNavigate={navigate} />
           </motion.div>
         );
       default:
@@ -345,7 +350,6 @@ export default function App() {
       <Header
         currentPath={currentPath}
         onNavigate={navigate}
-        onOpenEnquiry={() => handleOpenEnquiry()}
       />
 
       {/* 2. Main content pages frame with fluid layout */}
@@ -377,7 +381,7 @@ export default function App() {
             </p>
           </div>
 
-          {/* Column 2: Mapped multi-page navigational links replacing scrolling */}
+          {/* Column 2: Mapped sitemap links */}
           <div className="md:col-span-3 space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-[#D4AF37] font-mono">Sitemap</h4>
             <ul className="space-y-2 text-xs">
@@ -387,7 +391,9 @@ export default function App() {
                 { label: 'Consultant Services', path: '/services' },
                 { label: 'Why Choose Us', path: '/why-us' },
                 { label: 'About Consultant', path: '/about' },
-                { label: 'Contact Details', path: '/contact' }
+                { label: 'Contact Details', path: '/contact' },
+                { label: 'Property Enquiry', path: '/enquiry' },
+                { label: 'Book Site Visit', path: '/book-site-visit' }
               ].map((link, idx) => (
                 <li key={idx}>
                   <button
@@ -439,19 +445,8 @@ export default function App() {
         </div>
       </footer>
 
-      {/* 4. Contact Enquiry form overlay modal */}
-      <AnimatePresence>
-        {isEnquiryOpen && (
-          <EnquiryFormModal
-            isOpen={isEnquiryOpen}
-            onClose={handleCloseEnquiry}
-            prefilledProperty={prefilledProperty}
-          />
-        )}
-      </AnimatePresence>
-
       {/* 5. WhatsApp widget floats + Mobile Persist actions */}
-      <FloatingActions onOpenEnquiry={handleOpenEnquiry} />
+      <FloatingActions onNavigate={navigate} />
 
     </div>
   );

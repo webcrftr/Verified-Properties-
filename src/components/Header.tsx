@@ -10,10 +10,9 @@ import { BUSINESS_DETAILS } from '../data';
 interface HeaderProps {
   currentPath: string;
   onNavigate: (path: string) => void;
-  onOpenEnquiry: (propertyName?: string) => void;
 }
 
-export default function Header({ currentPath, onNavigate, onOpenEnquiry }: HeaderProps) {
+export default function Header({ currentPath, onNavigate }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -140,7 +139,7 @@ export default function Header({ currentPath, onNavigate, onOpenEnquiry }: Heade
 
               {/* Callback Button CTA */}
               <button
-                onClick={() => onOpenEnquiry()}
+                onClick={() => handleLinkClick('/enquiry')}
                 className="px-4 py-2 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black font-extrabold text-[10px] uppercase tracking-widest transition-colors cursor-pointer shadow-sm"
               >
                 REQUEST CALL BACK
@@ -158,7 +157,7 @@ export default function Header({ currentPath, onNavigate, onOpenEnquiry }: Heade
               </div>
 
               <button
-                onClick={() => onOpenEnquiry()}
+                onClick={() => handleLinkClick('/enquiry')}
                 className="px-2.5 py-1.5 bg-[#D4AF37] text-[#050B18] text-[9px] font-bold uppercase tracking-wider cursor-pointer"
               >
                 Enquire

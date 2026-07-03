@@ -8,10 +8,10 @@ import { Phone, Calendar, MessageCircle, Navigation } from 'lucide-react';
 import { BUSINESS_DETAILS } from '../data';
 
 interface FloatingActionsProps {
-  onOpenEnquiry: (propertyName?: string) => void;
+  onNavigate: (path: string) => void;
 }
 
-export default function FloatingActions({ onOpenEnquiry }: FloatingActionsProps) {
+export default function FloatingActions({ onNavigate }: FloatingActionsProps) {
   
   // WhatsApp welcome link
   const whatsappURL = `https://wa.me/917020913759?text=${encodeURIComponent(
@@ -54,7 +54,7 @@ export default function FloatingActions({ onOpenEnquiry }: FloatingActionsProps)
 
           {/* Mobile Book Site Visit Toggle */}
           <button
-            onClick={() => onOpenEnquiry()}
+            onClick={() => onNavigate('/book-site-visit')}
             className="flex items-center justify-center gap-2 py-3 px-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest rounded-none active:scale-95 transition-transform cursor-pointer"
           >
             <Calendar className="h-4 w-4" />

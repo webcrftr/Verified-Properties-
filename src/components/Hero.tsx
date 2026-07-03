@@ -8,7 +8,6 @@ import { ArrowRight, Phone, MessageSquare, ShieldCheck, MapPin, Award, Building,
 import { BUSINESS_DETAILS } from '../data';
 
 interface HeroProps {
-  onOpenEnquiry: (propertyName?: string) => void;
   onSearch: (filters: {
     location: string;
     category: string;
@@ -17,7 +16,7 @@ interface HeroProps {
   }) => void;
 }
 
-export default function Hero({ onOpenEnquiry, onSearch }: HeroProps) {
+export default function Hero({ onSearch }: HeroProps) {
   const [location, setLocation] = useState('');
   const [category, setCategory] = useState('all');
   const [budgetIndex, setBudgetIndex] = useState(5); // Default to ₹1 Crore+ (unlimited)
@@ -26,7 +25,7 @@ export default function Hero({ onOpenEnquiry, onSearch }: HeroProps) {
   const allLocations = [
     'Naigaon East',
     'Global Arena',
-    'Nakshatra Primus',
+    'Ornate Serenity',
     'Vasai West',
     'Vasai East',
     'Virar East',

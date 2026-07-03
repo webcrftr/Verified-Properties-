@@ -66,6 +66,7 @@ export interface SiteVisit {
   visitDate: string;
   visitTime: string;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  notes?: string;
 }
 
 export interface BusinessSchema {

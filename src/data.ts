@@ -141,6 +141,7 @@ export const PROPERTIES: Property[] = [
       'Pay Only 10% Booking'
     ],
     gallery: [
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-23_at_14.03.41_1_pazzkm.mp4',
       'https://iili.io/CYRGDSS.md.jpg',
       'https://iili.io/CYRWTap.md.jpg',
       'https://iili.io/CYRWoMJ.md.jpg',
@@ -228,6 +229,7 @@ export const PROPERTIES: Property[] = [
       'Excellent Investment Opportunity'
     ],
     gallery: [
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-23_at_14.05.36_d9kq3g.mp4',
       'https://iili.io/CY7w30u.md.jpg',
       'https://iili.io/CY7wFUb.md.jpg',
       'https://iili.io/CY7wfJj.md.jpg'
@@ -312,6 +314,7 @@ export const PROPERTIES: Property[] = [
       'High Investment Potential'
     ],
     gallery: [
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-23_at_14.07.32_eifhqf.mp4',
       'https://iili.io/CY1qMGt.md.jpg',
       'https://iili.io/CY1q1ZN.md.jpg',
       'https://iili.io/CY1qGnI.md.jpg',
@@ -428,6 +431,9 @@ export const PROPERTIES: Property[] = [
       'Shopping Centres Nearby'
     ],
     gallery: [
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-23_at_14.17.12_fz8ctp.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-23_at_14.14.47_oth6k2.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-23_at_14.14.46_yjerxu.mp4',
       'https://iili.io/CYEClPS.md.jpg'
     ],
     configuration: '1 & 2 BHK',
@@ -490,37 +496,216 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: 'prop-007',
-    title: 'Vikas Meadows NA Plot Layout',
-    type: 'land',
+    title: 'DEVIKA AVENUE',
+    builder: 'Devika Developers',
+    type: 'apartment',
     transaction: 'sale',
-    price: '₹1.20 Crores onwards',
-    numericPriceVal: 12000000,
-    priceLabel: '₹1.2 Cr+',
-    location: 'Virar East, Palghar',
-    area: '4,500 Sq.Ft.',
+    price: 'Starting From ₹36.75 Lakhs*',
+    numericPriceVal: 3675000,
+    priceLabel: '₹36.75 L*',
+    location: 'Naigaon West, Palghar',
+    area: '410 - 575 Sq.Ft.',
+    bedrooms: 1,
+    bathrooms: 1,
     reraApproved: true,
-    reraNo: 'P99000109848',
-    constructionStatus: 'AVAILABLE',
-    image: '/src/assets/images/premium_land_plot_1782216288249.jpg',
-    description: 'Fully cleared, Non-Agriculture (NA) certified residential plotting project located in the fast-appreciating green belt of Virar East. Perfect architectural foundation to design independent custom high-end private villas, leisure farmlands, or secure land bank assets. Features wide paved inner roads, central compound gating, and heavy commercial real-estate appreciation potential.',
-    features: ['Clear Title Handover', 'Individual 7/12 Extract Document', 'Fully Compound-Walled Gated boundary', 'Water pipelines connected', 'Underground power layout', 'Proximity to Western Express Highway']
+    reraNo: 'P9900030502',
+    constructionStatus: 'BOOKING OPEN',
+    image: 'https://iili.io/Canu1Vt.md.jpg',
+    description: 'Nestled within a 10-acre integrated land parcel, Devika Avenue is being developed across 2.25 acres, offering spacious homes, quality construction, abundant open spaces, and modern planning for comfortable family living.',
+    features: [
+      'Prime Connectivity',
+      'Spacious Layouts',
+      'Competitive Pricing',
+      'Trusted Developer',
+      'Premium Lifestyle Amenities',
+      'Large Open Spaces'
+    ],
+    gallery: [
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-26_at_13.50.43_txwnbl.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-26_at_13.49.30_ghxehk.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-26_at_13.49.35_kwn3kv.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-26_at_13.49.31_kpmb2u.mp4',
+      'https://iili.io/Canu1Vt.md.jpg',
+      'https://iili.io/CanuMfn.md.jpg',
+      'https://iili.io/CanuVls.md.jpg',
+      'https://iili.io/CanuEiX.md.jpg',
+      'https://iili.io/CanuWUG.md.jpg',
+      'https://iili.io/CanuhJf.md.jpg',
+      'https://iili.io/CanujR4.md.jpg',
+      'https://iili.io/CanuwOl.md.jpg',
+      'https://iili.io/CanuNb2.md.jpg',
+      'https://iili.io/CanuexS.md.jpg',
+      'https://iili.io/CanukW7.md.jpg',
+      'https://iili.io/Canuvs9.md.jpg',
+      'https://iili.io/CanuSfe.md.jpg',
+      'https://iili.io/CanuU0u.md.jpg'
+    ],
+    configuration: '1 & 2 BHK',
+    tower: 'G + 22 Storey Premium Residential Tower',
+    configurations: [
+      { name: '1 BHK', area: '410 Sq.Ft.', price: '₹36.75 Lakhs*' },
+      { name: '2 BHK', area: '505 Sq.Ft.', price: 'On Request' },
+      { name: '2 BHK', area: '575 Sq.Ft.', price: 'On Request' }
+    ],
+    paymentPlans: [
+      { title: '10 : 90 Plan', detail: 'Construction Linked Plan', extra: 'Pay only 10% now. Remaining amount on Possession.' }
+    ],
+    amenities: [
+      { name: 'Indoor Games', icon: 'gamepad' },
+      { name: 'BBQ Area', icon: 'flame' },
+      { name: 'Jogging Track', icon: 'map' },
+      { name: 'Café Lounge', icon: 'coffee' },
+      { name: 'Sit-Out Zones', icon: 'users' },
+      { name: 'Large Open Spaces', icon: 'flower' }
+    ],
+    advantages: [
+      { name: '10 Min from Mumbai-Ahmedabad Hwy', icon: 'map' },
+      { name: '7 Minutes from Naigaon West', icon: 'map' },
+      { name: '1.5 KM from Naigaon Station', icon: 'train' },
+      { name: '5 Min from Juchandra Station', icon: 'train' }
+    ]
   },
   {
     id: 'prop-008',
-    title: 'Nakshatra Primus Plaza Suite',
-    type: 'office',
+    title: 'ORNATE SERENITY',
+    builder: 'Ornate Developers',
+    type: 'apartment',
     transaction: 'sale',
-    price: '₹42 Lakhs onwards',
-    numericPriceVal: 4200000,
-    priceLabel: '₹42 Lakhs+',
-    location: 'Nakshatra Primus, Naigaon East, Palghar',
-    area: '520 Sq.Ft.',
-    reraApproved: true,
-    reraNo: 'P99000021650',
-    constructionStatus: 'UNDER CONSTRUCTION',
-    image: '/src/assets/images/commercial_shop_space_1782216253457.jpg',
-    description: 'Located in the prime business park Nakshatra Primus Commercial Complex. Boasting multi-lift systems, security checkpoints, and fully glazed window fronts. Ideal office location for retail advisors, real-estate investors, financial analysts, and corporate business owners.',
-    features: ['Glass Facade Structure', 'Modern Conference Space', 'Underground Car Parking', '24/7 Backup Electrical Grid', 'Executive Lounge Lobby']
+    price: 'Contact for Best Pricing',
+    numericPriceVal: 0,
+    priceLabel: 'On Request',
+    location: 'Naigaon, Vasai',
+    area: '500 - 835 Sq.Ft.',
+    bedrooms: 1,
+    bathrooms: 1,
+    reraApproved: false,
+    constructionStatus: 'BOOKING OPEN',
+    image: 'https://iili.io/CanlnGp.md.jpg',
+    description: 'ORNATE SERENITY – NAIGAON | VASAI\n\nWhere Elegance Meets Elevated Living.\n\nStand tall in one of the tallest residential towers in the vicinity—an address that redefines prestige, luxury, and modern lifestyle.\n\nDesigned with spacious homes, bigger carpet areas, airy balconies, and thoughtfully planned layouts for comfortable family living.',
+    features: [
+      '32 Storey Landmark Tower',
+      'Bigger Carpet Areas',
+      'Spacious Balconies',
+      'Premium Lifestyle',
+      'Excellent Connectivity',
+      'High Appreciation Potential'
+    ],
+    gallery: [
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-26_at_13.50.43_wm4x0a.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-26_at_13.50.50_zo9biw.mp4',
+      'https://iili.io/CanlnGp.md.jpg',
+      'https://iili.io/CanlzFI.md.jpg',
+      'https://iili.io/CanlfwJ.md.jpg',
+      'https://iili.io/Canlo6N.md.jpg',
+      'https://iili.io/CanlIat.md.jpg',
+      'https://iili.io/CanlT8X.md.jpg',
+      'https://iili.io/CanlA9n.md.jpg',
+      'https://iili.io/CanlRus.md.jpg',
+      'https://iili.io/Canl5wG.md.jpg',
+      'https://iili.io/Canl7tf.md.jpg',
+      'https://iili.io/Canl1FS.md.jpg',
+      'https://iili.io/CanlfwJ.md.jpg',
+      'https://iili.io/Canl7tf.md.jpg',
+      'https://iili.io/CanlEc7.md.jpg',
+      'https://iili.io/CanlGS9.md.jpg'
+    ],
+    configuration: '1 & 3 BHK',
+    tower: '32 Storey Iconic Residential Tower',
+    configurations: [
+      { name: '1 BHK', area: '500 Sq.Ft.', price: 'On Request' },
+      { name: '3 BHK', area: '835 Sq.Ft.', price: 'On Request' }
+    ],
+    paymentPlans: [
+      { title: 'Stamp Duty Benefit', detail: '0% Stamp Duty Offer', extra: 'Save on your acquisition cost with 0% stamp duty.' },
+      { title: 'No EMI Plan', detail: 'No EMI Till Fit-Out Possession', extra: 'Book your dream home and enjoy no EMI pressure until possession.' }
+    ],
+    amenities: [
+      { name: 'Bigger Carpet Areas', icon: 'home' },
+      { name: 'Spacious Balconies', icon: 'sunset' },
+      { name: 'Premium Lifestyle', icon: 'star' },
+      { name: 'Excellent Connectivity', icon: 'map' },
+      { name: 'Iconic 32 Storeys', icon: 'building' },
+      { name: 'High Appreciation', icon: 'trending-up' }
+    ],
+    advantages: [
+      { name: '32 Storey Landmark Tower', icon: 'building' },
+      { name: '30th Slab Successfully Completed', icon: 'check-circle' },
+      { name: 'Located at Naigaon, Vasai', icon: 'map' },
+      { name: 'Premium Lifestyle & Connectivity', icon: 'map' }
+    ]
+  },
+  {
+    id: 'prop-009',
+    title: 'NAKSHATRA VEDA – J & E WING',
+    builder: 'JSB GROUP',
+    type: 'apartment',
+    transaction: 'sale',
+    price: 'Starting From ₹62 Lakhs*',
+    numericPriceVal: 6200000,
+    priceLabel: 'Starting From ₹62 L*',
+    location: 'Madhuban, Vasai East',
+    area: '593 - 943 Sq.Ft. (Carpet)',
+    bedrooms: 2,
+    bathrooms: 2,
+    reraApproved: false,
+    constructionStatus: 'BOOKING OPEN',
+    image: 'https://iili.io/Canu1Vt.md.jpg',
+    description: '🌟 Last Chance to Own Your Premium Home at Nakshatra Veda – J & E Wing, Vasai East!\n\nA prestigious township by JSB Group inside Yashwant Smart City offering premium lifestyle, excellent connectivity, and world-class amenities.',
+    features: [
+      '23 Storey Premium Tower',
+      'Gated Society',
+      'JSB Group Development',
+      'Located inside Yashwant Smart City',
+      '55+ Lifestyle Amenities',
+      '6 Acre Modern Township',
+      'December 2026 Possession',
+      'Premium Residential Community'
+    ],
+    gallery: [
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-06-27_at_13.15.16_oh31cl.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-07-04_at_03.30.52_pgrk55.mp4',
+      'https://res.cloudinary.com/dk9ux64oy/video/upload/WhatsApp_Video_2026-07-04_at_03.31.18_ldoo2o.mp4'
+    ],
+    configuration: '2 & 3 BHK',
+    tower: '23 Storey Premium Tower',
+    configurations: [
+      { name: '2 BHK Premium', area: '593 Sq.Ft. Usable Carpet', price: 'Starting From ₹62 Lakhs*' },
+      { name: '2 BHK Grand', area: '706 Sq.Ft. Carpet', price: 'Starting From ₹66 Lakhs*' },
+      { name: '3 BHK Premium', area: '822 Sq.Ft. Usable Carpet', price: 'Starting From ₹86.30 Lakhs*' },
+      { name: '3 BHK Grand', area: '943 Sq.Ft. Carpet', price: 'Starting From ₹1 Crore*' }
+    ],
+    highlights: [
+      '23 Storey Premium Tower',
+      'Gated Society',
+      'JSB Group Development',
+      'Located inside Yashwant Smart City',
+      '55+ Lifestyle Amenities',
+      '6 Acre Modern Township',
+      'December 2026 Possession',
+      'Premium Residential Community'
+    ],
+    amenities: [
+      { name: '55+ Lifestyle Amenities', icon: 'sparkles' },
+      { name: 'Gated Society Security', icon: 'shield' },
+      { name: '6 Acre Modern Township', icon: 'building' },
+      { name: 'Grand Entrance Lobby', icon: 'smile' },
+      { name: 'State-of-the-Art Gym', icon: 'dumbbell' },
+      { name: 'Landscaped Gardens', icon: 'flower' }
+    ],
+    advantages: [
+      { name: '8 Minutes from Vasai Railway Station', icon: 'train' },
+      { name: '18 Minutes from Mumbai-Ahmedabad Highway', icon: 'map' },
+      { name: 'Schools Nearby', icon: 'graduation-cap' },
+      { name: 'Colleges Nearby', icon: 'graduation-cap' },
+      { name: 'Hospitals Nearby', icon: 'heart-pulse' },
+      { name: 'Shopping Centers Nearby', icon: 'building' },
+      { name: 'Entertainment Hubs Nearby', icon: 'gamepad' }
+    ],
+    paymentPlans: [
+      { title: 'Subvention Scheme', detail: 'Attractive Home Loan Offers', extra: 'Consult with our representatives for detailed calculations.' },
+      { title: 'Builder Approved Plan', detail: 'Flexible Payment Schedules', extra: 'Tailored construction-linked milestones for your comfort.' },
+      { title: 'Special Booking Deal', detail: 'Booking Offers Ongoing', extra: 'Secure preferred units with dynamic booking privileges.' }
+    ]
   }
 ];
 

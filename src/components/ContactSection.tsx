@@ -8,11 +8,9 @@ import { Phone, Mail, MapPin, Send, ShieldCheck, BadgeCheck, Clock, ExternalLink
 import { BUSINESS_DETAILS, PROPERTIES } from '../data';
 import { Inquiry } from '../types';
 
-interface ContactSectionProps {
-  onOpenEnquiry: (propertyName?: string) => void;
-}
+interface ContactSectionProps {}
 
-export default function ContactSection({ onOpenEnquiry }: ContactSectionProps) {
+export default function ContactSection({}: ContactSectionProps) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [property, setProperty] = useState('General Property Consultation');
