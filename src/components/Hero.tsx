@@ -158,19 +158,19 @@ export default function Hero({ onSearch }: HeroProps) {
       </div>
 
       {/* Decorative Gold subtle light beams */}
-      <div className="absolute right-10 top-1/4 w-[500px] h-[500px] bg-[#D4AF37]/5 rounded-full filter blur-[120px] pointer-events-none"></div>
-      <div className="absolute left-10 bottom-1/8 w-[400px] h-[400px] bg-[#D4AF37]/3 rounded-full filter blur-[100px] pointer-events-none"></div>
+      <div className="absolute right-10 top-1/4 w-[500px] h-[500px] bg-[#F4D35E]/5 rounded-full filter blur-[120px] pointer-events-none"></div>
+      <div className="absolute left-10 bottom-1/8 w-[400px] h-[400px] bg-[#F4D35E]/3 rounded-full filter blur-[100px] pointer-events-none"></div>
 
       {/* Hero Content Container */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-20 flex flex-col items-center text-center">
         
         {/* RERA and Trust Ribbon */}
         <div className="inline-flex items-center gap-2 px-5 py-2 bg-white/5 border border-white/10 backdrop-blur-md mb-8 animate-fade-in-up">
-          <Award className="h-4 w-4 text-[#D4AF37]" />
+          <Award className="h-4 w-4 text-[#F4D35E]" />
           <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-white/80">
             Government Approved RERA Consultant: 
           </span>
-          <span className="text-[10px] font-mono font-bold text-[#D4AF37] tracking-wider pl-1 border-l border-white/20 ml-1">
+          <span className="text-[10px] font-mono font-bold text-[#F4D35E] tracking-wider pl-1 border-l border-white/20 ml-1">
             {BUSINESS_DETAILS.reraNo}
           </span>
         </div>
@@ -178,20 +178,20 @@ export default function Hero({ onSearch }: HeroProps) {
         {/* Primary Headline in Editorial style */}
         <h1 className="max-w-4xl text-5xl sm:text-7xl lg:text-8xl font-light font-sans text-white leading-[0.95] tracking-tight mb-8">
           Find Your <br />
-          <span className="font-serif italic font-bold text-[#D4AF37]">Dream Property</span>
+          <span className="font-serif italic font-bold text-[#F4D35E]">Dream Property</span>
         </h1>
 
         {/* Subtitle description */}
         <p className="max-w-2xl text-xs sm:text-base text-white/70 mb-10 leading-relaxed uppercase tracking-wider font-sans font-normal">
           Verified flats, premium commercial spaces, retail shops, and lucrative land plots in 
-          <span className="text-[#D4AF37] font-semibold"> Naigaon, Vasai, Virar, and Palghar</span>. Guided by expert local insights and zero-risk legal checks.
+          <span className="text-[#F4D35E] font-semibold"> Naigaon, Vasai, Virar, and Palghar</span>. Guided by expert local insights and zero-risk legal checks.
         </p>
 
         {/* Interactive Call-To-Action buttons with Editorial layout */}
         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto px-4">
           <button
             onClick={handleScrollToProperties}
-            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300 shadow-md transform hover:-translate-y-0.5 w-full sm:w-auto cursor-pointer"
+            className="flex items-center justify-center gap-2 px-8 py-4 bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300 shadow-md transform hover:-translate-y-0.5 w-full sm:w-auto cursor-pointer"
           >
             <span>View Listings</span>
             <ArrowRight className="h-4 w-4" />
@@ -201,20 +201,20 @@ export default function Hero({ onSearch }: HeroProps) {
             onClick={handleScrollToContact}
             className="flex items-center justify-center gap-2 px-8 py-4 bg-white/5 text-white font-bold text-xs uppercase tracking-widest border border-white/15 hover:bg-white hover:text-[#050B18] transition-colors duration-300 w-full sm:w-auto cursor-pointer"
           >
-            <Phone className="h-4 w-4 text-[#D4AF37]" />
+            <Phone className="h-4 w-4 text-[#F4D35E]" />
             <span>Schedule Consultation</span>
           </button>
         </div>
 
         {/* Floating Property Search Panel */}
         <div className="w-full max-w-[1200px] mt-12 mb-4 px-4 sm:px-0 animate-fade-in-up">
-          <div className="bg-[#0B1320]/90 backdrop-blur-xl border border-[#D4AF37]/35 rounded-[18px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-5 w-full">
+          <div className="bg-[#0B1320]/90 backdrop-blur-xl border border-[#F4D35E]/35 rounded-[18px] shadow-[0_20px_50px_rgba(0,0,0,0.6)] p-5 w-full">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-5 items-center lg:h-[85px] py-2 lg:py-0">
               
               {/* Column 1 — Search Location */}
               <div ref={suggestionsRef} className="lg:col-span-4 space-y-1 text-left relative">
-                <label className="text-[10px] font-bold uppercase text-[#D4AF37] tracking-[0.15em] flex items-center gap-1.5 select-none">
-                  <MapPin className="h-3.5 w-3.5 text-[#D4AF37]" /> Search Location
+                <label className="text-[10px] font-bold uppercase text-[#F4D35E] tracking-[0.15em] flex items-center gap-1.5 select-none">
+                  <MapPin className="h-3.5 w-3.5 text-[#F4D35E]" /> Search Location
                 </label>
                 <div className="relative">
                   <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-white/45 h-3.5 w-3.5" />
@@ -227,7 +227,7 @@ export default function Hero({ onSearch }: HeroProps) {
                       setShowSuggestions(true);
                     }}
                     onFocus={() => setShowSuggestions(true)}
-                    className="w-full pl-9 pr-4 py-2 bg-white/5 text-xs text-white font-medium border border-white/10 rounded-lg focus:border-[#D4AF37] focus:outline-none transition-all placeholder-white/30 h-[40px]"
+                    className="w-full pl-9 pr-4 py-2 bg-white/5 text-xs text-white font-medium border border-white/10 rounded-lg focus:border-[#F4D35E] focus:outline-none transition-all placeholder-white/30 h-[40px]"
                   />
                   
                   {/* Autocomplete Suggestions */}
@@ -240,7 +240,7 @@ export default function Hero({ onSearch }: HeroProps) {
                             setLocation(suggestion);
                             setShowSuggestions(false);
                           }}
-                          className="w-full text-left px-4 py-2 hover:bg-[#D4AF37]/15 hover:text-[#D4AF37] text-xs text-white border-b border-white/5 last:border-b-0 transition-colors cursor-pointer"
+                          className="w-full text-left px-4 py-2 hover:bg-[#FFD54F]/15 hover:text-[#FFD54F] text-xs text-white border-b border-white/5 last:border-b-0 transition-colors cursor-pointer"
                         >
                           {suggestion}
                         </button>
@@ -253,13 +253,13 @@ export default function Hero({ onSearch }: HeroProps) {
 
               {/* Column 2 — Property Category */}
               <div className="lg:col-span-3 space-y-1 text-left">
-                <label className="text-[10px] font-bold uppercase text-[#D4AF37] tracking-[0.15em] flex items-center gap-1.5 select-none">
-                  <Building className="h-3.5 w-3.5 text-[#D4AF37]" /> Property Category
+                <label className="text-[10px] font-bold uppercase text-[#F4D35E] tracking-[0.15em] flex items-center gap-1.5 select-none">
+                  <Building className="h-3.5 w-3.5 text-[#F4D35E]" /> Property Category
                 </label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#050B18] border border-white/10 rounded-lg text-xs text-white/90 font-semibold focus:border-[#D4AF37] focus:outline-none cursor-pointer h-[40px]"
+                  className="w-full px-3 py-2 bg-[#050B18] border border-white/10 rounded-lg text-xs text-white/90 font-semibold focus:border-[#F4D35E] focus:outline-none cursor-pointer h-[40px]"
                 >
                   <option value="all" className="bg-[#0a1122]">All Categories</option>
                   <option value="1 BHK" className="bg-[#0a1122]">1 BHK</option>
@@ -280,10 +280,10 @@ export default function Hero({ onSearch }: HeroProps) {
               {/* Column 3 — Budget */}
               <div className="lg:col-span-3 space-y-1 text-left">
                 <div className="flex justify-between items-center select-none">
-                  <label className="text-[10px] font-bold uppercase text-[#D4AF37] tracking-[0.15em]">
+                  <label className="text-[10px] font-bold uppercase text-[#F4D35E] tracking-[0.15em]">
                     Budget
                   </label>
-                  <span className="text-[11px] font-bold text-[#D4AF37] bg-[#D4AF37]/10 px-2 py-0.5 rounded">
+                  <span className="text-[11px] font-bold text-[#F4D35E] bg-[#F4D35E]/10 px-2 py-0.5 rounded">
                     {budgetLabels[budgetIndex]}
                   </span>
                 </div>
@@ -295,7 +295,7 @@ export default function Hero({ onSearch }: HeroProps) {
                     step="1"
                     value={budgetIndex}
                     onChange={(e) => setBudgetIndex(parseInt(e.target.value))}
-                    className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#D4AF37]"
+                    className="w-full h-1.5 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#F4D35E]"
                   />
                 </div>
                 <div className="flex justify-between text-[8px] text-white/40 pt-0.5 select-none font-mono">
@@ -309,7 +309,7 @@ export default function Hero({ onSearch }: HeroProps) {
               <div className="lg:col-span-2 pt-2 lg:pt-3">
                 <button
                   onClick={handleFindProperties}
-                  className="w-full h-[44px] bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:scale-[1.03] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer outline-none"
+                  className="w-full h-[44px] bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest rounded-lg transition-all duration-300 shadow-md hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transform hover:scale-[1.03] active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer outline-none"
                 >
                   <Search className="h-4 w-4" />
                   <span>FIND PROPERTIES</span>
@@ -322,7 +322,7 @@ export default function Hero({ onSearch }: HeroProps) {
 
         {/* Popular Areas Pills */}
         <div className="mt-4 mb-4 flex flex-wrap items-center justify-center gap-2 max-w-4xl px-4 animate-fade-in-up">
-          <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider mr-2 select-none">
+          <span className="text-[10px] font-bold text-[#F4D35E] uppercase tracking-wider mr-2 select-none">
             Popular Areas
           </span>
           {[
@@ -339,7 +339,7 @@ export default function Hero({ onSearch }: HeroProps) {
             <button
               key={idx}
               onClick={() => handlePopularAreaClick(area)}
-              className="px-3 py-1.5 bg-white/5 border border-white/10 hover:border-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#050B18] text-[11px] font-medium text-white/80 rounded-full transition-all duration-300 cursor-pointer shadow-sm select-none"
+              className="px-3 py-1.5 bg-white/5 border border-white/10 hover:border-[#FFD54F] hover:bg-[#FFD54F] hover:text-[#050B18] text-[11px] font-medium text-white/80 rounded-full transition-all duration-300 cursor-pointer shadow-sm select-none"
             >
               {area}
             </button>
@@ -360,7 +360,7 @@ export default function Hero({ onSearch }: HeroProps) {
                 i < 3 ? 'border-b md:border-b-0 md:border-r border-white/10' : 'border-b md:border-b-0 border-white/10 sm:border-b-0'
               }`}
             >
-              <span className="text-3xl sm:text-4xl font-serif italic font-bold text-[#D4AF37] mb-2">{stat.value}</span>
+              <span className="text-3xl sm:text-4xl font-serif italic font-bold text-[#F4D35E] mb-2">{stat.value}</span>
               <span className="text-[10px] font-bold text-white uppercase tracking-[0.15em] mb-1 text-center">{stat.label}</span>
               <span className="text-[9px] uppercase tracking-wider text-white/50 text-center">{stat.detail}</span>
             </div>
@@ -369,24 +369,24 @@ export default function Hero({ onSearch }: HeroProps) {
 
         {/* Key quick locations markers */}
         <div className="mt-12 flex flex-wrap items-center justify-center gap-6 text-white/40 text-[10px] tracking-widest uppercase">
-          <span className="text-[#D4AF37] font-semibold">OUR PRIME FOCUS AREAS:</span>
+          <span className="text-[#F4D35E] font-semibold">OUR PRIME FOCUS AREAS:</span>
           <div className="flex items-center gap-1 font-medium text-white/80">
-            <MapPin className="h-3 w-3 text-[#D4AF37]" />
+            <MapPin className="h-3 w-3 text-[#F4D35E]" />
             <span>Naigaon East</span>
           </div>
           <div className="w-1 h-1 bg-white/20 rounded-full"></div>
           <div className="flex items-center gap-1 font-medium text-white/80">
-            <MapPin className="h-3 w-3 text-[#D4AF37]" />
+            <MapPin className="h-3 w-3 text-[#F4D35E]" />
             <span>Vasai</span>
           </div>
           <div className="w-1 h-1 bg-white/20 rounded-full"></div>
           <div className="flex items-center gap-1 font-medium text-white/80">
-            <MapPin className="h-3 w-3 text-[#D4AF37]" />
+            <MapPin className="h-3 w-3 text-[#F4D35E]" />
             <span>Virar</span>
           </div>
           <div className="w-1 h-1 bg-white/20 rounded-full"></div>
           <div className="flex items-center gap-1 font-medium text-white/80">
-            <MapPin className="h-3 w-3 text-[#D4AF37]" />
+            <MapPin className="h-3 w-3 text-[#F4D35E]" />
             <span>Palghar Suburbs</span>
           </div>
         </div>

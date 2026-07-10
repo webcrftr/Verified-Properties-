@@ -113,7 +113,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
     <div className="bg-[#050B18] text-white min-h-screen">
       
       {/* Premium Hero Section */}
-      <div className="relative pt-36 pb-20 bg-[#020610] border-b border-[#D4AF37]/15 overflow-hidden">
+      <div className="relative pt-36 pb-20 bg-[#020610] border-b border-[#F7E7A1]/15 overflow-hidden">
         <div className="absolute inset-0 opacity-15">
           <img
             src="/src/assets/images/verified_properties_hero_1782216213939.jpg"
@@ -125,9 +125,9 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
-          <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.25em] font-bold">Premium Advisory</span>
+          <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.25em] font-bold">Premium Advisory</span>
           <h1 className="text-4xl sm:text-5xl font-light font-serif mt-2 text-white">
-            Property <span className="italic font-bold text-[#D4AF37]">Enquiry Desk</span>
+            Property <span className="italic font-bold text-[#F4D35E]">Enquiry Desk</span>
           </h1>
           <p className="mt-4 max-w-xl text-xs sm:text-sm text-white/60 font-sans uppercase tracking-wider leading-relaxed">
             Submit your coordinates or directly dial our advisory board to receive prompt, verified legal representations.
@@ -142,11 +142,11 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
           <div className="lg:col-span-6 flex flex-col justify-between space-y-8">
             
             <div className="space-y-6">
-              <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.2em] font-bold block">
+              <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.2em] font-bold block">
                 AGENCY ADVISORS
               </span>
               <h3 className="text-2xl font-light font-serif text-white">
-                Contact <span className="italic font-bold text-[#D4AF37]">Information</span>
+                Contact <span className="italic font-bold text-[#F4D35E]">Information</span>
               </h3>
               <p className="text-xs sm:text-sm text-white/50 leading-relaxed font-sans">
                 Our consultancy verifies 100% of titles through our 30-year documentation validation checking. Reach out to secure authentic property bookings.
@@ -156,7 +156,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <a
                   href={`tel:+91${BUSINESS_DETAILS.phone}`}
-                  className="flex items-center justify-center gap-2 py-3 px-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer shadow-md"
+                  className="flex items-center justify-center gap-2 py-3 px-4 bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer shadow-md"
                 >
                   <Phone className="h-4 w-4" />
                   <span>Call: +91 {BUSINESS_DETAILS.phone}</span>
@@ -177,7 +177,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
             {/* Address Bar */}
             <div className="p-6 bg-[#0a1122] border border-white/10">
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-[#050B18] text-[#D4AF37] border border-white/10 flex-shrink-0">
+                <div className="p-3 bg-[#050B18] text-[#F4D35E] border border-white/10 flex-shrink-0">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
@@ -187,7 +187,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                     {BUSINESS_DETAILS.address.landmark}, {BUSINESS_DETAILS.address.area},<br />
                     {BUSINESS_DETAILS.address.city} - {BUSINESS_DETAILS.address.zip}
                   </p>
-                  <p className="text-[10px] text-[#D4AF37] mt-3 font-mono flex items-center gap-1.5 uppercase tracking-wider">
+                  <p className="text-[10px] text-[#F4D35E] mt-3 font-mono flex items-center gap-1.5 uppercase tracking-wider">
                     <Clock className="h-3.5 w-3.5" />
                     <span>Hrs: 10:00 AM - 08:30 PM (Closed Thursdays)</span>
                   </p>
@@ -213,7 +213,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                   href="https://maps.app.goo.gl/9P7vE9G1Bw1uKz1D7"
                   target="_blank"
                   rel="noreferrer"
-                  className="p-1 hover:text-[#D4AF37] transition-colors"
+                  className="p-1 hover:text-[#FFD54F] transition-colors"
                 >
                   <ExternalLink className="h-3 w-3" />
                 </a>
@@ -222,14 +222,14 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
 
             {/* RERA disclaimer */}
             <div className="p-4 bg-white/5 border border-white/10 text-[10px] text-white/50 leading-relaxed font-mono">
-              <span className="text-[#D4AF37] font-bold">📢 RERA DISCLAIMER:</span> {BUSINESS_DETAILS.name} is a registered real estate broker under MahaRERA Reg No: <strong className="text-[#D4AF37]">{BUSINESS_DETAILS.reraNo}</strong>. All listed assets and structural metrics are pre-screened to secure legal security.
+              <span className="text-[#F4D35E] font-bold">📢 RERA DISCLAIMER:</span> {BUSINESS_DETAILS.name} is a registered real estate broker under MahaRERA Reg No: <strong className="text-[#F4D35E]">{BUSINESS_DETAILS.reraNo}</strong>. All listed assets and structural metrics are pre-screened to secure legal security.
             </div>
 
           </div>
 
           {/* Column 2: Elegant Glassmorphic Enquiry Form */}
           <div className="lg:col-span-6">
-            <div className="bg-[#0a1122] border border-[#D4AF37]/20 p-6 sm:p-10 backdrop-blur-md flex flex-col justify-between h-full">
+            <div className="bg-[#0a1122] border border-[#F7E7A1]/20 p-6 sm:p-10 backdrop-blur-md flex flex-col justify-between h-full">
               
               {isSubmitted ? (
                 <div className="py-16 text-center space-y-6">
@@ -250,7 +250,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                     </button>
                     <button
                       onClick={() => onNavigate('/')}
-                      className="px-6 py-2.5 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors cursor-pointer"
+                      className="px-6 py-2.5 bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors cursor-pointer"
                     >
                       Back To Home
                     </button>
@@ -259,11 +259,11 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <span className="text-[#D4AF37] text-[10px] font-mono tracking-widest uppercase block mb-1">
+                    <span className="text-[#F4D35E] text-[10px] font-mono tracking-widest uppercase block mb-1">
                       SECURE APPLICATION
                     </span>
                     <h3 className="text-2xl font-light font-serif text-white">
-                      Enquire <span className="italic font-bold text-[#D4AF37]">About Property</span>
+                      Enquire <span className="italic font-bold text-[#F4D35E]">About Property</span>
                     </h3>
                   </div>
 
@@ -281,7 +281,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                     <select
                       value={selectedProperty}
                       onChange={(e) => setSelectedProperty(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#D4AF37] focus:outline-none cursor-pointer"
+                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#F4D35E] focus:outline-none cursor-pointer"
                     >
                       <option value="General Real-Estate Inquiry" className="bg-[#0a1122]">General Real-Estate Inquiry</option>
                       {PROPERTIES.map((p) => (
@@ -305,7 +305,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                       placeholder="e.g. Sameer Kulkarni"
                       value={clientName}
                       onChange={(e) => setClientName(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                     />
                   </div>
 
@@ -315,7 +315,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                       Mobile Number *
                     </label>
                     <div className="relative">
-                      <span className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#D4AF37] text-xs font-mono">
+                      <span className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#F4D35E] text-xs font-mono">
                         +91
                       </span>
                       <input
@@ -325,7 +325,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                         placeholder="7020913759"
                         value={clientPhone}
                         onChange={(e) => setClientPhone(e.target.value)}
-                        className="w-full pl-12 pr-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                        className="w-full pl-12 pr-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                       />
                     </div>
                   </div>
@@ -340,7 +340,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                       placeholder="e.g. sameer@gmail.com"
                       value={clientEmail}
                       onChange={(e) => setClientEmail(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                     />
                   </div>
 
@@ -355,7 +355,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                       placeholder="e.g. Mumbai"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                     />
                   </div>
 
@@ -367,7 +367,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                     <select
                       value={budget}
                       onChange={(e) => setBudget(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#D4AF37] focus:outline-none cursor-pointer"
+                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#F4D35E] focus:outline-none cursor-pointer"
                     >
                       <option value="Under ₹30 Lakhs" className="bg-[#0a1122]">Under ₹30 Lakhs</option>
                       <option value="₹30 - ₹40 Lakhs" className="bg-[#0a1122]">₹30 - ₹40 Lakhs</option>
@@ -389,7 +389,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                       placeholder="Specify configurations, required floor, preferred payment structures..."
                       value={clientMessage}
                       onChange={(e) => setClientMessage(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                     ></textarea>
                   </div>
 
@@ -397,7 +397,7 @@ export default function EnquiryPage({ onNavigate }: EnquiryPageProps) {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <span className="animate-pulse">PROCESSING ENQUIRY...</span>

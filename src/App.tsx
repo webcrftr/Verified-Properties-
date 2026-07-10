@@ -219,9 +219,9 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#D4AF37]/15">
+            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#F7E7A1]/15">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.25em] font-bold">Exclusive Portfolio</span>
+                <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.25em] font-bold">Exclusive Portfolio</span>
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Active Verified Listings</h1>
               </div>
             </div>
@@ -240,9 +240,9 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#D4AF37]/15">
+            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#F7E7A1]/15">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.25em] font-bold">Corporate Departments</span>
+                <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.25em] font-bold">Corporate Departments</span>
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Our Consulting Services</h1>
               </div>
             </div>
@@ -258,9 +258,9 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#D4AF37]/15">
+            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#F7E7A1]/15">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.25em] font-bold">Our Guarantees</span>
+                <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.25em] font-bold">Our Guarantees</span>
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Why Buyers Trust Us</h1>
               </div>
             </div>
@@ -276,9 +276,9 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#D4AF37]/15">
+            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#F7E7A1]/15">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.25em] font-bold">Agency Credentials</span>
+                <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.25em] font-bold">Agency Credentials</span>
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">About the Consultant</h1>
               </div>
             </div>
@@ -294,9 +294,9 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#D4AF37]/15">
+            <div className="pt-28 pb-10 bg-[#020610] border-b border-[#F7E7A1]/15">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.25em] font-bold">Office Terminal</span>
+                <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.25em] font-bold">Office Terminal</span>
                 <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Contact Agency Details</h1>
               </div>
             </div>
@@ -334,7 +334,7 @@ export default function App() {
             <p className="text-xs text-white/50 mt-2">The path does not map to any active premium listings section.</p>
             <button
               onClick={() => navigate('/')}
-              className="mt-6 px-6 py-2.5 bg-[#D4AF37] text-[#050B18] text-xs font-mono font-bold uppercase tracking-widest hover:bg-[#EEF4F8] transition-colors cursor-pointer"
+              className="mt-6 px-6 py-2.5 bg-[#F4D35E] text-[#050B18] text-xs font-mono font-bold uppercase tracking-widest hover:bg-[#EEF4F8] transition-colors cursor-pointer"
             >
               Back to Home
             </button>
@@ -344,7 +344,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#050B18] text-white selection:bg-[#D4AF37] selection:text-[#050B18]">
+    <div className="min-h-screen flex flex-col justify-between bg-[#050B18] text-white selection:bg-[#F4D35E] selection:text-[#050B18]">
       
       {/* 1. Header with dynamic navigation */}
       <Header
@@ -360,30 +360,30 @@ export default function App() {
       </main>
 
       {/* 3. Global Footer with RERA registration details & sitemap mappings */}
-      <footer className="bg-[#020610] border-t border-[#D4AF37]/15 pt-16 pb-24 sm:pb-12 text-[#EEF4F8]/70 text-sm mt-auto select-none">
+      <footer className="bg-[#020610] border-t border-[#F7E7A1]/15 pt-16 pb-24 sm:pb-12 text-[#EEF4F8]/70 text-sm mt-auto select-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-10">
           
           {/* Column 1: Info */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-              <div className="bg-[#D4AF37] p-1.5 text-[#050B18] tracking-widest font-bold">
+              <div className="bg-[#F4D35E] p-1.5 text-[#050B18] tracking-widest font-bold">
                 <ShieldCheck className="h-5 w-5 stroke-[2]" />
               </div>
-              <span className="text-xl font-bold tracking-tighter text-[#D4AF37] font-serif italic">
+              <span className="text-xl font-bold tracking-tighter text-[#F4D35E] font-serif italic">
                 VERIFIED<span className="text-white font-sans not-italic font-bold tracking-tight text-sm ml-1">PROPERTIES</span>
               </span>
             </div>
             <p className="text-xs leading-relaxed max-w-sm text-white/60 font-sans">
               {BUSINESS_DETAILS.description}
             </p>
-            <p className="text-xs text-[#D4AF37] font-mono tracking-wide leading-relaxed">
+            <p className="text-xs text-[#F4D35E] font-mono tracking-wide leading-relaxed">
               📢 Registered under Maharashtra Real Estate Regulatory Authority.
             </p>
           </div>
 
           {/* Column 2: Mapped sitemap links */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#D4AF37] font-mono">Sitemap</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F4D35E] font-mono">Sitemap</h4>
             <ul className="space-y-2 text-xs">
               {[
                 { label: 'Home Page', path: '/' },
@@ -409,20 +409,20 @@ export default function App() {
 
           {/* Column 3: Contact layout summary */}
           <div className="md:col-span-4 space-y-3 border-t md:border-t-0 border-white/5 pt-6 md:pt-0">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#D4AF37] font-mono">Contact Details</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F4D35E] font-mono">Contact Details</h4>
             <div className="space-y-2 text-xs leading-relaxed text-white/80 font-sans">
               <p className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-[#D4AF37] flex-shrink-0 mt-0.5" />
+                <MapPin className="h-4 w-4 text-[#F4D35E] flex-shrink-0 mt-0.5" />
                 <span>{BUSINESS_DETAILS.address.shop}, Near Global Arena, Naigaon East, Palghar, Maharashtra - 401208</span>
               </p>
               <p className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-[#D4AF37]" />
-                <a href={`tel:+91${BUSINESS_DETAILS.phone}`} className="hover:underline text-[#D4AF37] font-bold">
+                <Phone className="h-4 w-4 text-[#F4D35E]" />
+                <a href={`tel:+91${BUSINESS_DETAILS.phone}`} className="hover:underline text-[#F4D35E] font-bold">
                   +91 {BUSINESS_DETAILS.phone} (Mansi Gaikwad)
                 </a>
               </p>
               <p className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-[#D4AF37]" />
+                <Mail className="h-4 w-4 text-[#F4D35E]" />
                 <a href={`mailto:${BUSINESS_DETAILS.email}`} className="hover:underline">
                   {BUSINESS_DETAILS.email}
                 </a>
@@ -440,7 +440,7 @@ export default function App() {
           </div>
           
           <div className="flex items-center gap-4 text-white/40">
-            <span className="text-[#D4AF37] font-bold">RERA Registration: {BUSINESS_DETAILS.reraNo}</span>
+            <span className="text-[#F4D35E] font-bold">RERA Registration: {BUSINESS_DETAILS.reraNo}</span>
           </div>
         </div>
       </footer>

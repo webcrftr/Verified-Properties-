@@ -102,7 +102,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
         {/* Header Board */}
         <div className="bg-[#050B18] p-6 text-white flex items-center justify-between border-b border-white/10">
           <div className="flex items-center gap-2.5">
-            <div className="p-2.5 bg-[#D4AF37]/10 border border-[#D4AF37]/30 text-[#D4AF37]">
+            <div className="p-2.5 bg-[#F7E7A1]/10 border border-[#F7E7A1]/30 text-[#F7E7A1]">
               <ClipboardCheck className="h-5 w-5" />
             </div>
             <div>
@@ -113,7 +113,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
           
           <button
             onClick={onClose}
-            className="p-1.5 bg-white/5 border border-white/10 text-white hover:bg-[#D4AF37] hover:text-[#050B18] cursor-pointer"
+            className="p-1.5 bg-white/5 border border-white/10 text-white hover:bg-[#FFD54F] hover:text-[#050B18] cursor-pointer"
             aria-label="Close panel"
           >
             <X className="h-4 w-4" />
@@ -131,7 +131,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
               }}
               className={`flex-grow sm:flex-grow-0 px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'inquiry'
-                  ? 'bg-[#D4AF37] text-[#050B18]'
+                  ? 'bg-[#F4D35E] text-[#050B18]'
                   : 'text-white/60 hover:text-white'
               }`}
             >
@@ -144,7 +144,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
               }}
               className={`flex-grow sm:flex-grow-0 px-4 py-2 text-[10px] font-bold uppercase tracking-wider transition-all cursor-pointer ${
                 activeTab === 'visit'
-                  ? 'bg-[#D4AF37] text-[#050B18]'
+                  ? 'bg-[#F4D35E] text-[#050B18]'
                   : 'text-white/60 hover:text-white'
               }`}
             >
@@ -153,13 +153,13 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
           </div>
 
           <div className="relative w-full sm:w-48">
-            <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-[#D4AF37] h-3.5 w-3.5" />
+            <Search className="absolute left-2.5 top-1/2 transform -translate-y-1/2 text-[#F4D35E] h-3.5 w-3.5" />
             <input
               type="text"
               placeholder="Search leads..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-8 pr-3 py-1.5 bg-[#0a1122] text-xs text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/30 font-medium"
+              className="w-full pl-8 pr-3 py-1.5 bg-[#0a1122] text-xs text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/30 font-medium"
             />
           </div>
 
@@ -169,7 +169,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
         <div className="bg-[#050B18] flex-grow overflow-y-auto p-6 space-y-5">
           
           {/* Header instructions */}
-          <div className="p-4 bg-[#D4AF37]/5 border border-[#D4AF37]/20 text-[#D4AF37] text-[10px] uppercase font-mono tracking-wider leading-relaxed">
+          <div className="p-4 bg-[#F7E7A1]/5 border border-[#F7E7A1]/20 text-[#F7E7A1] text-[10px] uppercase font-mono tracking-wider leading-relaxed">
             💡 <strong>Simulation Workspace:</strong> This workspace acts as a real database for Mansi Gaikwad’s leads. Submitting forms on the home-screen will inject them here instantly. Data remains 100% locally saved on your browser local storage keys.
           </div>
 
@@ -187,7 +187,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
               filteredInquiries.map((inq) => (
                 <div
                   key={inq.id}
-                  className="bg-[#0a1122] p-5 border border-white/10 hover:border-[#D4AF37]/35 relative group space-y-4 rounded-none"
+                  className="bg-[#0a1122] p-5 border border-white/10 hover:border-[#FFD54F]/35 relative group space-y-4 rounded-none"
                 >
                   {/* Title and Top Row */}
                   <div className="flex items-start justify-between">
@@ -204,7 +204,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
                           {inq.status}
                         </span>
                       </div>
-                      <p className="text-[9px] text-[#D4AF37] font-mono mt-0.5 uppercase tracking-wider">{inq.timestamp}</p>
+                      <p className="text-[9px] text-[#F4D35E] font-mono mt-0.5 uppercase tracking-wider">{inq.timestamp}</p>
                     </div>
 
                     <div className="flex items-center gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
@@ -221,7 +221,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
                   {/* Target Asset Indicator */}
                   {inq.propertyName && (
                     <div className="px-3 py-2 bg-white/5 text-white text-[11px] border border-white/5 font-mono uppercase tracking-wider max-w-full truncate">
-                      🏢 Asset: <span className="font-semibold text-[#D4AF37]">{inq.propertyName}</span>
+                      🏢 Asset: <span className="font-semibold text-[#F4D35E]">{inq.propertyName}</span>
                     </div>
                   )}
 
@@ -233,12 +233,12 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
                   {/* Action buttons bar */}
                   <div className="border-t border-white/10 pt-3 flex flex-wrap gap-3 items-center justify-between text-[11px]">
                     <div className="flex items-center gap-3 text-white/40 font-mono text-[10px] uppercase tracking-wider">
-                      <a href={`tel:+91${inq.clientPhone}`} className="flex items-center gap-1 hover:text-[#D4AF37] font-semibold">
+                      <a href={`tel:+91${inq.clientPhone}`} className="flex items-center gap-1 hover:text-[#FFD54F] font-semibold">
                         <Phone className="h-3 w-3" />
                         <span>+91 {inq.clientPhone}</span>
                       </a>
                       {inq.clientEmail && (
-                        <a href={`mailto:${inq.clientEmail}`} className="flex items-center gap-1 hover:text-[#D4AF37] font-semibold truncate max-w-[120px]">
+                        <a href={`mailto:${inq.clientEmail}`} className="flex items-center gap-1 hover:text-[#FFD54F] font-semibold truncate max-w-[120px]">
                           <Mail className="h-3 w-3" />
                           <span>{inq.clientEmail}</span>
                         </a>
@@ -248,13 +248,13 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
                     <div className="flex gap-1.5">
                       <button
                         onClick={() => handleInquiryStatus(inq.id, 'contacted')}
-                        className="px-2 py-1 bg-[#050B18] hover:border-[#D4AF37] text-white/80 font-bold text-[8px] uppercase tracking-wider border border-white/10 cursor-pointer"
+                        className="px-2 py-1 bg-[#050B18] hover:border-[#FFD54F] text-white/80 font-bold text-[8px] uppercase tracking-wider border border-white/10 cursor-pointer"
                       >
                         Contacted
                       </button>
                       <button
                         onClick={() => handleInquiryStatus(inq.id, 'archived')}
-                        className="px-2 py-1 bg-[#050B18] hover:border-[#D4AF37] text-white/50 font-bold text-[8px] uppercase tracking-wider border border-white/10 cursor-pointer"
+                        className="px-2 py-1 bg-[#050B18] hover:border-[#FFD54F] text-white/50 font-bold text-[8px] uppercase tracking-wider border border-white/10 cursor-pointer"
                       >
                         Archive
                       </button>
@@ -278,7 +278,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
               filteredVisits.map((vst) => (
                 <div
                   key={vst.id}
-                  className="bg-[#0a1122] p-5 border border-white/10 hover:border-[#D4AF37]/35 relative group space-y-4 rounded-none"
+                  className="bg-[#0a1122] p-5 border border-white/10 hover:border-[#FFD54F]/35 relative group space-y-4 rounded-none"
                 >
                   <div className="flex items-start justify-between">
                     <div>
@@ -314,7 +314,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
                   <div className="grid grid-cols-2 gap-2 bg-[#050B18] p-3 border border-white/5 text-[11px] font-mono text-white/80">
                     <div>
                       <span className="text-[8px] uppercase text-white/30 block tracking-wider">Target Property</span>
-                      <span className="truncate block font-semibold text-[#D4AF37]">{vst.propertyName}</span>
+                      <span className="truncate block font-semibold text-[#F4D35E]">{vst.propertyName}</span>
                     </div>
                     <div>
                       <span className="text-[8px] uppercase text-white/30 block tracking-wider">Visit Slot Schedule</span>
@@ -324,7 +324,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
 
                   {/* Operational status transition buttons */}
                   <div className="border-t border-white/10 pt-3 flex flex-wrap gap-2 items-center justify-between text-[11px]">
-                    <a href={`tel:+91${vst.clientPhone}`} className="flex items-center gap-1 hover:text-[#D4AF37] font-bold text-white/40 font-mono uppercase text-[10px] tracking-wider">
+                    <a href={`tel:+91${vst.clientPhone}`} className="flex items-center gap-1 hover:text-[#FFD54F] font-bold text-white/40 font-mono uppercase text-[10px] tracking-wider">
                       <Phone className="h-3 w-3" />
                       <span>+91 {vst.clientPhone}</span>
                     </a>
@@ -332,7 +332,7 @@ export default function AdminLeadsDrawer({ isOpen, onClose }: AdminLeadsDrawerPr
                     <div className="flex gap-1.5">
                       <button
                         onClick={() => handleVisitStatus(vst.id, 'confirmed')}
-                        className="px-2 py-0.5 bg-[#050B18] text-white/60 hover:text-white border border-white/10 hover:border-[#D4AF37] text-[8px] uppercase font-bold tracking-wider cursor-pointer"
+                        className="px-2 py-0.5 bg-[#050B18] text-white/60 hover:text-white border border-white/10 hover:border-[#FFD54F] text-[8px] uppercase font-bold tracking-wider cursor-pointer"
                       >
                         Confirm
                       </button>

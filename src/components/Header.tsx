@@ -61,7 +61,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
           <div className="flex items-center gap-1.5 text-white/85">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="font-semibold text-white">MahaRERA Agent Reg No:</span>
-            <span className="text-[#D4AF37] font-mono font-bold tracking-wider">{BUSINESS_DETAILS.reraNo}</span>
+            <span className="text-[#F4D35E] font-mono font-bold tracking-wider">{BUSINESS_DETAILS.reraNo}</span>
           </div>
           
           <div className="flex items-center gap-4 text-white/60 font-mono text-[9px] sm:text-xs">
@@ -75,7 +75,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
       {/* 2. MAIN LOGO & NAVIGATION ROW */}
       <div className={`transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#050B18]/95 backdrop-blur-md border-b border-[#D4AF37]/15 py-2.5'
+          ? 'bg-[#050B18]/95 backdrop-blur-md border-b border-[#F7E7A1]/15 py-2.5'
           : 'bg-[#050B18]/80 backdrop-blur-sm border-b border-white/5 py-4'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,14 +86,14 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
               className="flex items-center gap-2.5 cursor-pointer select-none group" 
               onClick={() => handleLinkClick('/')}
             >
-              <div className="bg-[#D4AF37] h-10 w-10 flex items-center justify-center font-bold font-serif text-[#050B18] text-lg shadow-md transition-transform group-hover:scale-105">
+              <div className="bg-[#F4D35E] h-10 w-10 flex items-center justify-center font-bold font-serif text-[#050B18] text-lg shadow-md transition-transform group-hover:scale-105">
                 VP
               </div>
               <div className="flex flex-col">
                 <span className="text-sm sm:text-base font-extrabold tracking-widest text-white leading-none uppercase font-sans">
                   VERIFIED PROPERTIES
                 </span>
-                <span className="text-[7.5px] sm:text-[8px] tracking-[0.16em] text-[#D4AF37] uppercase font-mono mt-1 whitespace-nowrap">
+                <span className="text-[7.5px] sm:text-[8px] tracking-[0.16em] text-[#F4D35E] uppercase font-mono mt-1 whitespace-nowrap">
                   REAL ESTATE & INVESTMENT CONSULTANT
                 </span>
               </div>
@@ -110,13 +110,13 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
                       onClick={() => handleLinkClick(item.path)}
                       className={`text-xs font-bold uppercase tracking-widest transition-all cursor-pointer relative py-1 bg-transparent ${
                         active 
-                          ? 'text-[#D4AF37]' 
-                          : 'text-white/80 hover:text-[#D4AF37]'
+                          ? 'text-[#F4D35E]' 
+                          : 'text-white/80 hover:text-[#FFD54F]'
                       }`}
                     >
                       {item.name}
                       {/* Active line transition indicator */}
-                      <span className={`absolute bottom-0 left-0 h-[1.5px] bg-[#D4AF37] transition-all duration-300 ${
+                      <span className={`absolute bottom-0 left-0 h-[1.5px] bg-[#F4D35E] transition-all duration-300 ${
                         active ? 'w-full' : 'w-0 hover:w-full'
                       }`}></span>
                     </button>
@@ -140,7 +140,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
               {/* Callback Button CTA */}
               <button
                 onClick={() => handleLinkClick('/enquiry')}
-                className="px-4 py-2 bg-[#D4AF37] text-[#050B18] hover:bg-white hover:text-black font-extrabold text-[10px] uppercase tracking-widest transition-colors cursor-pointer shadow-sm"
+                className="px-4 py-2 bg-[#F4D35E] text-[#050B18] hover:bg-white hover:text-black font-extrabold text-[10px] uppercase tracking-widest transition-colors cursor-pointer shadow-sm"
               >
                 REQUEST CALL BACK
               </button>
@@ -158,14 +158,14 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
 
               <button
                 onClick={() => handleLinkClick('/enquiry')}
-                className="px-2.5 py-1.5 bg-[#D4AF37] text-[#050B18] text-[9px] font-bold uppercase tracking-wider cursor-pointer"
+                className="px-2.5 py-1.5 bg-[#F4D35E] text-[#050B18] text-[9px] font-bold uppercase tracking-wider cursor-pointer"
               >
                 Enquire
               </button>
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="p-1 px-1.5 border border-white/10 text-white hover:bg-white/5 hover:border-[#D4AF37]/50 cursor-pointer"
+                className="p-1 px-1.5 border border-white/10 text-white hover:bg-white/5 hover:border-[#FFD54F]/50 cursor-pointer"
               >
                 {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
               </button>
@@ -177,7 +177,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
 
       {/* Mobile Drawer Overlay */}
       {isOpen && (
-        <div className="lg:hidden animate-fade-in fixed inset-x-0 top-[100px] bg-[#050B18] border-b border-[#D4AF37]/20 shadow-2xl py-6 px-4 flex flex-col gap-5 z-40 max-h-[calc(100vh-100px)] overflow-y-auto">
+        <div className="lg:hidden animate-fade-in fixed inset-x-0 top-[100px] bg-[#050B18] border-b border-[#F7E7A1]/20 shadow-2xl py-6 px-4 flex flex-col gap-5 z-40 max-h-[calc(100vh-100px)] overflow-y-auto">
           {/* Main Links */}
           <div className="grid grid-cols-2 gap-3">
             {navItems.map((item) => {
@@ -188,8 +188,8 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
                   onClick={() => handleLinkClick(item.path)}
                   className={`py-3 px-4 uppercase tracking-wider text-left font-bold text-xs transition-all border bg-transparent cursor-pointer ${
                     active
-                      ? 'bg-[#D4AF37]/10 text-[#D4AF37] border-[#D4AF37]/40'
-                      : 'bg-white/5 text-[#EEF4F8] hover:text-[#D4AF37] border-white/5 hover:border-[#D4AF37]/20'
+                      ? 'bg-[#F4D35E]/10 text-[#F4D35E] border-[#F7E7A1]/40'
+                      : 'bg-white/5 text-[#EEF4F8] hover:text-[#FFD54F] border-white/5 hover:border-[#FFD54F]/20'
                   }`}
                 >
                   {item.name}
@@ -204,7 +204,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
           <div className="flex flex-col gap-3">
             <a
               href={`tel:+91${BUSINESS_DETAILS.phone}`}
-              className="flex items-center justify-between px-4 py-3 bg-[#D4AF37] text-[#050B18] font-bold uppercase text-xs tracking-wider"
+              className="flex items-center justify-between px-4 py-3 bg-[#F4D35E] text-[#050B18] font-bold uppercase text-xs tracking-wider"
             >
               <div className="flex items-center gap-2">
                 <Phone className="h-4 w-4" />
@@ -217,7 +217,7 @@ export default function Header({ currentPath, onNavigate }: HeaderProps) {
               href={`mailto:${BUSINESS_DETAILS.email}`}
               className="flex items-center gap-3 px-4 py-3 bg-white/5 border border-white/10 text-white text-xs"
             >
-              <Mail className="h-4 w-4 text-[#D4AF37]" />
+              <Mail className="h-4 w-4 text-[#F4D35E]" />
               <span className="truncate">{BUSINESS_DETAILS.email}</span>
             </a>
           </div>

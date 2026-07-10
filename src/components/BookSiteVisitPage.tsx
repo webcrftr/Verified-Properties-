@@ -135,7 +135,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
     <div className="bg-[#050B18] text-white min-h-screen">
       
       {/* Premium Hero Section */}
-      <div className="relative pt-36 pb-20 bg-[#020610] border-b border-[#D4AF37]/15 overflow-hidden">
+      <div className="relative pt-36 pb-20 bg-[#020610] border-b border-[#F7E7A1]/15 overflow-hidden">
         <div className="absolute inset-0 opacity-15">
           <img
             src="/src/assets/images/verified_properties_hero_1782216213939.jpg"
@@ -147,9 +147,9 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center sm:text-left">
-          <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.25em] font-bold">Exclusive Site Tours</span>
+          <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.25em] font-bold">Exclusive Site Tours</span>
           <h1 className="text-4xl sm:text-5xl font-light font-serif mt-2 text-white">
-            Book <span className="italic font-bold text-[#D4AF37]">Site Visit</span>
+            Book <span className="italic font-bold text-[#F4D35E]">Site Visit</span>
           </h1>
           <p className="mt-4 max-w-xl text-xs sm:text-sm text-white/60 font-sans uppercase tracking-wider leading-relaxed">
             Arrange a complimentary private tour of our pre-vetted luxury projects in Naigaon, Vasai, or Virar. High-end transit and legal brief included.
@@ -160,15 +160,15 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-stretch">
           
-          {/* Column 1: Informational Details & Call Actions */}
+           {/* Column 1: Informational Details & Call Actions */}
           <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
             
             <div className="space-y-6">
-              <span className="text-[10px] font-mono text-[#D4AF37] uppercase tracking-[0.2em] font-bold block">
+              <span className="text-[10px] font-mono text-[#F4D35E] uppercase tracking-[0.2em] font-bold block">
                 COMPLIMENTARY TRAVEL
               </span>
               <h3 className="text-2xl font-light font-serif text-white">
-                Transit & <span className="italic font-bold text-[#D4AF37]">Advisory Support</span>
+                Transit & <span className="italic font-bold text-[#F4D35E]">Advisory Support</span>
               </h3>
               <p className="text-xs sm:text-sm text-white/50 leading-relaxed font-sans">
                 We provide end-to-end luxury transportation assistance for all site bookings. Select the pickup option in the scheduler form, and an air-conditioned luxury cruiser will be dispatched to your location.
@@ -178,7 +178,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
               <div className="grid grid-cols-1 gap-4 pt-2">
                 <a
                   href={`tel:+91${BUSINESS_DETAILS.phone}`}
-                  className="flex items-center justify-center gap-2.5 py-3 px-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer shadow-md"
+                  className="flex items-center justify-center gap-2.5 py-3 px-4 bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer shadow-md"
                 >
                   <Phone className="h-4 w-4" />
                   <span>Call: +91 {BUSINESS_DETAILS.phone}</span>
@@ -198,7 +198,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
 
             {/* Perks Cards Stack */}
             <div className="p-5 bg-[#0a1122] border border-white/10 space-y-4">
-              <h4 className="text-[10px] uppercase font-bold text-[#D4AF37] tracking-widest font-mono">SITE VISIT PRIVILEGES</h4>
+              <h4 className="text-[10px] uppercase font-bold text-[#F4D35E] tracking-widest font-mono">SITE VISIT PRIVILEGES</h4>
               
               <div className="space-y-3 text-xs text-white/70">
                 <p className="flex items-start gap-2.5">
@@ -218,14 +218,14 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
 
             {/* RERA license marker */}
             <div className="p-4 bg-white/5 border border-white/10 text-[10px] text-white/50 leading-relaxed font-mono">
-              <span className="text-[#D4AF37] font-bold">📢 AGENT CREDENTIALS:</span> Mansi Gaikwad is a registered MahaRERA advisor (License No: A99000026853). All site bookings are managed with absolute integrity.
+              <span className="text-[#F4D35E] font-bold">📢 AGENT CREDENTIALS:</span> Mansi Gaikwad is a registered MahaRERA advisor (License No: A99000026853). All site bookings are managed with absolute integrity.
             </div>
 
           </div>
 
           {/* Column 2: Gorgeous Site Visit Booking Form */}
           <div className="lg:col-span-7">
-            <div className="bg-[#0a1122] border border-[#D4AF37]/20 p-6 sm:p-10 backdrop-blur-md flex flex-col justify-between h-full">
+            <div className="bg-[#0a1122] border border-[#F7E7A1]/20 p-6 sm:p-10 backdrop-blur-md flex flex-col justify-between h-full">
               
               {isSubmitted ? (
                 <div className="py-16 text-center space-y-6">
@@ -234,7 +234,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                   </div>
                   <h3 className="text-2xl font-light font-serif text-white">Visit Scheduled Successfully!</h3>
                   <p className="text-xs sm:text-sm text-white/70 leading-relaxed font-sans max-w-sm mx-auto">
-                    Mansi Gaikwad has logged your visit to <strong className="text-[#D4AF37]">{selectedProperty}</strong>. Our driver and dedicated coordinator will call you back to confirm pickup coordinates.
+                    Mansi Gaikwad has logged your visit to <strong className="text-[#F4D35E]">{selectedProperty}</strong>. Our driver and dedicated coordinator will call you back to confirm pickup coordinates.
                   </p>
                   
                   <div className="pt-4 flex flex-col sm:flex-row justify-center gap-3">
@@ -246,7 +246,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                     </button>
                     <button
                       onClick={() => onNavigate('/')}
-                      className="px-6 py-2.5 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors cursor-pointer"
+                      className="px-6 py-2.5 bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-colors cursor-pointer"
                     >
                       Back To Home
                     </button>
@@ -255,11 +255,11 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div>
-                    <span className="text-[#D4AF37] text-[10px] font-mono tracking-widest uppercase block mb-1">
+                    <span className="text-[#F4D35E] text-[10px] font-mono tracking-widest uppercase block mb-1">
                       SCHEDULER ENGINE
                     </span>
                     <h3 className="text-2xl font-light font-serif text-white">
-                      Arrange <span className="italic font-bold text-[#D4AF37]">Private Tour</span>
+                      Arrange <span className="italic font-bold text-[#F4D35E]">Private Tour</span>
                     </h3>
                   </div>
 
@@ -277,7 +277,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                     <select
                       value={selectedProperty}
                       onChange={(e) => setSelectedProperty(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#D4AF37] focus:outline-none cursor-pointer"
+                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#F4D35E] focus:outline-none cursor-pointer"
                     >
                       {PROPERTIES.map((p) => (
                         <option key={p.id} value={p.title} className="bg-[#0a1122]">
@@ -300,7 +300,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                         placeholder="e.g. Sameer Kulkarni"
                         value={clientName}
                         onChange={(e) => setClientName(e.target.value)}
-                        className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                        className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                       />
                     </div>
 
@@ -310,7 +310,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                         Mobile Number *
                       </label>
                       <div className="relative">
-                        <span className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#D4AF37] text-xs font-mono">
+                        <span className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#F4D35E] text-xs font-mono">
                           +91
                         </span>
                         <input
@@ -320,7 +320,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                           placeholder="7020913759"
                           value={clientPhone}
                           onChange={(e) => setClientPhone(e.target.value)}
-                          className="w-full pl-12 pr-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                          className="w-full pl-12 pr-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                         />
                       </div>
                     </div>
@@ -339,7 +339,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                         min={todayStr}
                         value={visitDate}
                         onChange={(e) => setVisitDate(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none text-white/80 cursor-pointer"
+                        className="w-full px-4 py-2.5 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none text-white/80 cursor-pointer"
                       />
                     </div>
 
@@ -351,7 +351,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                       <select
                         value={visitTime}
                         onChange={(e) => setVisitTime(e.target.value)}
-                        className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#D4AF37] focus:outline-none cursor-pointer"
+                        className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#F4D35E] focus:outline-none cursor-pointer"
                       >
                         <option value="10:00 AM - 12:00 PM" className="bg-[#0a1122]">10:00 AM - 12:00 PM (Morning Slot)</option>
                         <option value="12:00 PM - 02:00 PM" className="bg-[#0a1122]">12:00 PM - 02:00 PM (Mid-day Slot)</option>
@@ -370,7 +370,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                     <select
                       value={visitorsCount}
                       onChange={(e) => setVisitorsCount(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#D4AF37] focus:outline-none cursor-pointer"
+                      className="w-full px-4 py-3 bg-[#050B18] text-xs text-white/80 font-medium border border-white/10 focus:border-[#F4D35E] focus:outline-none cursor-pointer"
                     >
                       <option value="1" className="bg-[#0a1122]">1 Person</option>
                       <option value="2" className="bg-[#0a1122]">2 People (Recommended)</option>
@@ -387,9 +387,9 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                         type="checkbox"
                         checked={pickupRequired}
                         onChange={(e) => setPickupRequired(e.target.checked)}
-                        className="h-4.5 w-4.5 border border-white/25 bg-[#050B18] accent-[#D4AF37] cursor-pointer"
+                        className="h-4.5 w-4.5 border border-white/25 bg-[#050B18] accent-[#F4D35E] cursor-pointer"
                       />
-                      <span className="text-xs font-bold uppercase text-[#D4AF37] tracking-wider flex items-center gap-1.5">
+                      <span className="text-xs font-bold uppercase text-[#F4D35E] tracking-wider flex items-center gap-1.5">
                         <Car className="h-4 w-4" /> Transit Pickup Service Needed?
                       </span>
                     </label>
@@ -405,7 +405,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                           placeholder="e.g. Naigaon Railway Station East ticket desk, or local hotel..."
                           value={pickupLocation}
                           onChange={(e) => setPickupLocation(e.target.value)}
-                          className="w-full px-4 py-2.5 bg-[#050B18] text-xs text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                          className="w-full px-4 py-2.5 bg-[#050B18] text-xs text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                         />
                       </div>
                     )}
@@ -421,7 +421,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                       placeholder="e.g. Wheelchair assistance, specific builder blueprints needed..."
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
-                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#D4AF37] focus:outline-none placeholder-white/20"
+                      className="w-full px-4 py-3 bg-[#050B18] text-sm text-white border border-white/10 focus:border-[#F4D35E] focus:outline-none placeholder-white/20"
                     ></textarea>
                   </div>
 
@@ -429,7 +429,7 @@ export default function BookSiteVisitPage({ onNavigate }: BookSiteVisitPageProps
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 bg-[#D4AF37] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-[#F4D35E] text-[#050B18] font-bold text-xs uppercase tracking-widest hover:bg-white hover:text-black transition-all cursor-pointer flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <span className="animate-pulse">BOOKING site visit...</span>
