@@ -219,10 +219,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#111827] border-b border-[#374151]">
+            <div className="pt-28 pb-10 bg-[#FAFAF8] border-b border-[#E7E1D9]">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#F0D36B] uppercase tracking-[0.25em] font-bold">Exclusive Portfolio</span>
-                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Active Verified Listings</h1>
+                <span className="text-[10px] font-mono text-[#C4514F] uppercase tracking-[0.25em] font-bold">Exclusive Portfolio</span>
+                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-[#1E1E1E]">Active Verified Listings</h1>
               </div>
             </div>
             <PropertiesGrid 
@@ -240,10 +240,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#111827] border-b border-[#374151]">
+            <div className="pt-28 pb-10 bg-[#FAFAF8] border-b border-[#E7E1D9]">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#F0D36B] uppercase tracking-[0.25em] font-bold">Corporate Departments</span>
-                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Our Consulting Services</h1>
+                <span className="text-[10px] font-mono text-[#C4514F] uppercase tracking-[0.25em] font-bold">Corporate Departments</span>
+                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-[#1E1E1E]">Our Consulting Services</h1>
               </div>
             </div>
             <ServicesSection />
@@ -258,10 +258,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#111827] border-b border-[#374151]">
+            <div className="pt-28 pb-10 bg-[#FAFAF8] border-b border-[#E7E1D9]">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#F0D36B] uppercase tracking-[0.25em] font-bold">Our Guarantees</span>
-                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Why Buyers Trust Us</h1>
+                <span className="text-[10px] font-mono text-[#C4514F] uppercase tracking-[0.25em] font-bold">Our Guarantees</span>
+                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-[#1E1E1E]">Why Buyers Trust Us</h1>
               </div>
             </div>
             <WhyChooseUs onNavigate={navigate} />
@@ -276,10 +276,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#111827] border-b border-[#374151]">
+            <div className="pt-28 pb-10 bg-[#FAFAF8] border-b border-[#E7E1D9]">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#F0D36B] uppercase tracking-[0.25em] font-bold">Agency Credentials</span>
-                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">About the Consultant</h1>
+                <span className="text-[10px] font-mono text-[#C4514F] uppercase tracking-[0.25em] font-bold">Agency Credentials</span>
+                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-[#1E1E1E]">About the Consultant</h1>
               </div>
             </div>
             <AboutUs onNavigate={navigate} />
@@ -294,10 +294,10 @@ export default function App() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
           >
-            <div className="pt-28 pb-10 bg-[#111827] border-b border-[#374151]">
+            <div className="pt-28 pb-10 bg-[#FAFAF8] border-b border-[#E7E1D9]">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left mt-2">
-                <span className="text-[10px] font-mono text-[#F0D36B] uppercase tracking-[0.25em] font-bold">Office Terminal</span>
-                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-white">Contact Agency Details</h1>
+                <span className="text-[10px] font-mono text-[#C4514F] uppercase tracking-[0.25em] font-bold">Office Terminal</span>
+                <h1 className="text-3xl sm:text-4xl font-light font-serif mt-2 text-[#1E1E1E]">Contact Agency Details</h1>
               </div>
             </div>
             <ContactSection />
@@ -329,12 +329,12 @@ export default function App() {
         );
       default:
         return (
-          <div className="py-36 text-center text-white">
+          <div className="py-36 text-center text-[#1E1E1E]">
             <h2 className="text-3xl font-serif">Page Not Found</h2>
-            <p className="text-xs text-[#D1D5DB] mt-2">The path does not map to any active premium listings section.</p>
+            <p className="text-xs text-[#5B5B5B] mt-2">The path does not map to any active premium listings section.</p>
             <button
               onClick={() => navigate('/')}
-              className="mt-6 px-6 py-2.5 bg-[#E8C75A] text-white hover:bg-[#F5DD87] transition-colors duration-300 text-xs font-mono font-bold uppercase tracking-widest hover:bg-[#EEF4F8] transition-colors cursor-pointer"
+              className="mt-6 px-6 py-2.5 bg-[#C4514F] text-white hover:bg-[#B13E3B] transition-colors duration-300 text-xs font-mono font-bold uppercase tracking-widest hover:bg-[#EEF4F8] transition-colors cursor-pointer"
             >
               Back to Home
             </button>
@@ -344,7 +344,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-[#111827] text-white selection:bg-[#E8C75A] selection:text-[#111827]">
+    <div className="min-h-screen flex flex-col justify-between bg-[#FAFAF8] text-white selection:bg-[#C4514F] selection:text-white">
       
       {/* 1. Header with dynamic navigation */}
       <Header
@@ -360,30 +360,30 @@ export default function App() {
       </main>
 
       {/* 3. Global Footer with RERA registration details & sitemap mappings */}
-      <footer className="bg-[#111827] border-t border-[#374151] pt-16 pb-24 sm:pb-12 text-[#D1D5DB] text-sm mt-auto select-none">
+      <footer className="bg-[#FAFAF8] border-t border-[#E7E1D9] pt-16 pb-24 sm:pb-12 text-[#5B5B5B] text-sm mt-auto select-none">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-12 gap-10">
           
           {/* Column 1: Info */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2 cursor-pointer" onClick={() => navigate('/')}>
-              <div className="bg-[#E8C75A] p-1.5 text-[#111827] tracking-widest font-bold">
+              <div className="bg-[#C4514F] p-1.5 text-[#1E1E1E] tracking-widest font-bold">
                 <ShieldCheck className="h-5 w-5 stroke-[2]" />
               </div>
-              <span className="text-xl font-bold tracking-tighter text-[#F0D36B] font-serif italic">
-                VERIFIED<span className="text-white font-sans not-italic font-bold tracking-tight text-sm ml-1">PROPERTIES</span>
+              <span className="text-xl font-bold tracking-tighter text-[#C4514F] font-serif italic">
+                VERIFIED<span className="text-[#1E1E1E] font-sans not-italic font-bold tracking-tight text-sm ml-1">PROPERTIES</span>
               </span>
             </div>
-            <p className="text-xs leading-relaxed max-w-sm text-[#D1D5DB] font-sans">
+            <p className="text-xs leading-relaxed max-w-sm text-[#5B5B5B] font-sans">
               {BUSINESS_DETAILS.description}
             </p>
-            <p className="text-xs text-[#F0D36B] font-mono tracking-wide leading-relaxed">
+            <p className="text-xs text-[#C4514F] font-mono tracking-wide leading-relaxed">
               📢 Registered under Maharashtra Real Estate Regulatory Authority.
             </p>
           </div>
 
           {/* Column 2: Mapped sitemap links */}
           <div className="md:col-span-3 space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F0D36B] font-mono">Sitemap</h4>
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#C4514F] font-mono">Sitemap</h4>
             <ul className="space-y-2 text-xs">
               {[
                 { label: 'Home Page', path: '/' },
@@ -398,7 +398,7 @@ export default function App() {
                 <li key={idx}>
                   <button
                     onClick={() => navigate(link.path)}
-                    className="hover:text-white hover:underline transition-colors block text-left text-[#D1D5DB] cursor-pointer bg-transparent"
+                    className="hover:text-[#1E1E1E] hover:underline transition-colors block text-left text-[#5B5B5B] cursor-pointer bg-transparent"
                   >
                     {link.label}
                   </button>
@@ -408,21 +408,21 @@ export default function App() {
           </div>
 
           {/* Column 3: Contact layout summary */}
-          <div className="md:col-span-4 space-y-3 border-t md:border-t-0 border-[#374151]/50 pt-6 md:pt-0">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-[#F0D36B] font-mono">Contact Details</h4>
-            <div className="space-y-2 text-xs leading-relaxed text-[#FFFFFF] font-sans">
+          <div className="md:col-span-4 space-y-3 border-t md:border-t-0 border-[#E7E1D9]/50 pt-6 md:pt-0">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#C4514F] font-mono">Contact Details</h4>
+            <div className="space-y-2 text-xs leading-relaxed text-[#1E1E1E] font-sans">
               <p className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-[#F0D36B] flex-shrink-0 mt-0.5" />
+                <MapPin className="h-4 w-4 text-[#C4514F] flex-shrink-0 mt-0.5" />
                 <span>{BUSINESS_DETAILS.address.shop}, Near Global Arena, Naigaon East, Palghar, Maharashtra - 401208</span>
               </p>
               <p className="flex items-center gap-2">
-                <Phone className="h-4 w-4 text-[#F0D36B]" />
-                <a href={`tel:+91${BUSINESS_DETAILS.phone}`} className="hover:underline text-[#F0D36B] font-bold">
+                <Phone className="h-4 w-4 text-[#C4514F]" />
+                <a href={`tel:+91${BUSINESS_DETAILS.phone}`} className="hover:underline text-[#C4514F] font-bold">
                   +91 {BUSINESS_DETAILS.phone} (Mansi Gaikwad)
                 </a>
               </p>
               <p className="flex items-center gap-2">
-                <Mail className="h-4 w-4 text-[#F0D36B]" />
+                <Mail className="h-4 w-4 text-[#C4514F]" />
                 <a href={`mailto:${BUSINESS_DETAILS.email}`} className="hover:underline">
                   {BUSINESS_DETAILS.email}
                 </a>
@@ -433,14 +433,14 @@ export default function App() {
         </div>
 
         {/* Legal copyrights and RERA details */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#374151] mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#E7E1D9] mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono">
           <div className="text-center sm:text-left space-y-1">
             <p>© {new Date().getFullYear()} Verified Properties. All Rights Reserved.</p>
-            <p className="text-white/40">Registered Office: Shop No. 9, Nakshatra Primus A-Wing, Naigaon East.</p>
+            <p className="text-[#5B5B5B]/50">Registered Office: Shop No. 9, Nakshatra Primus A-Wing, Naigaon East.</p>
           </div>
           
-          <div className="flex items-center gap-4 text-white/40">
-            <span className="text-[#F0D36B] font-bold">RERA Registration: {BUSINESS_DETAILS.reraNo}</span>
+          <div className="flex items-center gap-4 text-[#5B5B5B]/50">
+            <span className="text-[#C4514F] font-bold">RERA Registration: {BUSINESS_DETAILS.reraNo}</span>
           </div>
         </div>
       </footer>

@@ -9,8 +9,8 @@
 
 @layer base {
   body {
-    background-color: #111827;
-    color: #FFFFFF;
+    background-color: #FAFAF8;
+    color: #1E1E1E;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -19,12 +19,12 @@
 
 /* Premium micro-interactions and transitions */
 .editorial-border {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: #E7E1D9;
 }
 
 .gold-accent-line {
   height: 1px;
-  background-color: #E8C75A;
+  background-color: #C4514F;
 }
 
 .serif-italic {

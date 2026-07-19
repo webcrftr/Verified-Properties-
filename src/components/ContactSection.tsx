@@ -59,21 +59,21 @@ export default function ContactSection({}: ContactSectionProps) {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#111827] text-white border-b border-[#374151] relative">
-      <div className="absolute left-1/8 top-1/3 w-72 h-72 bg-[#F0D36B]/5 rounded-full filter blur-[100px] pointer-events-none"></div>
+    <section id="contact" className="py-24 bg-[#FAFAF8] text-[#1E1E1E] border-b border-[#E7E1D9] relative">
+      <div className="absolute left-1/8 top-1/3 w-72 h-72 bg-[#C4514F]/5 rounded-full filter blur-[100px] pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header Title */}
         <div className="text-center mb-20">
-          <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#F0D36B] font-semibold block mb-3">
+          <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-[#C4514F] font-semibold block mb-3">
             GET IN TOUCH
           </span>
-          <h2 className="text-4xl sm:text-5xl font-light font-serif text-white">
-            Connect With Our <span className="font-serif italic font-bold text-[#F0D36B]">Office</span>
+          <h2 className="text-4xl sm:text-5xl font-light font-serif text-[#1E1E1E]">
+            Connect With Our <span className="font-serif italic font-bold text-[#C4514F]">Office</span>
           </h2>
-          <div className="h-[1px] w-24 bg-[#E8C75A] mx-auto mt-6"></div>
-          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#D1D5DB] mt-4 uppercase tracking-wider leading-relaxed">
+          <div className="h-[1px] w-24 bg-[#C4514F] mx-auto mt-6"></div>
+          <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#5B5B5B] mt-4 uppercase tracking-wider leading-relaxed">
             Visit our registered advisory center in Naigaon East or submit your coordinates below to set up a priority consultation.
           </p>
         </div>
@@ -88,42 +88,42 @@ export default function ContactSection({}: ContactSectionProps) {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               
               {/* Phone Detail card */}
-              <div className="p-5 bg-[#1F2937]/90 backdrop-blur-md border border-[#374151]">
-                <div className="p-3 bg-[#111827] text-[#F0D36B] h-10 w-10 flex items-center justify-center mb-5 border border-[#374151]">
+              <div className="p-5 bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E7E1D9]">
+                <div className="p-3 bg-[#FAFAF8] text-[#C4514F] h-10 w-10 flex items-center justify-center mb-5 border border-[#E7E1D9]">
                   <Phone className="h-4 w-4" />
                 </div>
-                <h4 className="text-[10px] uppercase font-bold text-white/40 tracking-widest mb-1">Direct Calls</h4>
+                <h4 className="text-[10px] uppercase font-bold text-[#5B5B5B]/50 tracking-widest mb-1">Direct Calls</h4>
                 <a
                   href={`tel:+91${BUSINESS_DETAILS.phone}`}
-                  className="text-base font-serif italic font-bold text-[#F0D36B] hover:underline mt-1 block"
+                  className="text-base font-serif italic font-bold text-[#C4514F] hover:underline mt-1 block"
                 >
                   +91 {BUSINESS_DETAILS.phone}
                 </a>
-                <p className="text-[11px] text-[#D1D5DB] mt-2">Consultant: {BUSINESS_DETAILS.contactPerson}</p>
+                <p className="text-[11px] text-[#5B5B5B] mt-2">Consultant: {BUSINESS_DETAILS.contactPerson}</p>
               </div>
 
               {/* Email Detail card */}
-              <div className="p-5 bg-[#1F2937]/90 backdrop-blur-md border border-[#374151]">
-                <div className="p-3 bg-[#111827] text-[#F0D36B] h-10 w-10 flex items-center justify-center mb-5 border border-[#374151]">
+              <div className="p-5 bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E7E1D9]">
+                <div className="p-3 bg-[#FAFAF8] text-[#C4514F] h-10 w-10 flex items-center justify-center mb-5 border border-[#E7E1D9]">
                   <Mail className="h-4 w-4" />
                 </div>
-                <h4 className="text-[10px] uppercase font-bold text-white/40 tracking-widest mb-1">Email Queries</h4>
+                <h4 className="text-[10px] uppercase font-bold text-[#5B5B5B]/50 tracking-widest mb-1">Email Queries</h4>
                 <a
                   href={`mailto:${BUSINESS_DETAILS.email}`}
-                  className="text-sm font-semibold text-[#F0D36B] hover:underline mt-1.5 block truncate"
+                  className="text-sm font-semibold text-[#C4514F] hover:underline mt-1.5 block truncate"
                 >
                   {BUSINESS_DETAILS.email}
                 </a>
-                <p className="text-[11px] text-[#D1D5DB] mt-2 font-mono uppercase tracking-wider">Replies within 4h</p>
+                <p className="text-[11px] text-[#5B5B5B] mt-2 font-mono uppercase tracking-wider">Replies within 4h</p>
               </div>
 
               {/* WhatsApp Detail card */}
-              <div className="p-5 bg-[#1F2937]/90 backdrop-blur-md border border-[#374151]">
-                <div className="p-3 bg-[#111827] text-emerald-400 h-10 w-10 flex items-center justify-center mb-5 border border-emerald-500/10">
+              <div className="p-5 bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E7E1D9]">
+                <div className="p-3 bg-[#FAFAF8] text-emerald-400 h-10 w-10 flex items-center justify-center mb-5 border border-emerald-500/10">
                   {/* Custom green indicator/text */}
                   <span className="text-[10px] sm:text-xs font-black font-mono">WA</span>
                 </div>
-                <h4 className="text-[10px] uppercase font-bold text-white/40 tracking-widest mb-1">WhatsApp Chat</h4>
+                <h4 className="text-[10px] uppercase font-bold text-[#5B5B5B]/50 tracking-widest mb-1">WhatsApp Chat</h4>
                 <a
                   href="https://wa.me/917020913759?text=Hello%20Verified%20Properties,%20I'm%20interested%20in%20arranging%20a%20site%20visit."
                   target="_blank"
@@ -132,25 +132,25 @@ export default function ContactSection({}: ContactSectionProps) {
                 >
                   Message Agency
                 </a>
-                <p className="text-[11px] text-[#D1D5DB] mt-2 font-mono uppercase tracking-wider">Instant Chat Active</p>
+                <p className="text-[11px] text-[#5B5B5B] mt-2 font-mono uppercase tracking-wider">Instant Chat Active</p>
               </div>
 
             </div>
 
             {/* Address bar */}
-            <div className="p-6 bg-[#1F2937]/90 backdrop-blur-md border border-[#374151]">
+            <div className="p-6 bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E7E1D9]">
               <div className="flex items-start gap-4">
-                <div className="p-3 bg-[#111827] text-[#F0D36B] border border-[#374151] flex-shrink-0">
+                <div className="p-3 bg-[#FAFAF8] text-[#C4514F] border border-[#E7E1D9] flex-shrink-0">
                   <MapPin className="h-5 w-5" />
                 </div>
                 <div>
-                  <h4 className="text-[10px] uppercase font-bold text-white/40 tracking-widest mb-2">Registered Office Address</h4>
-                  <p className="text-sm text-[#FFFFFF] leading-relaxed font-sans">
-                    <strong className="text-white">{BUSINESS_DETAILS.name}</strong>, {BUSINESS_DETAILS.address.shop},<br />
+                  <h4 className="text-[10px] uppercase font-bold text-[#5B5B5B]/50 tracking-widest mb-2">Registered Office Address</h4>
+                  <p className="text-sm text-[#1E1E1E] leading-relaxed font-sans">
+                    <strong className="text-[#1E1E1E]">{BUSINESS_DETAILS.name}</strong>, {BUSINESS_DETAILS.address.shop},<br />
                     {BUSINESS_DETAILS.address.landmark}, {BUSINESS_DETAILS.address.area},<br />
                     {BUSINESS_DETAILS.address.city} - {BUSINESS_DETAILS.address.zip}
                   </p>
-                  <p className="text-[10px] text-[#F0D36B] mt-3 font-mono flex items-center gap-1.5 uppercase tracking-wider">
+                  <p className="text-[10px] text-[#C4514F] mt-3 font-mono flex items-center gap-1.5 uppercase tracking-wider">
                     <Clock className="h-3.5 w-3.5" />
                     <span>Hrs: 10:00 AM - 08:30 PM (Closed Thursdays)</span>
                   </p>
@@ -159,7 +159,7 @@ export default function ContactSection({}: ContactSectionProps) {
             </div>
 
             {/* Google Maps Real embed of Nakshatra Primus coordinates */}
-            <div className="bg-[#1F2937]/90 backdrop-blur-md border border-[#374151] overflow-hidden h-[260px] relative">
+            <div className="bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E7E1D9] overflow-hidden h-[260px] relative">
               <iframe
                 title="Verified Properties office Naigaon Location Map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3761.50392942485!2d72.8530467!3d19.3473523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7a9da842dc54b%3A0xe6bf44b126fb3ef7!2sNakshatra%20Primus!5e0!3m2!1sen!2sin!4v1719213824109!5m2!1sen!2sin"
@@ -170,14 +170,14 @@ export default function ContactSection({}: ContactSectionProps) {
               ></iframe>
               
               {/* Location floating action overlay */}
-              <div className="absolute bottom-4 left-4 bg-[#111827] border border-[#374151] text-white text-[10px] font-mono uppercase tracking-widest px-3.5 py-2 flex items-center gap-2 shadow-lg">
+              <div className="absolute bottom-4 left-4 bg-[#FAFAF8] border border-[#E7E1D9] text-[#1E1E1E] text-[10px] font-mono uppercase tracking-widest px-3.5 py-2 flex items-center gap-2 shadow-lg">
                 <MapPin className="h-3.5 w-3.5 text-rose-500" />
                 <span>Naigaon East, Palghar</span>
                 <a
                   href="https://maps.app.goo.gl/9P7vE9G1Bw1uKz1D7"
                   target="_blank"
                   rel="noreferrer"
-                  className="p-1 hover:text-[#F0D36B] transition-colors"
+                  className="p-1 hover:text-[#C4514F] transition-colors"
                 >
                   <ExternalLink className="h-3 w-3" />
                 </a>
@@ -188,14 +188,14 @@ export default function ContactSection({}: ContactSectionProps) {
 
           {/* Column 2: Lead Gen Form Card */}
           <div className="lg:col-span-5">
-            <div className="bg-[#1F2937]/90 backdrop-blur-md border border-[#374151] p-6 sm:p-8 backdrop-blur-md h-full flex flex-col justify-between">
+            <div className="bg-[#FFFFFF]/90 backdrop-blur-md border border-[#E7E1D9] p-6 sm:p-8 backdrop-blur-md h-full flex flex-col justify-between">
               
               <div>
-                <span className="text-[#F0D36B] text-[10px] font-mono tracking-widest uppercase block mb-1">
+                <span className="text-[#C4514F] text-[10px] font-mono tracking-widest uppercase block mb-1">
                   SECURE LEAD HUB
                 </span>
-                <h3 className="text-2xl font-light font-serif leading-tight text-white mb-6">
-                  Request <span className="italic font-bold text-[#F0D36B]">Callback</span>
+                <h3 className="text-2xl font-light font-serif leading-tight text-[#1E1E1E] mb-6">
+                  Request <span className="italic font-bold text-[#C4514F]">Callback</span>
                 </h3>
 
                 {success ? (
@@ -203,13 +203,13 @@ export default function ContactSection({}: ContactSectionProps) {
                     <div className="h-10 w-10 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center mx-auto">
                       <BadgeCheck className="h-5 w-5" />
                     </div>
-                    <h4 className="text-sm font-semibold uppercase tracking-wider text-white">Callback Scheduled!</h4>
-                    <p className="text-xs text-[#D1D5DB] leading-relaxed font-sans">
+                    <h4 className="text-sm font-semibold uppercase tracking-wider text-[#1E1E1E]">Callback Scheduled!</h4>
+                    <p className="text-xs text-[#5B5B5B] leading-relaxed font-sans">
                       Thank you. Mansi Gaikwad has received your inquiry about property listings in Naigaon and will ring you shortly.
                     </p>
                     <button
                       onClick={() => setSuccess(false)}
-                      className="px-5 py-2.5 bg-[#E8C75A] text-white hover:bg-[#F5DD87] transition-colors duration-300 font-bold text-[10px] uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
+                      className="px-5 py-2.5 bg-[#C4514F] text-white hover:bg-[#B13E3B] transition-colors duration-300 font-bold text-[10px] uppercase tracking-widest hover:bg-white transition-colors cursor-pointer"
                     >
                       New Form
                     </button>
@@ -225,7 +225,7 @@ export default function ContactSection({}: ContactSectionProps) {
 
                     {/* Full Name */}
                     <div className="space-y-1.5">
-                      <label className="text-[9px] uppercase font-bold text-white/40 block tracking-widest">
+                      <label className="text-[9px] uppercase font-bold text-[#5B5B5B]/50 block tracking-widest">
                         Your Full Name *
                       </label>
                       <input
@@ -234,17 +234,17 @@ export default function ContactSection({}: ContactSectionProps) {
                         placeholder="e.g. Sameer Kulkarni"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-[#111827] text-sm text-white border border-[#374151] focus:border-[#D9B84C] focus:outline-none"
+                        className="w-full px-4 py-2.5 bg-[#FAFAF8] text-sm text-[#1E1E1E] border border-[#E7E1D9] focus:border-[#C4514F] focus:outline-none"
                       />
                     </div>
 
                     {/* Mobile Number */}
                     <div className="space-y-1.5">
-                      <label className="text-[9px] uppercase font-bold text-white/40 block tracking-widest">
+                      <label className="text-[9px] uppercase font-bold text-[#5B5B5B]/50 block tracking-widest">
                         Active WhatsApp/Mobile *
                       </label>
                       <div className="relative">
-                        <span className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#F0D36B] text-xs font-mono">
+                        <span className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-[#C4514F] text-xs font-mono">
                           +91
                         </span>
                         <input
@@ -254,35 +254,35 @@ export default function ContactSection({}: ContactSectionProps) {
                           placeholder="7020913759"
                           value={phone}
                           onChange={(e) => setPhone(e.target.value)}
-                          className="w-full pl-12 pr-4 py-2.5 bg-[#111827] text-sm text-white border border-[#374151] focus:border-[#D9B84C] focus:outline-none"
+                          className="w-full pl-12 pr-4 py-2.5 bg-[#FAFAF8] text-sm text-[#1E1E1E] border border-[#E7E1D9] focus:border-[#C4514F] focus:outline-none"
                         />
                       </div>
                     </div>
 
                     {/* Inquired Target Sector */}
                     <div className="space-y-1.5">
-                      <label className="text-[9px] uppercase font-bold text-white/40 block tracking-widest">
+                      <label className="text-[9px] uppercase font-bold text-[#5B5B5B]/50 block tracking-widest">
                         Select Target Interest
                       </label>
                       <select
                         value={property}
                         onChange={(e) => setProperty(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-[#111827] text-xs text-[#FFFFFF] font-medium border border-[#374151] focus:border-[#D9B84C] focus:outline-none cursor-pointer"
+                        className="w-full px-4 py-2.5 bg-[#FAFAF8] text-xs text-[#1E1E1E] font-medium border border-[#E7E1D9] focus:border-[#C4514F] focus:outline-none cursor-pointer"
                       >
-                        <option value="General Property Consultation" className="bg-[#1F2937]/90 backdrop-blur-md">General Real-Estate Inquiry</option>
+                        <option value="General Property Consultation" className="bg-[#FFFFFF]/90 backdrop-blur-md">General Real-Estate Inquiry</option>
                         {PROPERTIES.map((p) => (
-                          <option key={p.id} value={p.title} className="bg-[#1F2937]/90 backdrop-blur-md">
+                          <option key={p.id} value={p.title} className="bg-[#FFFFFF]/90 backdrop-blur-md">
                             {p.title}
                           </option>
                         ))}
-                        <option value="Investment Plots consultation" className="bg-[#1F2937]/90 backdrop-blur-md">NA Investment Portfolios</option>
-                        <option value="Property Legal Verification" className="bg-[#1F2937]/90 backdrop-blur-md">Title Checking & RERA Advisory</option>
+                        <option value="Investment Plots consultation" className="bg-[#FFFFFF]/90 backdrop-blur-md">NA Investment Portfolios</option>
+                        <option value="Property Legal Verification" className="bg-[#FFFFFF]/90 backdrop-blur-md">Title Checking & RERA Advisory</option>
                       </select>
                     </div>
 
                     {/* Custom Memo text */}
                     <div className="space-y-1.5">
-                      <label className="text-[9px] uppercase font-bold text-white/40 block tracking-widest">
+                      <label className="text-[9px] uppercase font-bold text-[#5B5B5B]/50 block tracking-widest">
                         Consultation details / Requirements
                       </label>
                       <textarea
@@ -290,14 +290,14 @@ export default function ContactSection({}: ContactSectionProps) {
                         placeholder="e.g. Looking for a 1BHK apartment with direct water connection, budget up to ₹38 Lakhs."
                         value={msg}
                         onChange={(e) => setMsg(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-[#111827] text-sm text-white border border-[#374151] focus:border-[#D9B84C] focus:outline-none"
+                        className="w-full px-4 py-2.5 bg-[#FAFAF8] text-sm text-[#1E1E1E] border border-[#E7E1D9] focus:border-[#C4514F] focus:outline-none"
                       ></textarea>
                     </div>
 
                     {/* Inline Submit CTA button */}
                     <button
                       type="submit"
-                      className="w-full py-3.5 bg-[#E8C75A] text-white hover:bg-[#F5DD87] transition-colors duration-300 font-bold text-[10px] uppercase tracking-widest hover:bg-white hover:text-black duration-300 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full py-3.5 bg-[#C4514F] text-white hover:bg-[#B13E3B] transition-colors duration-300 font-bold text-[10px] uppercase tracking-widest hover:bg-white hover:text-black duration-300 transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <Send className="h-3.5 w-3.5" />
                       <span>Request Callback Now</span>
@@ -308,8 +308,8 @@ export default function ContactSection({}: ContactSectionProps) {
               </div>
 
               {/* Secure footer */}
-              <div className="pt-6 border-t border-[#374151] text-[9px] text-white/30 leading-relaxed font-mono mt-6">
-                <span className="text-[#F0D36B] font-bold uppercase">RERA ID :</span> {BUSINESS_DETAILS.reraNo} | Checked & secured with 256-bit encryption safeguards.
+              <div className="pt-6 border-t border-[#E7E1D9] text-[9px] text-[#1E1E1E]/30 leading-relaxed font-mono mt-6">
+                <span className="text-[#C4514F] font-bold uppercase">RERA ID :</span> {BUSINESS_DETAILS.reraNo} | Checked & secured with 256-bit encryption safeguards.
               </div>
 
             </div>
